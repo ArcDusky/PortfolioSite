@@ -1,0 +1,117 @@
+body{
+    margin:0;
+    font-family:"Candara", sans-serif;
+    
+    background-image:url("whiteWeave.jpg");
+    background-size:10em;
+
+    --panelBackgrounds:#DDDDDD;
+    --blackShadow:rgba(0,0,0,0.4);
+}
+header{
+    display:block;
+    padding:1em;
+    background-color:var(--panelBackgrounds);
+}
+header h1{
+    margin:0;
+}
+header a{
+    text-decoration:none;
+    color:unset;
+}
+nav{
+    display:block;
+    background-color:var(--panelBackgrounds);
+    box-shadow: 0 0 10px var(--blackShadow);
+}
+nav a{
+    background-color:var(--panelBackgrounds);
+    text-decoration:none;
+    color:unset;
+}
+nav a:hover{
+    background-color:white;
+}
+article{
+    display:block;
+    padding:1em;
+    margin:1em auto;
+    width:80%;
+    max-width:700px;
+    background-color:var(--panelBackgrounds);
+    box-shadow: 0 0 10px var(--blackShadow);
+}
+article h2{
+    margin:0;
+    padding:0 0 0.5em 0;
+}
+li{
+    padding-bottom:0.5em;
+}
+footer{
+    display:block;
+    min-height:5em;
+    padding:0.5em;
+    text-align:center;
+    
+    background-color:var(--panelBackgrounds);
+    box-shadow: 0 0 10px var(--blackShadow);
+}
+
+/* ---- */
+
+.imageAndParagraph img{
+    display:inline-block;
+    width:30%;
+    box-shadow: 0 0 10px var(--blackShadow);
+}
+.imageAndParagraph p{
+    display:inline-block;
+    width:60%;
+    vertical-align:top;
+    margin:0;
+    padding: 0 0.5em 0.5em 0.5em;
+}
+.linkBlock{
+    display:block;
+    padding:0.1px;
+    text-decoration:none;
+    color:unset;
+}
+.linkBlock:hover{
+    background-color:white;
+}
+.imageGallery a{
+    display:inline-block;
+    width:80%;
+    max-width:300px;
+    text-decoration:none;
+    color:unset;
+
+    padding:0.5em;
+    margin:1em;
+    background-color:var(--panelBackgrounds);
+    box-shadow: 0 0 10px var(--blackShadow);
+}
+.imageGallery a:hover{
+    background-color:white;
+}
+.imageGallery img{
+    width:100%;
+}
+
+@media screen and (min-width:500.1px){
+    nav a{
+        display:inline-block;
+        padding:0.5em 1em;
+        text-align:center;
+    }
+}
+@media screen and (max-width:500px){
+    nav a{
+        display:block;
+        padding:0.1em 1em;
+        text-align:left;
+    }
+}

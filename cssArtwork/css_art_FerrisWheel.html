@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kevin's Ferris Wheel</title>
+
+        <style>
+            body{
+                background-color:grey;
+            }
+            div.ferris{
+                display:inline-block;
+                position:relative;
+                width:300px;
+                height:300px;
+                background-image:linear-gradient(to top, grey, hsl(110,30%,20%)5%, hsl(110,30%,20%)30%, hsl(230,50%,40%)35%, hsl(240,30%,20%));
+                
+                border:20px ridge hsl(230,15%,40%);
+                outline:1px solid black;
+                
+                --ccc1:black;
+                --ccc2:hsl(30,100%,10%);
+            }
+            div.ferris>div.wheel{
+                position:absolute;
+                width:80%;
+                height:80%;
+                top:0;
+                left:10%;
+                
+                transform-origin: 50% 50%;
+                animation: turn 30s linear 0s infinite normal;
+            }
+            @keyframes turn{
+                0%{transform:rotate(0deg);}
+                25%{transform:rotate(90deg);}
+                50%{transform:rotate(180deg);}
+                75%{transform:rotate(270deg);}
+                100%{transform:rotate(360deg);}
+            }
+            div.ferris>div.wheel>div.beam{
+                position:absolute;
+                width:100%;
+                height:2%;
+                background-color:var(--ccc1);
+                top:49%;
+                transform-origin: 50% 50%;
+            }
+            div.ferris>div.wheel>div.beam:nth-child(10){transform:rotate(45deg);}
+            div.ferris>div.wheel>div.beam:nth-child(11){transform:rotate(90deg);}
+            div.ferris>div.wheel>div.beam:nth-child(12){transform:rotate(-45deg);}
+
+            div.ferris>div.wheel>div.beam>div.lights{
+                position:absolute;
+                width:100%;
+                height:100%;
+                border-top:4px dotted red;
+                animation: lights 12s linear 0s infinite normal;
+            }
+
+            div.ferris>div.wheel>div.ring{
+                position:absolute;
+                box-sizing:border-box;
+                border:5px solid var(--ccc1);
+                border-radius: 50%;
+            }
+            div.ferris>div.wheel>div.ring:nth-child(13){
+                width:100%;
+                height:100%;
+            }
+            div.ferris>div.wheel>div.ring:nth-child(14){
+                width:80%;
+                height:80%;
+                top:10%;
+                left:10%;
+            }
+            div.ferris>div.wheel>div.ring:nth-child(15){
+                width:60%;
+                height:60%;
+                top:20%;
+                left:20%;
+            }
+            div.ferris>div.wheel>div.ring>div.lights{
+                position:absolute;
+                width:104%;
+                height:104%;
+                left:-2%;
+                top:-2%;
+                border:4px dotted red;
+                border-radius:50%;
+                box-sizing:border-box;
+                animation: lights 10s linear -5s infinite normal;
+            }
+            div.ferris>div.wheel>div.ring:nth-child(14)>div.lights{
+                animation-delay:-6s;
+            }
+            div.ferris>div.wheel>div.ring:nth-child(15)>div.lights{
+                animation-delay:-7s;
+            }
+            @keyframes lights{
+                0%{border-color:red;}
+                8.3%{border-color:red;}
+                16.6%{border-color:yellow;}
+                25%{border-color:yellow;}
+                33.3%{border-color:limegreen;}
+                41.6%{border-color:limegreen;}
+                50%{border-color:deepskyblue;}
+                58.3%{border-color:deepskyblue;}
+                66.6%{border-color:mediumpurple;}
+                75%{border-color:mediumpurple;}
+                83.3%{border-color:deeppink;}
+                91.6%{border-color:deeppink;}
+                100%{border-color:red;}
+            }
+            div.ferris>div.support{
+                position:absolute;
+                width:5%;
+                height:60%;
+                background-color:var(--ccc2);
+                border-left:3px dotted goldenrod;
+                border-right:3px dotted goldenrod;
+            }
+            div.ferris>div.support:nth-child(2){
+                transform:skewX(-30deg);
+                left:30%;
+                bottom:0;
+            }
+            div.ferris>div.support:nth-child(3){
+                transform:skewX(30deg);
+                right:30%;
+                bottom:0;
+            }
+            div.ferris>div.button{
+                position:absolute;
+                width:15%;
+                height:15%;
+                background-color:var(--ccc2);
+                border-radius:50%;
+                left:42.5%;
+                bottom:52.5%;
+                
+                animation: turn 30s linear 0s infinite normal;
+            }
+            div.ferris>div.button>div.lights:nth-child(1){
+                position:absolute;
+                width:100%;
+                height:100%;
+                border-radius:50%;
+                border: 5px dotted;
+                box-sizing:border-box;
+                
+                animation: lights 10s linear -8s infinite normal;
+            }
+            div.ferris>div.button>div.lights:nth-child(2){
+                position:absolute;
+                width:60%;
+                height:60%;
+                background-color:hsla(0,0%,100%,0.2);
+                border-radius:50%;
+                left:20%;
+                top:20%;
+                border: 5px dotted;
+                box-sizing: border-box;
+                
+                animation: lights 10s linear -9s infinite normal;
+            }
+            div.ferris>div.wheel>div.seat{
+                position:absolute;
+                width:15%;
+                height:20%;
+                transform-origin:50% 10%;
+                
+                animation: turn 30s linear 0s infinite reverse;
+                --seat:magenta;
+            }
+            div.ferris>div.wheel>div.seat>div.top{
+                position:absolute;
+                width:100%;
+                height:30%;
+                background-color:var(--seat);
+                border-radius: 50% 50% 0% 0%;
+            }
+            div.ferris>div.wheel>div.seat>div.bottom{
+                position:absolute;
+                width:100%;
+                height:40%;
+                background-color:var(--seat);
+                border-radius: 0% 0% 50% 50%;
+                bottom:0;
+            }
+            div.ferris>div.wheel>div.seat>div.bars{
+                position:absolute;
+                width:80%;
+                height:60%;
+                border: 3px solid var(--seat);
+                box-sizing:border-box;
+                left:10%;
+                top:20%;
+            }
+            div.ferris>div.wheel>div.seat:nth-child(1){
+                --seat:hsl(0,80%,50%);/* N */
+                left:43%;
+                top:0;
+            }div.ferris>div.wheel>div.seat:nth-child(2){
+                --seat:hsl(170,80%,50%);/* S */
+                left:43%;
+                top:97%;
+            }div.ferris>div.wheel>div.seat:nth-child(3){
+                --seat:hsl(290,80%,50%);/* W */
+                left:-7%;
+                top:48%;
+            }div.ferris>div.wheel>div.seat:nth-child(4){
+                --seat:hsl(50,80%,50%);/* E */
+                right:-7%;
+                top:48%;
+            }div.ferris>div.wheel>div.seat:nth-child(5){
+                --seat:hsl(330,80%,60%);/* NW */
+                left:8%;
+                top:14%;
+            }div.ferris>div.wheel>div.seat:nth-child(6){
+                --seat:hsl(20,80%,50%);/* NE */
+                right:8%;
+                top:14%;
+            }div.ferris>div.wheel>div.seat:nth-child(7){
+                --seat:hsl(210,80%,50%);/* SW */
+                left:8%;
+                bottom:-3%;
+            }div.ferris>div.wheel>div.seat:nth-child(8){
+                --seat:hsl(110,80%,40%);/* SE */
+                right:8%;
+                bottom:-3%;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <center>
+            <h2>Ferris Wheel</h2>
+            <div class="ferris">
+                <div class="wheel">
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+
+                    <div class="beam"><div class="lights"></div></div>
+                    <div class="beam"><div class="lights"></div></div>
+                    <div class="beam"><div class="lights"></div></div>
+                    <div class="beam"><div class="lights"></div></div>
+
+                    <div class="ring"><div class="lights"></div></div>
+                    <div class="ring"><div class="lights"></div></div>
+                    <div class="ring"><div class="lights"></div></div>
+                </div>
+                <div class="support"></div>
+                <div class="support"></div>
+                <div class="button">
+                    <div class="lights"></div>
+                    <div class="lights"></div>
+                </div>
+            </div>
+            
+            
+        </center>
+        
+    </body>
+</html>

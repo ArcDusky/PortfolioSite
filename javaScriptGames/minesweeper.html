@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kevin's Minefield</title>
+
+    <style>
+        #minesweeper{
+            position:relative;
+            background-color:lightgrey;
+            text-align:center;
+            font-size:1em;
+            width:500px;
+            height:500px;
+            user-select:none;
+            font-family:sans-serif;
+            margin-left:auto;margin-right:auto;
+        }
+        .ms_outline_lose{animation: ms_outline_lose 0.25s linear 0s infinite alternate;}
+        @keyframes ms_outline_lose{
+            from{outline:5px solid darkred;}
+            to{outline:10px solid red;}
+        }
+        .ms_outline_win{animation: ms_outline_win 0.25s linear 0s infinite alternate;}
+        @keyframes ms_outline_win{
+            from{outline:5px solid green;}
+            to{outline:10px solid lime;}
+        }
+        .ms_helpCursor,.ms_helpCursor div{cursor:help;}
+        #ms_header{
+            position:absolute;
+            width:75%;
+            height:21%;
+            left:1%;
+            top:1%;
+            overflow:hidden;
+            border:1px solid black;
+            cursor:pointer;
+        }
+        #ms_title{
+            font-weight:bold;
+            font-style:italic;
+            font-size:2em;
+            color:lightgrey;
+            text-shadow:0 0 2px black;
+        }
+        .ms_winText{
+            color:green;
+            font-weight:bold;
+            animation: ms_winning 1s linear 0s infinite alternate,
+                       ms_winning2 0.5s linear 0s infinite alternate;
+            font-size:1.5em;
+        }
+        @keyframes ms_winning{
+            from{color:darkgreen;}
+            to{color:lime;}
+        }
+        @keyframes ms_winning2{
+            from{font-size:1.5em;}
+            to{font-size:1.8em;}
+        }
+        .ms_loseText{
+            color:rgb(170, 128, 128);
+            font-weight:bold;
+            font-style:italic;
+            animation: ms_losing 1s ease-out 0s infinite alternate;
+            font-size:1.5em;
+        }
+        @keyframes ms_losing{
+            from{font-size:1.5em;}
+            to{font-size:1.8em;}
+        }
+        #ms_gameBoard{
+            position:absolute;
+            width:75%;
+            height:75%;
+            top:23%;
+            left:1%;
+            font-weight:bold;
+        }
+        .ms_cell{
+            position:absolute;
+            width:6.25%;
+            height:6.25%;
+            background-color:lightgrey;
+            border:1px solid black;
+            overflow:hidden;
+        }
+        .ms_num1{color:grey;}
+        .ms_num2{color:darkblue;}
+        .ms_num3{color:darkred;}
+        .ms_num4{color:darkgreen;}
+        .ms_num5{color:darkviolet;}
+        .ms_num6,.ms_num7,.ms_num8{text-shadow:0 0 2px black,0 0 2px black;color:white;}
+        .ms_overlay{
+            position:absolute;
+            width:6.25%;
+            height:6.25%;
+            background-color:grey;
+            border:1px solid black;
+            overflow:hidden;
+            cursor:pointer;
+        }
+        .ms_overlay_hidden{
+            display:none;
+        }
+        .ms_error{
+            background-color:red;
+            animation: ms_errors 0.25s ease-in 0s infinite alternate;
+        }
+        @keyframes ms_errors{
+            from{background-color:red;}
+            to{background-color:rgb(64,0,0);}
+        }
+        .ms_cell_flagged{
+            text-shadow:0 0 2px black;
+            color:yellow;
+        }
+        #ms_flagStore{
+            position:absolute;
+            width:22%;
+            height:75%;
+            top:23%;
+            right:1%;
+            color:yellow;
+            text-shadow:0 0 2px black;
+        }
+        .ms_f{
+            position:absolute;
+            border:1px solid black;
+            background-color:rgb(32,32,32);
+            cursor:default;
+            overflow:hidden;
+        }
+        #ms_diffButtons{
+            position:absolute;
+            width:22%;
+            height:21%;
+            top:1%;
+            right:1%;
+        }
+        .ms_diffButton{
+            position:absolute;
+            border:1px solid black;
+            background-color:lightgrey;
+            cursor:pointer;
+            overflow:hidden;
+            width:95%;
+            height:30%;
+            text-align:left;
+            padding:0 0 0 5%;
+        }
+        .ms_diffButtonSelected{
+            font-weight:bold;
+            outline: 1px solid black;
+        }
+        .ms_bomb{
+            color:black;
+            background-color:rgb(139, 117, 117);
+        }
+        .ms_overlay_redZone{
+            background-color:rgb(139, 117, 117);
+        }
+        #ms_autoplayCursor{
+            position:absolute;
+            left:50%;
+            top:50%;
+            width:20px;
+            height:20px;
+            background-color:white;
+            border-radius: 0 99px 99px 99px;
+            box-shadow: 5px 5px 10px 0px black;
+            display:none;
+        }
+        #ms_autoplayer{
+            position:absolute;
+            width:100%;
+            top:100%;
+            text-align:center;
+            background-color:lightgrey;
+        }
+        #ms_autoplayer fieldset{
+            border-radius:10px;
+            margin: 0 20px 15px 20px;
+            border-color:grey;
+            text-align:left;
+        }
+        #ms_autoplayer div{
+            display:inline-block;
+            height:1.5em;
+            width:49%;
+        }
+        #ms_auto_moveButton{
+            width:90%;
+        }
+        #ms_auto_speed{
+            width:70%;
+            margin-left:5px;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        "use strict";
+
+        const ICON_TIMER = "⌚";
+        const ICON_BOMB = "💣";
+        const ICON_FLAG = "🚩";
+        const ICON_TROPHY = "🏆";
+        let controls=false;
+        let gameTimer;
+        let gameTimerInt=0;
+        let bombCount=30;
+        let bombMax=80;
+
+        $(document).ready(function(){
+            Startup();
+            StartNewGame_step2(0);
+		});
+        function Startup(){
+            let hhh = "<div id='ms_header' onmousedown='StartNewGame(event)'>";
+            hhh += "<span id='ms_title'></span><br>";
+            hhh += "<span id='ms_subtitle'></span>";
+            hhh += "</div>";
+
+            hhh += "<div id='ms_gameBoard'>";
+            let style, pos;
+            for(let yyy=0;yyy<16;yyy++){
+                for(let xxx=0;xxx<16;xxx++){
+                    pos = "left:"+6.25*xxx+"%; top:"+6.25*yyy+"%;";
+
+                    style = "style='"+pos+"'";
+                    hhh += "<div class='ms_cell' "+style+" id='ms_cell"+xxx+"_"+yyy+"'></div>";
+                    hhh += "<div class='ms_overlay ms_overlay_hidden' "+style+" id='ms_overlay"+xxx+"_"+yyy+"' onmousedown='CellClick(this,event)'></div>";
+                }
+            }
+            hhh += "<div id='ms_autoplayCursor'></div>";// autoplay cursor
+            hhh += "</div>";
+
+            hhh += "<div id='ms_flagStore'>";
+            let iii=0;
+            let flagCols=5;
+            let flagRows=Math.ceil(bombMax/flagCols);
+            let flagw=100.0/flagCols;
+            let flagh=Math.min(100.0/flagRows,6.25);
+            for(let yyy=0;yyy<flagRows;yyy++){
+                for(let xxx=0;xxx<flagCols;xxx++){
+                    pos = "style='left:"+flagw*xxx+"%;top:"+flagh*yyy+"%;";
+                    pos += "width:"+flagw+"%;height:"+flagh+"%;'"
+                    hhh += "<div id='ms_f"+iii+"' class='ms_f' "+pos+"></div>";
+                    iii++;
+                }
+            }
+            hhh += "</div>";
+
+            hhh+="<div id='ms_diffButtons'>";
+            hhh+="<div id='ms_diffButton1' class='ms_diffButton' style='top:0%;' onmousedown='ClickDiffButton(this,event)'></div>";
+            hhh+="<div id='ms_diffButton2' class='ms_diffButton' style='top:33%' onmousedown='ClickDiffButton(this,event)'></div>";
+            hhh+="<div id='ms_diffButton3' class='ms_diffButton' style='top:66%' onmousedown='ClickDiffButton(this,event)'></div>";
+            hhh+="</div>";
+
+            // hidden input keyboard detection
+            hhh +="<input id='ms_hiddenInput' type='text' style='width:0;height:0;opacity:0;'>";
+
+            hhh+=GetAutoplayerHtml();
+
+            $("#minesweeper").html(hhh);
+            $("#minesweeper").attr("oncontextmenu","return false;");// so right-click does not open a menu
+            $("#ms_title").text("Kevin's Minefield");
+            $("#ms_subtitle").text("Click here to play");
+            ShowDiffButtons();
+
+            // hidden input keyboard detection
+            $("#minesweeper").attr("onclick","EnterFocusFromClick()");
+            $("#ms_hiddenInput").attr("onkeydown","KeyDown(event)");
+            $("#ms_hiddenInput").attr("onkeyup","KeyUp(event)");
+            $("#ms_hiddenInput").blur(ExitFocus);
+            keyboardTimer=setInterval(function(){
+                if(GetKey("z")){
+                    $("#minesweeper").addClass("ms_helpCursor");
+                }else{
+                    $("#minesweeper").removeClass("ms_helpCursor");
+                }
+            },1000/10);
+
+            SetupAutoplayerHtml();
+        }
+
+        let keys=[];//keyboard
+        let keyboardTimer;
+
+        function EnterFocusFromClick(){
+            let active=document.activeElement;
+            if(active === document.getElementById("ms_auto_setting")
+            || active === document.getElementById("ms_auto_speed")){
+                return;
+            }
+            EnterFocus();
+        }
+        function EnterFocus(){
+            $("#ms_hiddenInput").focus();
+        }
+        function ExitFocus(){
+            $("#minesweeper").removeClass("ms_helpCursor");
+
+            for(let x=0;x<keys.length;x++){// set all keys to false
+                keys[x]=false;
+            }
+        }
+        function KeyDown(event){
+            event.preventDefault();
+            SetKey(event.key,true);
+            $(this).val("");
+        }
+        function KeyUp(event){
+            event.preventDefault();
+            SetKey(event.key,false);
+            $(this).val("");
+        }
+        function GetKeyId(sss){
+            switch(sss){
+                case "z":return 0;
+                default:return 8;//dump
+            }
+        }
+        function GetKey(sss){
+            return keys[GetKeyId(sss)];
+        }
+        function SetKey(sss,bbb){
+            keys[GetKeyId(sss)]=bbb;
+        }
+
+        //#################################
+
+        function ClickDiffButton(element,event){
+            let vvv = parseInt($(element).text().substr(0,2));
+            if(vvv!=bombCount){
+                bombCount=vvv;
+                ShowDiffButtons();
+            }
+            StartNewGame(event);
+        }
+        function ShowDiffButtons(){
+            let diffs=[
+                "20 Easy",
+                "30 Normal",
+                "40 Normal",
+                "50 Hard",
+                "60 Hard",
+                "70 Extreme",
+                "80 Extreme"
+            ];
+            let slot = (bombCount/10)-2;
+            let selectedText = diffs[slot];
+            if(slot==0)slot++;
+            else if(slot==diffs.length-1)slot--;
+            $("#ms_diffButton1").text(diffs[slot-1]);
+            $("#ms_diffButton2").text(diffs[slot]);
+            $("#ms_diffButton3").text(diffs[slot+1]);
+
+            $(".ms_diffButtonSelected").each(function(){$(this).removeClass("ms_diffButtonSelected");});
+            if(diffs[slot-1]==selectedText)$("#ms_diffButton1").addClass("ms_diffButtonSelected");
+            else if(diffs[slot]==selectedText)$("#ms_diffButton2").addClass("ms_diffButtonSelected");
+            else if(diffs[slot+1]==selectedText)$("#ms_diffButton3").addClass("ms_diffButtonSelected");
+        }
+        function StartNewGame(event){
+            event.preventDefault();
+            StartNewGame_step2(event.button);
+            usedRobot=false;
+
+            SetAutoSetting(GetAutoSetting());// force autoplayer to reset
+        }
+        function StartNewGame_step2(clickType){
+            let iii,xxx,yyy;
+            //reset board
+            controls=true;
+            for(xxx=0;xxx<16;xxx++){
+                for(yyy=0;yyy<16;yyy++){
+                    GetCell(xxx,yyy).text("");
+                    GetCell(xxx,yyy).attr("class","ms_cell");
+                    GetOverlay(xxx,yyy).text("");
+                    GetOverlay(xxx,yyy).attr("class","ms_overlay");
+
+                    if(clickType>1){
+                        GetOverlay(xxx,yyy).addClass("ms_overlay_hidden");
+                    }
+                }
+            }
+            for(xxx=0;xxx<bombMax;xxx++){
+                $("#ms_f"+xxx).text("");
+            }
+            for(xxx=0;xxx<bombCount;xxx++){
+                $("#ms_f"+xxx).text(ICON_FLAG);
+            }
+            //spread mines
+            for(iii=0;iii<bombCount;iii++){
+                xxx=Math.floor(Math.random()*16);
+                yyy=Math.floor(Math.random()*16);
+
+                if(GetCell(xxx,yyy).text()==ICON_BOMB){
+                    iii--;
+                }else{
+                    GetCell(xxx,yyy).text(ICON_BOMB);
+                    GetCell(xxx,yyy).attr("class","ms_cell ms_bomb");
+                    
+                    //increase the value of neighbors
+                    TryIncrease(xxx-1,yyy-1);
+                    TryIncrease(xxx  ,yyy-1);
+                    TryIncrease(xxx+1,yyy-1);
+                    
+                    TryIncrease(xxx-1,yyy);
+                    //TryIncrease(xxx  ,yyy);
+                    TryIncrease(xxx+1,yyy);
+
+                    TryIncrease(xxx-1,yyy+1);
+                    TryIncrease(xxx  ,yyy+1);
+                    TryIncrease(xxx+1,yyy+1);
+                }
+            }
+            //reset timer stuff
+            clearInterval(gameTimer);
+            gameTimer=null;
+            gameTimerInt=-1;
+            ShowGameTimer();
+
+            $("#minesweeper").removeClass("ms_outline_win");
+            $("#minesweeper").removeClass("ms_outline_lose");
+
+            CalculateHardness();
+
+            function TryIncrease(xxx,yyy){
+                if(xxx<0 || xxx>15)return;
+                if(yyy<0 || yyy>15)return;
+                let value=GetCell(xxx,yyy).text();
+                if(value==ICON_BOMB)return;
+
+                if(value=="")value=1;
+                else value=parseInt(value)+1;
+
+                GetCell(xxx,yyy).text(value);
+                GetCell(xxx,yyy).addClass("ms_num"+value);
+            }
+        }
+        function GetCell(xxx,yyy){
+            return $("#ms_cell"+xxx+"_"+yyy);
+        }
+        function GetOverlay(xxx,yyy){
+            return $("#ms_overlay"+xxx+"_"+yyy);
+        }
+        function CellClick(element,event){
+            event.preventDefault();
+            if(controls==false)return;
+
+            CellClick_step2($(element),event.button);
+        }
+        function CellClick_step2(element,clickType){
+            if(gameTimer==null){
+                // ensure first click isnt a bomb
+                let sss = $(element).attr("id").substring(10);
+                let cell = $("#ms_cell"+sss);
+                while(cell.text()==ICON_BOMB){
+                    StartNewGame_step2(clickType);
+                }
+                // start the timer
+                gameTimer=setInterval(ShowGameTimer,1000);
+            }
+
+            if(clickType==0){
+                if($(element).text()!=ICON_FLAG){
+                    CellLeftClick(element);
+                    if(controls==true)LookForWin();
+                }
+            }else{
+                if($(element).text()==ICON_FLAG){
+                    RemoveFlag();
+                }else TryAddFlag();
+            }
+
+            function TryAddFlag(){
+                let iii=$(".ms_cell_flagged").length;
+                if($("#ms_f"+(bombCount-1)).text()=="")return;
+                $(element).text(ICON_FLAG);
+                $(element).addClass("ms_cell_flagged");
+                $("#ms_f"+iii).text("");
+            }
+            function RemoveFlag(){
+                let iii=$(".ms_cell_flagged").length;
+                $(element).text("");
+                $(element).removeClass("ms_cell_flagged");
+                $("#ms_f"+(iii-1)).text(ICON_FLAG);
+            }
+            function LookForWin(){
+                let left=$(".ms_overlay").not(".ms_overlay_hidden").length;
+                if(left>bombCount)return;
+                
+                controls=false;
+                clearInterval(gameTimer);
+                let message=ICON_TROPHY+"&nbsp;YOU WIN" + (usedRobot ? "*" : "");
+                $("#ms_subtitle").append("<br><span class='ms_winText'>"+message+"</span>");
+                $(".ms_cell").addClass("ms_cell_win");
+                $("#minesweeper").addClass("ms_outline_win");
+            }
+        }
+        function CellLeftClick(element){
+            if($(element).hasClass("ms_overlay_hidden"))return;
+            $(element).addClass("ms_overlay_hidden");
+            if($(element).text()==ICON_FLAG)RemoveFlag();
+
+            let sss = $(element).attr("id").substring(10);
+            let vvv = $("#ms_cell"+sss).text();
+            if(vvv==""){
+                let xxx = parseInt(sss.substring(0,sss.indexOf("_")));
+                let yyy = parseInt(sss.substring(sss.indexOf("_")+1));
+                
+                TryOpen(xxx-1,yyy-1);
+                TryOpen(xxx  ,yyy-1);
+                TryOpen(xxx+1,yyy-1);
+
+                TryOpen(xxx-1,yyy);
+                //TryOpen(xxx  ,yyy);
+                TryOpen(xxx+1,yyy);
+
+                TryOpen(xxx-1,yyy+1);
+                TryOpen(xxx  ,yyy+1);
+                TryOpen(xxx+1,yyy+1);
+            }else if(vvv==ICON_BOMB){
+                controls=false;
+                $("#ms_cell"+sss).addClass("ms_error");
+                LookForErrorFlags();
+                ShowBombs();
+                ShowRedZones();
+                clearInterval(gameTimer);
+                $("#ms_subtitle").append("<br><span class='ms_loseText'>You lose.</span>");
+                $("#minesweeper").addClass("ms_outline_lose");
+
+                CheckAutoRestart();
+            };
+
+            function RemoveFlag(){
+                let iii=$(".ms_cell_flagged").length;
+                $(element).text("");
+                $(element).removeClass("ms_cell_flagged");
+                $("#ms_f"+(iii-1)).text(ICON_FLAG);
+            }
+            function TryOpen(xxx,yyy){
+                if(xxx<0 || xxx>15)return;
+                if(yyy<0 || yyy>15)return;
+                CellLeftClick(GetOverlay(xxx,yyy));
+            }
+            function LookForErrorFlags(){
+                $(".ms_cell_flagged").each(function(){
+                    let sss = $(this).attr("id").substring(10);
+                    let vvv = $("#ms_cell"+sss).text();
+                    if(vvv!=ICON_BOMB){
+                        $(this).addClass("ms_error");
+                    }
+                });
+            }
+            function ShowBombs(){
+                $(".ms_bomb").each(function(){
+                    let sss = $(this).attr("id").substring(7);
+                    let vvv = $("#ms_overlay"+sss).text();
+                    if(vvv==""){
+                        $("#ms_overlay"+sss).addClass("ms_overlay_hidden");
+                    }
+                });
+            }
+            function ShowRedZones(){
+                $(".ms_num1").each(function(){
+                    let sss = $(this).attr("id").substring(7);
+                    $("#ms_overlay"+sss).addClass("ms_overlay_redZone");
+                });
+            }
+        }
+        function ShowGameTimer(){
+            gameTimerInt++;
+            let min=Math.floor(gameTimerInt/60);
+            let sec=gameTimerInt-(min*60);
+            if(sec<10)sec="0"+sec;
+            $("#ms_subtitle").text(ICON_TIMER+min+":"+sec);
+        }
+        
+        /*##################################################*/
+
+        let autoplayAnimating=false;
+        let autoplayTimer;
+        let autoplayRestartTimer;
+        let usedRobot=false;// did you use the robot during this game?
+
+        function Autoplay(allowGuessing){
+            if(autoplayAnimating)return;
+            if(controls==false)return;
+
+            let action = GetAutoplayAction(allowGuessing);
+            if(action==null)return;
+
+            usedRobot=true;
+
+            let xxx=action.cell.css("left");
+            let yyy=action.cell.css("top");
+            xxx=AddOffset(xxx);
+            yyy=AddOffset(yyy);
+            let cursor = $("#ms_autoplayCursor");
+            let speed;
+
+            switch(action.actionType){
+                case "easy": cursor.css("background-color","white");break;
+                case "advanced": cursor.css("background-color","lawngreen");break;
+                case "guessFast":
+                case "guess": cursor.css("background-color","red");break;
+            }
+            if(GetAutoSetting()=="off"){
+                speed={move:500,sit:500};// single move
+            }else{
+                switch(GetAutoSpeed()){
+                    case "slow": speed={move:500,sit:1500};break;
+                    case "medium":
+                        switch(action.actionType){
+                            case "easy": speed={move:500,sit:200};break;
+                            case "advanced": speed={move:500,sit:1000};break;
+                            case "guessFast": speed={move:500,sit:200};break;
+                            case "guess": speed={move:500,sit:1500};break;
+                        }break;
+                    case "fast":
+                        switch(action.actionType){
+                            case "easy": speed={move:200,sit:100};break;
+                            case "advanced": speed={move:200,sit:500};break;
+                            case "guessFast": speed={move:200,sit:100};break;
+                            case "guess": speed={move:200,sit:1000};break;
+                        }break;
+                    case "super": speed={move:0,sit:0};break;
+                }
+            }
+
+            autoplayAnimating=true;
+            cursor.stop(true,false);
+            cursor.show().css("opacity",1);
+            cursor.animate({left:xxx,top:yyy},speed.move,"swing")
+                .animate({left:xxx,top:yyy},speed.sit,
+                    function(){
+                        CellClick_step2(action.cell,action.clickType);
+                        autoplayAnimating=false;
+                    })
+                .fadeOut(1000);
+
+            function AddOffset(nnn){
+                let lastChar=nnn.charAt(nnn.length-1);
+                if(lastChar=="%"){
+                    nnn=parseFloat(nnn)+(6.25/2)+"%";
+                }else if(lastChar=="x"){
+                    nnn=parseFloat(nnn)+10+"px";
+                }else alert("lastChar not recognized: "+lastChar+" in "+nnn);
+                return nnn;
+            }
+        }
+        function GetCoordString(element){
+            let id=element.attr("id");
+            if(id.indexOf("cell")!=-1){
+                return id.substring(7);
+            }else{
+                return id.substring(10);
+            }
+        }
+        function GetAutoplayAction(allowGuessing){
+            let ccc;
+            let value;
+            let neighbors;
+            let workable;
+            let flagged;
+            let advancedMove=null;
+
+            let elements=$(".ms_overlay_hidden");
+            let element;
+            for(let x=0;x<elements.length;x++){
+                element=elements.eq(x);
+
+                // ignore ones that are "done"
+                if(element.hasClass("ms_autodone"))continue;
+                
+                // mark zeroes as "done"
+                value=parseInt(GetCellInstead(element).text());if(isNaN(value))value=0;
+                if(value==0){
+                    element.addClass("ms_autodone");
+                    continue;
+                }
+
+                ccc=GetCoords(element);
+                neighbors=GetNeighbors(ccc.x,ccc.y);
+                workable=neighbors.not(".ms_overlay_hidden").not(".ms_cell_flagged");
+                flagged=neighbors.filter(".ms_cell_flagged");
+
+                if(workable.length==0){
+                    element.addClass("ms_autodone");
+                    continue;
+                }
+                // CHECK: obvious flags
+                // all workable cells are bombs.
+                if(workable.length==value-flagged.length){
+                    return {cell:workable.first(),clickType:1,actionType:"easy"};
+                }
+
+                // CHECK: obvious safes
+                // all workable cells are safe.
+                if(value==flagged.length){
+                    return {cell:workable.first(),clickType:0,actionType:"easy"};
+                }
+
+                if(advancedMove!=null)continue;
+
+                // CHECK: advanced
+                if(value-flagged.length==1){
+                    let advancedResult;
+                    advancedResult=AdvancedCheckNeighbor(ccc.x,ccc.y-1);
+                    if(advancedResult){advancedMove=advancedResult;continue;}
+                    advancedResult=AdvancedCheckNeighbor(ccc.x,ccc.y+1);
+                    if(advancedResult){advancedMove=advancedResult;continue;}
+                    advancedResult=AdvancedCheckNeighbor(ccc.x-1,ccc.y);
+                    if(advancedResult){advancedMove=advancedResult;continue;}
+                    advancedResult=AdvancedCheckNeighbor(ccc.x+1,ccc.y);
+                    if(advancedResult){advancedMove=advancedResult;continue;}
+                }
+            }
+            if(advancedMove!=null)return advancedMove;
+
+            // ####################### educated guessing
+            if(allowGuessing==false)return null;
+            let currentChance=0;
+            let chances=new Array(256);
+            let id=0;
+
+            // calculate chances
+            elements=$(".ms_overlay_hidden");
+            for(let x=0;x<elements.length;x++){
+                element=elements.eq(x);
+                if(element.hasClass("ms_autodone"))continue;
+
+                ccc=GetCoords(element);
+                neighbors=GetNeighbors(ccc.x,ccc.y);
+                workable=neighbors.not(".ms_overlay_hidden").not(".ms_cell_flagged");
+                value=parseInt(GetCellInstead(element).text());if(isNaN(value))value=0;
+                flagged=neighbors.filter(".ms_cell_flagged");
+                currentChance=1.0-((value-flagged.length)/workable.length);
+                //for each workable, put the chance in slot only if it's lower
+                for(let w=0;w<workable.length;w++){
+                    element=workable.eq(w);
+                    ccc=GetCoords(element);
+                    id=(ccc.y*16)+ccc.x;
+                    if(!chances[id]){
+                        chances[id]=currentChance;
+                    }else chances[id]=Math.min(chances[id],currentChance);
+                }
+            }
+            //find the best option
+            let bestValue=0.0;
+            let bestElement;
+            let randomizingCondition=false;
+            let y=0;
+            for(let i=0;i<chances.length;i++){
+                if(!chances[i])continue;
+
+                randomizingCondition=Math.random()<0.5 ? true : false;
+                if((randomizingCondition==true  && chances[i]>bestValue)
+                || (randomizingCondition==false && chances[i]>=bestValue)){
+                    bestValue=chances[i];
+                    y=Math.floor(i/16);
+                    bestElement=GetOverlay(i-(y*16),y);
+                }
+            }
+
+            let tryRandomZero=false;
+            let bestValueFlaggedZero=0;
+
+            if($(".ms_cell_flagged").length<3){
+                if(bestValue < 0.74){
+                    tryRandomZero=true;
+                }
+            }else{
+                if(bestValue < 0.74){
+                    // find a zero (value:0.0) with nearby flags
+                    elements=$(".ms_overlay").not(".ms_overlay_hidden").not(".ms_cell_flagged");
+                    for(let i=0;i<elements.length;i++){
+                        element=elements.eq(i);
+                        ccc=GetCoords(element);
+                        id=(ccc.y*16)+ccc.x;
+                        if(!chances[id]){// if chance is zero
+                            neighbors=GetNeighbors(ccc.x,ccc.y);
+                            flagged=neighbors.filter(".ms_cell_flagged");
+                            /*if(flagged.length>bestValueFlaggedZero){
+                                bestValueFlaggedZero=flagged.length;
+                                bestElement=element;
+                            }//*/
+                            if(flagged.length>0){// pick one with nearby flags, at random
+                                if(bestValueFlaggedZero==0 || Math.random()>=0.5){
+                                    bestValueFlaggedZero=flagged.length;
+                                    bestElement=element;
+                                }
+                            }
+                        }
+                    }
+                    if(bestValueFlaggedZero==0){// if there are no flaggedZeroes
+                        if(bestValue < 0.66){
+                            tryRandomZero=true;
+                        }
+                    }
+                }
+            }
+            if(tryRandomZero){
+                let zeroArray=new Array();
+                elements=$(".ms_overlay").not(".ms_overlay_hidden").not(".ms_cell_flagged");
+                for(let i=0;i<elements.length;i++){
+                    element=elements.eq(i);
+                    ccc=GetCoords(element);
+                    id=(ccc.y*16)+ccc.x;
+                    if(!chances[id]){
+                        zeroArray[zeroArray.length]=element;
+                    }
+                }
+                if(zeroArray.length>0){
+                    bestElement=zeroArray[Math.floor(Math.random()*zeroArray.length)];
+                }
+            }
+
+            if($(".ms_cell_flagged").length==0){
+                return {cell:bestElement,clickType:0,actionType:"guessFast"};
+            }else{
+                return {cell:bestElement,clickType:0,actionType:"guess"};
+            }
+
+            function GetCellInstead(element){
+                let sss=GetCoordString(element);
+                return $("#ms_cell"+sss);
+            }
+            function GetOverlayInstead(element){
+                let sss=GetCoordString(element);
+                return $("#ms_overlay"+sss);
+            }
+            function GetCoords(element){
+                let sss=GetCoordString(element);
+                let xxx=parseInt(sss.substring(0,sss.indexOf("_")));
+                let yyy=parseInt(sss.substring(sss.indexOf("_")+1));
+                return {x:xxx,y:yyy};
+            }
+            function GetNeighbors(xxx,yyy){
+                let nArray=[];
+                let element;
+                element=GetOverlay(xxx-1,yyy-1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx  ,yyy-1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx+1,yyy-1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx-1,yyy  );if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx+1,yyy  );if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx-1,yyy+1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx  ,yyy+1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                element=GetOverlay(xxx+1,yyy+1);if(element.length!=0)nArray[nArray.length]="#"+element.attr("id");
+                return $(nArray.join(","));
+            }
+            function AdvancedCheckNeighbor(xxx,yyy){
+                let child=GetOverlay(xxx,yyy);
+                if(child.length==0)return null;// could be out of bounds
+                if(child.hasClass("ms_overlay_hidden")==false)return null;
+
+                let childNeigh=GetNeighbors(xxx,yyy);
+                let childWorkable=childNeigh.not(".ms_overlay_hidden").not(".ms_cell_flagged");
+                let childWorkableStrict=childWorkable.not(neighbors);
+                let childValue=parseInt(GetCellInstead(child).text());if(isNaN(childValue))childValue=0;
+                let childFlags=childNeigh.filter(".ms_cell_flagged");
+                let workableStrict=workable.not(childNeigh);
+
+                if(childWorkableStrict.length>0
+                && childWorkableStrict.length == childValue-childFlags.length-1){
+                    return {cell:childWorkableStrict.first(),clickType:1,actionType:"advanced"};
+                }
+                if(childWorkableStrict.length==0
+                && childValue-childFlags.length-1 == 0
+                && workableStrict.length!=0){
+                    return {cell:workableStrict.first(),clickType:0,actionType:"advanced"};
+                }
+                return null;
+            }
+        }
+        function GetAutoplayerHtml(){
+            let html=""+
+            "<div id='ms_autoplayer'>"+
+                "<fieldset><legend>Robo-Player</legend>"+
+                    "<div><button id='ms_auto_moveButton'>Make a move</button></div>"+
+                    "<div><span>Automatic:</span><input type='checkbox' id='ms_auto_setting' checked='false'/></div>"+
+                    "<div><span>Allow guessing:</span><input type='checkbox' id='ms_auto_guessing' checked='true'/></div>"+
+                    "<div><span>Speed:</span><select id='ms_auto_speed'>"+
+                        "<option value='slow'>slow</option>"+
+                        "<option value='medium'>medium</option>"+
+                        "<option value='fast'>fast</option>"+
+                        "<option value='super'>super</option>"+
+                    "</select></div>"+
+                "</fieldset>"+
+            "</div>";
+            return html;
+        }
+        function SetupAutoplayerHtml(){
+            $("#ms_auto_moveButton").click(function(){
+                if(autoplayAnimating==false){
+                    if(document.getElementById("ms_auto_guessing").checked){
+                        if(controls==false)StartNewGame_step2(0);
+                        Autoplay(true);
+                    }else{
+                        Autoplay(false);
+                    }
+                }
+            });
+
+            $("#ms_auto_setting").change(function(){
+                let vvv=GetAutoSetting();
+
+                autoplayAnimating=false;
+                $("#ms_autoplayCursor").stop(true,false).hide().css("opacity",0);
+                clearInterval(autoplayTimer);
+                clearTimeout(autoplayRestartTimer);
+                autoplayTimer=null;
+
+                if(vvv=="moving"){
+                    autoplayTimer=setInterval(function(){
+                        Autoplay(false);
+                    },100);
+                }else if(vvv=="guessing"){
+                    autoplayTimer=setInterval(function(){
+                        Autoplay(true);
+                    },100);
+                }
+            });
+            $("#ms_auto_guessing").change(function(){
+                $("#ms_auto_setting").change();
+            });
+            SetAutoSetting("off");
+            SetAutoSpeed("medium");
+        }
+        function GetAutoSetting(){
+            if(document.getElementById("ms_auto_setting").checked){
+                if(document.getElementById("ms_auto_guessing").checked){
+                    return "guessing";
+                }else{
+                    return "moving";
+                }
+            }else{
+                return "off";
+            }
+        }
+        function SetAutoSetting(sss){
+            document.getElementById("ms_auto_setting").checked = (sss=="off") ? null : true;
+            if(sss!="off"){
+                document.getElementById("ms_auto_guessing").checked = (sss=="guessing") ? true : null;
+            }
+            $("#ms_auto_setting").change();
+        }
+        function GetAutoSpeed(){
+            return document.getElementById("ms_auto_speed").value;
+        }
+        function SetAutoSpeed(sss){
+            document.getElementById("ms_auto_speed").value=sss;
+        }
+        function CheckAutoRestart(){
+            if(GetAutoSetting()=="guessing"){
+                autoplayRestartTimer=setTimeout(function(){
+                    StartNewGame_step2(0);
+                },GetAutoSpeed()=="super" ? 500 : 2000);
+            }
+        }
+
+        function CalculateHardness(){
+            let x,y;
+            let hardness=0;
+
+            let eachCardinal=1;
+            let eachDiagonal=0;
+
+            for(let y=0;y<16;y++){
+                for(let x=0;x<16;x++){
+                    if(IsBomb(x,y)==false)continue;
+
+                    if(IsBomb(x-1,y-1))hardness+=eachDiagonal;
+                    if(IsBomb(x+0,y-1))hardness+=eachCardinal;
+                    if(IsBomb(x+1,y-1))hardness+=eachDiagonal;
+
+                    if(IsBomb(x-1,y+0))hardness+=eachCardinal;
+                    if(IsBomb(x+1,y+0))hardness+=eachCardinal;
+
+                    if(IsBomb(x-1,y+1))hardness+=eachDiagonal;
+                    if(IsBomb(x+0,y+1))hardness+=eachCardinal;
+                    if(IsBomb(x+1,y+1))hardness+=eachDiagonal;
+                }
+            }
+            hardness*=0.5;
+            $("#hardness").text("Cardinality: "+hardness);
+
+            function IsBomb(x,y){
+                let ccc=GetCell(x,y);
+                if(!ccc)return false;
+                let vvv=ccc.text();
+                return vvv==ICON_BOMB;
+            }
+        }
+    </script>
+
+    <style>
+        body{
+            background-color:rgb(78, 56, 87);
+        }
+    </style>
+</head>
+<body>
+    <div id="minesweeper"></div>
+    <div id="hardness" style="color:white;margin-top:100px;text-align:center"></div>
+</body>
+</html>

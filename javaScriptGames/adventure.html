@@ -1,0 +1,3354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Kevin's Adventure</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        #adventure{
+            position:relative;
+            width:calc(54px * 12 + 70px);
+            height:calc(54px * 8 + 40px);
+            background-color:rgb(100, 60, 139);
+            margin-left:auto;margin-right:auto;
+            overflow:hidden;
+            outline:2px solid black;
+            font-family:sans-serif;
+            user-select:none;
+            text-align:center;
+            font-weight:bold;
+        }
+        #adv_title{
+            position:absolute;
+            width:100%;
+            height:40px;
+            background-color:black;
+            color:black;
+            text-shadow:0 0 3px white,
+                        0 0 3px white;
+            font-style:italic;
+            font-size:2em;
+            text-align:left;
+            text-indent:30px;
+        }
+        #adv_howToPlay{
+            position:absolute;
+            right:0;
+            width:40px;
+            height:40px;
+            background-color:dodgerblue;
+            color:white;
+            border-radius:999px;
+            font-size:2em;
+            cursor:pointer;
+            transform:scale(80%,80%);
+        }
+        #adv_healthBar{
+            position:absolute;
+            width:300px;
+            height:40px;
+            right:70px;
+            top:0px;
+            background-color:black;
+            color:red;
+        }
+        .adv_healthLow{animation:adv_healthLow 0.25s ease-out 0s infinite alternate;}
+        @keyframes adv_healthLow{
+            from{background-color:black;}
+            to{background-color:darkred;}
+        }
+        .adv_heartRed,.adv_heartDark{
+            font-size:2.5em;
+            text-shadow:0 0 5px red,
+                        0 0 5px red;}
+        .adv_heartRed{color:red;}
+        .adv_heartDark{color:black;}
+        #adv_inventory{
+            position:absolute;
+            right:0;
+            top:40px;
+            width:70px;
+            height:calc(100% - 40px);
+            background-color:black;
+            color:white;
+        }
+        #adv_inventory > .spacer{height:70px;}
+        .adv_slot{
+            margin-top:3px;
+            margin-left:auto;margin-right:auto;
+            width:54px;
+            height:54px;
+            border:1px solid rgb(64,64,64);
+        }
+        .adv_slot > img{
+            width:54px;
+            height:54px;
+        }
+        .adv_slot > span{
+            display:block;
+            width:95%;
+            text-align:right;
+            transform:translateY(-58px);
+        }
+        #adv_pauseScreen{
+            position:absolute;
+            width:100%;
+            height:calc(100% - 40px);
+            top:40px;
+            background-color:rgba(0,0,0,0.7);
+            color:white;
+            text-shadow:0 0 3px black,
+                        0 0 3px black;
+            font-style:italic;
+            font-size:1.2em;
+        }
+        #adv_pauseScreen .spacer{height:30%;}
+        #adv_message{
+            position:absolute;
+            width:calc(100% - 70px - 6px - 20px - 40px);
+            height:100px;
+            left:20px;
+            top:330px;
+            padding:10px;
+            background-color:darkblue;
+            color:rgba(255,255,255,0.8);
+            border:3px double royalblue;
+            font-size:1.25em;
+            font-weight:normal;
+            text-align:left;
+            box-shadow: 0px 0px 10px 0px black,
+                        0px 0px 10px 0px black;/* X, Y, outer extent, inner extent, color */
+        }
+        #adv_message span{
+            color:royalblue;
+            font-weight:bold;
+            font-style:italic;
+        }
+
+        #adv_layer0, #adv_layer1, #adv_layer2{
+            position:absolute;
+            top:40px;
+        }
+        #adv_layer0 div, #adv_layer0 img,
+        #adv_layer1 div, #adv_layer1 img,
+        #adv_layer2 div, #adv_layer2 img{
+            position:absolute;
+        }
+        .adv_hit{
+            outline:1px solid red;
+        }
+        .adv_item{animation:adv_item 0.5s ease-out 0s infinite alternate;}
+        @keyframes adv_item{
+            from{transform:translateY(0);}
+            to{transform:translateY(-5px);}
+        }
+        .adv_walking{animation:adv_walking 0.05s ease-out 0s infinite alternate;}
+        .adv_walkingSlower{animation:adv_walking 0.1s ease-out 0s infinite alternate;}
+        @keyframes adv_walking{
+            from{transform:translateY(0);}
+            to{transform:translateY(-4px);}
+        }
+        .adv_flashing{animation:adv_flashing 0.05s linear 0s infinite alternate;}
+        @keyframes adv_flashing{
+            0%,49%{opacity:0;}
+            50%,99%{opacity:1;}
+        }
+        .adv_snakeSpit{
+            width:12px;
+            height:12px;
+            left:calc(50% - calc(12px + 3px *2) / 2);
+            top:calc(50% - calc(12px + 3px *2) / 2);
+            border-radius:999px;
+            background-color:darkorchid;
+            border:3px dotted black;
+        }
+        .adv_fireSpit{
+            width:12px;
+            height:12px;
+            left:calc(50% - calc(12px + 3px *2) / 2);
+            top:calc(50% - calc(12px + 3px *2) / 2);
+            border-radius:999px;
+            animation: adv_fireSpit 0.1s linear 0s infinite alternate;
+            background-color:yellow;
+            border:3px dotted black;
+        }@keyframes adv_fireSpit{
+            from{background-color:orangered;}
+            to{background-color:yellow;}
+        }
+        .adv_skelArrow{
+            width:3px;
+            height:20px;
+            left:calc(50% - calc(3px + 0px *2) / 2);
+            top:calc(50% - calc(20px + 3px *1) / 2);
+            border-radius:999px;
+            background-color:mediumpurple;
+            border-top:3px solid white;
+        }
+        .adv_playerArrow{
+            width:3px;
+            height:20px;
+            left:calc(50% - calc(3px + 0px *2) / 2);
+            top:calc(50% - calc(20px + 3px *1) / 2);
+            border-radius:999px;
+            background-color:peru;
+            border-top:3px solid white;
+        }
+        .adv_glowPuddle{
+            width:20px;
+            height:20px;
+            left:calc(50% - calc(20px + 3px *2) / 2);
+            top:calc(50% - calc(20px + 3px *2) / 2);
+            border-radius:999px;
+            border:3px dotted white;
+            animation: adv_glowPuddle 4s ease-out 0s 1 normal forwards;
+            background-color:yellow;
+        }@keyframes adv_glowPuddle{
+            from{background-color:rgba(0,0,0,0);border-color:white;}
+            to{background-color:rgba(255,255,0,0.3);border-color:rgba(0,0,0,0);}
+        }
+        .adv_lavaOverlay{
+            background-color:red;
+            animation:adv_lavaOverlay 1s linear 0s infinite alternate;/*delay is overwritten*/
+            opacity:0;
+        }@keyframes adv_lavaOverlay{
+            from{opacity:0;}
+            to{opacity:0.4;}
+        }
+
+        .flipx{/* apply to img */
+            transform:scaleX(-1);
+		}
+    </style>
+    <script>
+        "use strict";
+
+        const SPRITES={
+            COINS:"sprites/CoinsGold.png",
+            POTION:"sprites/PotionLargeRose.png",
+            SWORD:"sprites/Sword16.png",
+            ARMOR:"sprites/ArmorScalemailDragonYellow_1.png",
+            XBOW:"sprites/xbow06.png",
+            KEY:"sprites/KeyCopper.png",
+            STAR:"sprites/LightStar.png",
+
+            PLAYER1:"sprites/units/HumanFighter_1.png",
+            PLAYER2:"sprites/units/HumanFighter_2.png",
+            PLAYER3:"sprites/units/HumanFighter_3.png",
+            PLAYER4:"sprites/units/HumanFighter_4.png",
+            JESTER:"sprites/units/PeopleJester.png",
+            PERSONFARMER:"sprites/units/PeopleFarmer.png",
+            PERSONLUMBERJACK:"sprites/units/People05.png",
+            PERSONRANGERMAN:"sprites/units/HumanArcher.png",
+            PERSONRANGERWOMAN:"sprites/units/FemaleRanger02.png",
+            PERSONCHILD:"sprites/units/PeopleChild.png",
+
+            SKELETON:"sprites/units/Skeleton2.png",
+            SNAKE:"sprites/units/SnakeCobraRed.png",
+            GHOST:"sprites/units/Ghost3Grey.png",
+            ARCHERSKELETON:"sprites/units/Skeleton2_1.png",
+            DINOSAUR:"sprites/units/DinosaurBeastGiantPink.png",
+            BASILISK:"sprites/units/BasiliskBrown.png",
+            REDGHOST:"sprites/units/GhostRed.png",
+            DRAGONSTATUE:"sprites/units/DragonAncientRed_1.png",
+            YETI:"sprites/units/YetiOrange.png",
+            BOSSDRAGON:"sprites/units/Dragon3Headed.png",
+            BOSSTUSK:"sprites/units/GolemDragonRed_1.png",
+            BOSSGLOW:"sprites/units/Race14Grey.png",
+
+            GRASS:"sprites/levels/floor grass.png",
+            TREE1:"sprites/levels/L2_TreePine01.png",
+            TREE2:"sprites/levels/L2_TreePine02.png",
+            WELL:"sprites/levels/L2_PoolMirky.png",
+            TOMBSTONE:"sprites/levels/L2_TombStone.png",
+            HOUSE:"sprites/levels/L2_Terrain077.png",
+            BLACK:"sprites/levels/solid black.png",
+            PIT:"sprites/levels/pit.png",
+
+            FIREOFF:"sprites/levels/L2_PoolEmbers.png",
+            FIREON:"sprites/levels/L2_PoolFire.png",
+
+            GREYBRICKFLOOR:"sprites/levels/floor black brick.png",
+            GREYBRICKWALL:"sprites/levels/wall grey brick.png",
+            GREYBRICKDOOR:"sprites/levels/wall grey doorway locked key.png",
+            BLACKBRICKWALL:"sprites/levels/wall black brick.png",
+            REDBRICKWALL:"sprites/levels/wall red brick.png",
+            REDBRICKDOOR:"sprites/levels/wall red doorway locked stars.png",
+
+            GREYCAVEWALL:"sprites/levels/wall grey cave.png",
+            GREYCAVEFLOOR:"sprites/levels/floor grey cave.png",
+            GREYROCK1:"sprites/levels/L2_MountainRocky01.png",
+            GREYROCK2:"sprites/levels/L2_MountainRocky02.png",
+            GREYROCK3:"sprites/levels/L2_MountainRocky03.png",
+            GREYROCK4:"sprites/levels/L2_MountainRocky04.png",
+            GREYROCK5:"sprites/levels/L2_StalagtiteStone.png",
+            GREYROCK6:"sprites/levels/L2_Terrain066.png",
+
+            BROWNCAVEWALL:"sprites/levels/wall brown cave.png",
+            BROWNROCK1:"sprites/levels/L2_MountainRocky01_brown.png",
+            BROWNROCK2:"sprites/levels/L2_MountainRocky02_brown.png",
+            BROWNROCK3:"sprites/levels/L2_MountainRocky03_brown.png",
+            BROWNROCK4:"sprites/levels/L2_MountainRocky04_brown.png",
+            BROWNROCK5:"sprites/levels/L2_StalagtiteStone_brown.png",
+            BROWNROCK6:"sprites/levels/L2_Terrain066_brown.png",
+
+            REDCAVEWALL:"sprites/levels/wall red cave.png",
+            REDCAVEFLOOR:"sprites/levels/floor red cave 2.png",
+            HECKFLOOR:"sprites/levels/floor red cave lava.png",
+            REDROCK1:"sprites/levels/L2_MountainRocky01_red.png",
+            REDROCK2:"sprites/levels/L2_MountainRocky02_red.png",
+            REDROCK3:"sprites/levels/L2_MountainRocky03_red.png",
+            REDROCK4:"sprites/levels/L2_MountainRocky04_red.png",
+            REDROCK5:"sprites/levels/L2_StalagtiteStone_red.png",
+            REDROCK6:"sprites/levels/L2_Terrain066_red.png",
+            REDROCK7:"sprites/levels/L2_Terrain045_red.png",
+            LAVA:"sprites/levels/floor lava.png",
+
+            BENCHSE:"sprites/levels/L2_Church01.png",
+            BENCHSW:"sprites/levels/L2_Church02.png",
+            BENCHNE:"sprites/levels/L2_Church03.png",
+            BENCHNW:"sprites/levels/L2_Church04.png",
+            COFFIN:"sprites/levels/L2_CoffinStone_1.png",
+            JUNK1:"sprites/levels/L2_Floor_Deco01.png",
+            JUNK2:"sprites/levels/L2_Floor_Deco02.png",
+            JUNK3:"sprites/levels/L2_Floor_Deco03.png",
+            CAMPFIRE:"sprites/levels/L2_Labcaul1.png",
+            BONES1:"sprites/levels/L2_SkeletonHumanMedium2_1.png",
+            BONES2:"sprites/levels/L2_SkeletonHumanSmall.png",
+            BONES3:"sprites/levels/L2_SkullFloorDeco1.png",
+            BONES4:"sprites/levels/L2_SkullFloorDeco2.png",
+            BONES5:"sprites/levels/L2_SkullFloorDeco3.png",
+            BONES6:"sprites/levels/L3_Wall_Deco82_EW.png",
+            BONES7:"sprites/levels/L3_Wall_Deco83_NS.png",
+            BONES8:"sprites/levels/L2_Wall_Deco100_NS_1.png",
+            TABLE1:"sprites/levels/L2_TableNS2.png",
+            TABLE2:"sprites/levels/L2_TableWE2.png",
+            TORCH:"sprites/levels/L2_TorchStanding02.png",
+            CANDLESW:"sprites/levels/L3_WallDeco43.png",
+            CANDLESE:"sprites/levels/L3_WallDeco44.png"
+        };
+
+        let keys=[];//keyboard
+        let adventure;
+        let layer0;
+        let layer1;
+        let layer2;
+        let player;
+
+        $(document).ready(function(){
+            Startup();
+            EnterFocus();
+        });
+        function Startup(){
+            adventure=$("#adventure");
+
+            let html="";
+            html+="<div id='adv_layer0'></div>";
+            html+="<div id='adv_layer1'></div>";
+            html+="<div id='adv_layer2'></div>";
+
+            html+="<div id='adv_title'>Kevin's Adventure</div>";
+            html+="<div id='adv_healthBar'></div>";
+            html+="<div id='adv_howToPlay'>?</div>";
+            html+="<div id='adv_inventory'>";
+                html+="<div class='spacer'></div>";
+                for(let x=0;x<6;x++){
+                    html+="<div class='adv_slot'></div>";
+                }
+            html+="</div>";
+
+            html+="<div id='adv_message'></div>";
+            html+="<input id='adv_hiddenInput' type='text' style='width:0;height:0;opacity:0;'></input>";
+            html+="<div id='adv_pauseScreen'><div class='spacer'></div>Click here to play</div>";
+            adventure.html(html);
+
+            // hidden input keyboard detection
+            adventure.click(EnterFocus);
+            $("#adv_hiddenInput").attr("onkeydown","KeyDown(event)");
+            $("#adv_hiddenInput").attr("onkeyup","KeyUp(event)");
+            $("#adv_hiddenInput").blur(ExitFocus);
+
+            $("#adv_howToPlay").click(function(){
+                let message="===========================\n"+
+                            "HOW TO PLAY\n\n"+
+                            "Use the arrow keys to walk around.\n"+
+                            "(You can also use the W-A-S-D keys)\n\n"+
+                            "===========================\n"+
+                            "CREDITS\n\n"+
+                            "Most of the artwork created by David E. Gervais, used via Creative Commons from http://pousse.rapiere.free.fr/tome/";
+                alert(message);
+            });
+
+            layer0=$("#adv_layer0");
+            layer1=$("#adv_layer1");
+            layer2=$("#adv_layer2");
+            $("#adv_message").hide();
+            CreatePlayer();
+            SetHealth(5);
+            LoadMap(STARTMAP);
+
+            $("#adv_player").css("cursor","pointer").attr("onmousedown","TryHurtPlayer(99)");
+        }
+        function EnterFocus(){
+            $("#adv_hiddenInput").focus();
+            $("#adv_pauseScreen").hide();
+        }
+        function ExitFocus(){
+            $("#adv_pauseScreen").show();
+
+            for(let x=0;x<keys.length;x++){// set all keys to false
+                keys[x]=false;
+            }
+        }
+        function KeyDown(event){
+            event.preventDefault();
+            SetKey(event.key,true);
+            $(this).val("");
+        }
+        function KeyUp(event){
+            event.preventDefault();
+            SetKey(event.key,false);
+            $(this).val("");
+        }
+        function GetKeyId(sss){
+            switch(sss){
+                case "w":return 0;
+                case "s":return 1;
+                case "a":return 2;
+                case "d":return 3;
+                case "ArrowUp":return 4;
+                case "ArrowDown":return 5;
+                case "ArrowLeft":return 6;
+                case "ArrowRight":return 7;
+                default:return 8;//dump
+            }
+        }
+        function GetKey(sss){
+            return keys[GetKeyId(sss)];
+        }
+        function SetKey(sss,bbb){
+            keys[GetKeyId(sss)]=bbb;
+        }
+        function GetAxis(sss){
+            let power=0;
+            if(sss=="x"){
+                if(GetKey("a")||GetKey("ArrowLeft")){
+                    power--;
+                }if(GetKey("d")||GetKey("ArrowRight")){
+                    power++;
+                }
+            }else if(sss=="y"){
+                if(GetKey("w")||GetKey("ArrowUp")){
+                    power--;
+                }if(GetKey("s")||GetKey("ArrowDown")){
+                    power++;
+                }
+            }else{console.log("error axis");return -1;}
+            return power;
+        }
+
+        //#################################
+
+        const cellSize=54;
+        let objs=[];
+        let advidNext=0;
+        let messageTimeout;
+        let messageInterval;
+
+        const mapWidth=cellSize*12;
+        const mapHeight=cellSize*8;
+        const mapTop=-cellSize/2;
+        const mapLeft=-cellSize/2;
+        const mapRight=mapLeft+mapWidth;
+        const mapBottom=mapTop+mapHeight;
+        let portalTop=-1;
+        let portalLeft=-1;
+        let portalRight=-1;
+        let portalBottom=-1;
+        let checkpointRoom=0;
+        let mapData=[];
+
+        function NewDiv(parent){
+            parent.append("<div></div>");
+            return parent.children().last();
+        }
+        function NewImg(parent){
+            parent.append("<img>");
+            return parent.children().last();
+        }
+        function SetSize(element,x,y){
+            element.css("width",x+"px").css("height",y+"px");
+        }
+        function SetPosition(element,x,y){
+            element.css("left",x+"px").css("top",y+"px");
+        }
+        function FindImages(src){
+            return $("img[src='"+src+"']");
+        }
+        function GetObj(element){
+            let advid=GetAdvid(element);
+            let obj=objs[advid];
+            if(obj)return obj;
+            else{
+                objs[advid]={};
+                return objs[advid];
+            }
+        }
+        function GetAdvid(element){
+            let advid=element.attr("advid");
+            if(advid)return advid;
+            else{
+                advid=advidNext;
+                element.attr("advid",advid);
+                advidNext++;
+                return advid;
+            }
+        }
+        function SetHitbox(element,x,y,size){
+            let o=GetObj(element);
+            o.x=parseFloat(element.css("left"));
+            o.y=parseFloat(element.css("top"));
+            o.hitCircle=false;
+            o.hitx=x;
+            o.hity=y;
+            o.hitSize=size;
+            o.hitRadius=GetDistance(0,0,size,size);
+            o.hitLeft=x-size;
+            o.hitRight=x+size;
+            o.hitTop=y-size;
+            o.hitBottom=y+size;
+            if(showHits)DrawHit(element,o);
+        }
+        function SetHitCircle(element,x,y,radius){
+            let o=GetObj(element);
+            o.x=parseFloat(element.css("left"));
+            o.y=parseFloat(element.css("top"));
+            o.hitCircle=true;
+            o.hitx=x;
+            o.hity=y;
+            o.hitRadius=radius;
+            o.hitLeft=x-radius;
+            o.hitRight=x+radius;
+            o.hitTop=y-radius;
+            o.hitBottom=y+radius;
+            if(showHits)DrawHit(element,o);
+        }
+        function DrawHit(element,obj){
+            if(element.filter("img").length!=0){//its an img
+                if(!obj.hit)obj.hit=NewDiv(element.parent());
+                SetPosition(obj.hit,obj.x+obj.hitLeft,obj.y+obj.hitTop);
+            }else{
+                if(!obj.hit)obj.hit=NewDiv(element);
+                SetPosition(obj.hit,obj.hitLeft,obj.hitTop);
+            }
+            obj.hit.addClass("adv_hit");
+            if(obj.hitCircle){
+                SetSize(obj.hit,obj.hitRadius*2,obj.hitRadius*2);
+                obj.hit.css("border-radius","999px");
+            }else{
+                SetSize(obj.hit,obj.hitSize*2,obj.hitSize*2);
+            }
+        }
+        function CreatePlayer(){
+            player=NewDiv(layer1).attr("id","adv_player");
+            let po=GetObj(player);
+            po.img=NewImg(player).attr("src",SPRITES.PLAYER1);
+            SetHitCircle(player,54/2,54/2,15);
+            po.x=0;
+            po.y=0;
+            po.moveSpeed=7;
+            po.onFrame=setInterval(function(){
+                if(po.deathTimer)return;
+
+                let inputX=GetAxis("x");
+                let inputY=GetAxis("y");
+
+                if(!po.stunTimer && (inputX!=0 || inputY!=0) ){
+                    let rangle=GetRangle(0,0,inputX,inputY);
+                    po.x+=AlongRangleX(rangle)*po.moveSpeed;
+                    po.y+=AlongRangleY(rangle)*po.moveSpeed;
+
+                    if(inputX<0){
+                        po.img.addClass("flipx");
+                    }else if(inputX>0){
+                        po.img.removeClass("flipx");
+                    }
+
+                    player.addClass("adv_walking");
+                }else{
+                    player.removeClass("adv_walking");
+                }
+                
+                let touch;
+                $(".adv_wall, .adv_lava, .adv_pit").each(function(){
+                    touch=GetTouch(po,$(this));
+                    if(touch){
+                        if(CHEATWALLS){
+                            ;
+                        }else{
+                            po.x+=touch.x*touch.dist;
+                            po.y+=touch.y*touch.dist;
+                        }
+                        if(touch.obj.onPlayerTouch)touch.obj.onPlayerTouch();
+                    }
+                });
+                $(".adv_item, .adv_enemy, .adv_enemy2, .adv_badBullet").each(function(){
+                    touch=GetTouch(po,$(this));
+                    if(touch){
+                        if(touch.obj.onPlayerTouch)touch.obj.onPlayerTouch();
+                    }
+                });
+
+                if(po.x<mapLeft){
+                    if(portalLeft){
+                        po.x+=mapWidth;
+                        LoadMap(portalLeft);
+                    }else po.x=mapLeft;
+                }else if(po.x>mapRight){
+                    if(portalRight){
+                        po.x-=mapWidth;
+                        LoadMap(portalRight);
+                    }else po.x=mapRight;
+                }if(po.y<mapTop){
+                    if(portalTop){
+                        po.y+=mapHeight;
+                        LoadMap(portalTop);
+                    }else po.y=mapTop;
+                }else if(po.y>mapBottom){
+                    if(portalBottom){
+                        po.y-=mapHeight;
+                        LoadMap(portalBottom);
+                    }else po.y=mapBottom;
+                }
+
+                SetPosition(player,po.x,po.y);
+            },1000/30);
+        }
+        function ActivateXbow(){
+            let o=GetObj(player);
+            o.shootSpeed=1000;
+            o.projectileSpeed=15;
+            clearInterval(o.xbowTimer);
+            o.xbowTimer=setInterval(function(){
+                if(o.deathTimer)return;
+
+                //pick the closest enemy to fire at
+                let enemyObject;
+                let enemyDist=999.0;
+                let too;
+                let tdd=0;
+                $(".adv_enemy").each(function(){
+                    too=GetObj($(this));
+                    tdd=GetDistance(o.x,o.y,too.x,too.y);
+                    if(tdd<enemyDist){
+                        enemyObject=too;
+                        enemyDist=tdd;
+                    }
+                });
+                if(!enemyObject)return;
+
+                let rangle=GetRangle(o.x,o.y,enemyObject.x,enemyObject.y);
+                let pro=FireProjectile(rangle);
+                if(pro.children().length==0){
+                    NewDiv(pro).addClass("adv_playerArrow");
+                    SetHitCircle(pro,54/2,54/2,5);
+                }
+                let deg=-RangleToDegrees(rangle)+180;
+                pro.css("transform","rotate("+deg+"deg)");
+            },o.shootSpeed);
+
+            function FireProjectile(angle){
+                let pro=GetRecycleProjectile();
+                if(!pro){
+                    pro=NewDiv(layer2);
+                    SetSize(pro,cellSize,cellSize);
+                    o.projectiles[o.projectiles.length]=pro;
+                }
+                pro.addClass("adv_goodBullet");
+                let proObj=GetObj(pro);
+                proObj.x=o.x;
+                proObj.y=o.y;
+                SetPosition(pro,o.x,o.y);
+                pro.show();
+                proObj.onFrame=setInterval(function(){
+                    proObj.x+=AlongRangleX(angle)*o.projectileSpeed;
+                    proObj.y+=AlongRangleY(angle)*o.projectileSpeed;
+                    let touch;
+                    $(".adv_wall, .adv_enemy").each(function(){
+                        touch=GetTouch(proObj,$(this));
+                        if(touch){
+                            if(touch.obj.onGoodBulletTouch)touch.obj.onGoodBulletTouch();
+                            DisableProjectile(pro,proObj);
+                        }
+                    });
+                    if(proObj.x<mapLeft || proObj.x>mapRight
+                    || proObj.y<mapTop || proObj.y>mapBottom){
+                        DisableProjectile(pro,proObj);
+                    }
+                    SetPosition(pro,proObj.x,proObj.y);
+                },1000/30);
+                return pro;
+
+                function GetRecycleProjectile(){
+                    if(!o.projectiles)o.projectiles=[];
+                    let pro;
+                    for(let i=0;i<o.projectiles.length;i++){
+                        pro=o.projectiles[i];
+                        if(pro.css("display")=="none")return pro;
+                    }return null;
+                }
+            }
+            function DisableProjectile(pro,proObj){
+                pro.removeClass("adv_goodBullet");
+                pro.hide();
+                clearInterval(proObj.onFrame);
+            }
+        }
+        function GetTouch(a,otherElement){
+            let b=GetObj(otherElement);
+            if(a.hitCircle){
+                if(b.hitCircle){
+                    // circle vs circle
+                    let dist=GetDistance(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity)-a.hitRadius-b.hitRadius;
+                    if(dist<0){
+                        let rrr=GetRangle(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity);
+                        return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};//PushAway
+                    }
+                }else{
+                    // circle vs box
+                    let dist=GetDistance(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity)-a.hitRadius-b.hitRadius;
+                    if(dist<0){
+                        if(a.x+a.hitx > b.x+b.hitLeft && a.x+a.hitx < b.x+b.hitRight){//a is within b's X range
+                            if(a.y+a.hity < b.y+b.hity){//a is above
+                                dist=(a.y+a.hitBottom)-(b.y+b.hitTop);
+                                if(dist > 0)return {obj:b,x:0,y:-1,dist:Math.abs(dist)};//PushUp
+                            }else{//a is below
+                                dist=(a.y+a.hitTop)-(b.y+b.hitBottom);
+                                if(dist < 0)return {obj:b,x:0,y:1,dist:Math.abs(dist)};//PushDown
+                            }
+                        }else if(a.y+a.hity > b.y+b.hitTop && a.y+a.hity < b.y+b.hitBottom){//a is within b's Y range
+                            if(a.x+a.hitx < b.x+b.hitx){//a is left
+                                dist=(a.x+a.hitRight)-(b.x+b.hitLeft);
+                                if(dist > 0)return {obj:b,x:-1,y:0,dist:Math.abs(dist)};//PushLeft
+                            }else{//a is right
+                                dist=(a.x+a.hitLeft)-(b.x+b.hitRight);
+                                if(dist < 0)return {obj:b,x:1,y:0,dist:Math.abs(dist)};//PushRight
+                            }
+                        }else{
+                            let rrr=GetRangle(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity);
+                            return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};//PushAway
+                        }
+                    }
+                }
+            }else{
+                if(b.hitCircle){
+                    // box vs circle, not needed
+                }else{
+                    // box vs box, not needed
+                }
+            }
+            return null;
+        }
+        function StunPlayer(milliseconds){
+            let po=GetObj(player);
+            clearTimeout(po.stunTimer);
+            po.stunTimer=setTimeout(function(){
+                po.stunTimer=null;
+            },milliseconds);
+        }
+        function SetHealth(value){
+            let html="";
+            for(let x=1;x<=5;x++){
+                if(value>=x){
+                    html+="<span class='material-icons adv_heartRed'>favorite</span>";
+                }else html+="<span class='material-icons adv_heartDark'>favorite</span>";
+            }
+            let bar=$("#adv_healthBar");
+            bar.html(html);
+            if(value<3)bar.addClass("adv_healthLow");
+            else bar.removeClass("adv_healthLow");
+            GetObj(player).health=value;
+        }
+        function TryHurtPlayer(value){
+            if(value<=0)return;
+            let po=GetObj(player);
+            if(po.deathTimer)return;
+            if(po.flashTimer)return;
+            po.health-=value;
+            if(po.health<0)po.health=0;
+            SetHealth(po.health);
+            if(po.health==0){
+                player.hide();
+                SetPosition(NewImg(layer0).attr("src",SPRITES.BONES1),po.x,po.y);
+                po.deathTimer=setTimeout(function(){
+                    SetHealth(5);
+                    po.x=0;
+                    po.y=0;
+                    MapDataReset();
+                    LoadMap(checkpointRoom);
+                    SetPosition(player,po.x,po.y);
+                    player.show();
+                    po.deathTimer=null;
+                },1000*4);//death
+            }else{
+                player.addClass("adv_flashing");
+                po.flashTimer=setTimeout(function(){
+                    player.removeClass("adv_flashing");
+                    po.flashTimer=null;
+                },1000);
+            }
+        }
+        function GetRangle(ax,ay,bx,by){
+            return Math.atan2(bx-ax,by-ay);
+        }
+        function AlongRangleX(rangle){
+            return Math.sin(rangle);
+        }
+        function AlongRangleY(rangle){
+            return Math.cos(rangle);
+        }
+        function RangleToDegrees(rangle){
+            return rangle*180/Math.PI;
+        }
+        function DegreesToRangle(deg){
+            return deg*Math.PI/180.0;
+        }
+        function GetDistance(ax,ay,bx,by){
+            return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
+        }
+        function ShowMessage(sss){
+            let mess=$("#adv_message");
+            let po=GetObj(player);
+            if(po.y+cellSize/2 < cellSize*5){
+                mess.css("top","330px");
+            }else{
+                mess.css("top","60px");
+            }
+            mess.html(sss).show();
+            StunPlayer(1000*2);
+            if(messageTimeout){clearTimeout(messageTimeout);messageTimeout=null;}
+            if(messageInterval){clearTimeout(messageInterval);messageInterval=null;}
+            messageTimeout=setTimeout(function(){
+                messageInterval=setInterval(function(){
+                    let inputX=GetAxis("x");
+                    let inputY=GetAxis("y");
+                    if(inputX!=0 || inputY!=0){
+                        $("#adv_message").html("").hide();
+                        if(messageTimeout){clearTimeout(messageTimeout);messageTimeout=null;}
+                        if(messageInterval){clearTimeout(messageInterval);messageInterval=null;}
+                    }
+                },1000/30);
+            },1000*2);
+        }
+        function MapDataReset(){
+            //reset all potions
+            for(let i=1;i<mapData.length;i++){
+                if(!mapData[i])continue;
+                if(mapData[i]["POTION"])mapData[i]["POTION"]=false;
+            }
+            
+        }
+        
+        function LoadMap(id){
+            if(!mapData[id])mapData[id]={};
+
+            let currentFire=0;
+            let fires=new Array();
+
+            // clear, but make player obj persist
+            let playerObj=GetObj(player);
+            ClearObjsTimers();
+            objs=[];
+            objs[GetAdvid(player)]=playerObj;
+            advidNext=objs.length;
+            playerObj.projectiles=[];// reset xbow arrows
+
+            layer0.html("");
+            //layer1.html("");
+            layer2.html("");
+            SetPortals(null,null,null,null);
+            Load();
+
+            function ClearObjsTimers(){
+                let o;let count=0;
+                for(let k in objs){
+                    o=objs[k];
+                    if(o.onFrame && o!=playerObj){count++;
+                        clearInterval(o.onFrame);
+                        clearTimeout(o.onFrame);
+                        clearTimeout(o.onFrame2);
+                        clearInterval(o.onFrame2);
+                        clearTimeout(o.flashTimer);
+                    }
+                }
+            }
+            function SetPortals(top,right,bottom,left){
+                portalTop=top;
+                portalLeft=left;
+                portalRight=right;
+                portalBottom=bottom;
+            }
+            function CheckpointPlayerPosition(x,y){
+                checkpointRoom=id;
+                if(playerObj.x==0 && playerObj.y==0){
+                    playerObj.x=cellSize*x;
+                    playerObj.y=cellSize*y;
+                }
+            }
+            function QuickBuildFull(p){
+                for(let y=0;y<8;y++){
+                    for(let x=0;x<12;x++){
+                        Build(p,x,y);
+                    }
+                }
+            }
+            function QuickBuild(data){
+                let i=0;
+                let x,y,n,p;
+                for(y=0;y<8;y++){
+                    for(x=0;x<12;x++){
+
+                        for(n=1;n<=2;n++){//n is number of characters to view emojis (some are 1, some are 2)
+                            p="none";
+                            switch(data.map.substr(i,n)){//🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                                case "🔴":p=data.red;if(p)Build(p,x,y);break;
+                                case "🟠":p=data.orange;if(p)Build(p,x,y);break;
+                                case "🟡":p=data.yellow;if(p)Build(p,x,y);break;
+                                case "🟢":p=data.green;if(p)Build(p,x,y);break;
+                                case "🔵":p=data.blue;if(p)Build(p,x,y);break;
+                                case "🟣":p=data.purple;if(p)Build(p,x,y);break;
+                                case "⚫":p=data.black;if(p)Build(p,x,y);break;
+                                case "⚪":p=data.white;if(p)Build(p,x,y);break;
+                                case "🟤":p=data.brown;if(p)Build(p,x,y);break;
+                                case "⭕":p=data.circle;if(p)Build(p,x,y);break;
+                            }
+                            if(p!="none"){//found one
+                                i+=n;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            function Build(p,x,y){
+                function Img(parent){
+                    let e=NewImg(parent).attr("src",SPRITES[p]);
+                    SetPosition(e,x*cellSize,y*cellSize);
+                    return e;
+                }
+                function Div(parent){
+                    element=NewDiv(parent);
+                    o=GetObj(element);
+                    o.img=NewImg(element).attr("src",SPRITES[p]);
+                    SetPosition(element,x*cellSize,y*cellSize);
+                    o.x=cellSize*x;
+                    o.y=cellSize*y;
+                }
+                function FireProjectile(angle,isPuddle){
+                    let pro=GetRecycleProjectile();
+                    if(!pro){
+                        pro=NewDiv( (isPuddle) ? layer0 : layer2);
+                        SetSize(pro,cellSize,cellSize);
+                        o.projectiles[o.projectiles.length]=pro;
+                    }
+                    pro.addClass("adv_badBullet");
+                    let proObj=GetObj(pro);
+                    proObj.x=o.x;
+                    proObj.y=o.y;
+                    SetPosition(pro,o.x,o.y);
+                    pro.show();
+                    if(!isPuddle){
+                        proObj.onFrame=setInterval(function(){
+                            proObj.x+=AlongRangleX(angle)*o.projectileSpeed;
+                            proObj.y+=AlongRangleY(angle)*o.projectileSpeed;
+                            let touch;
+                            $(".adv_wall").not(element).each(function(){
+                                touch=GetTouch(proObj,$(this));
+                                if(touch){
+                                    DisableProjectile(pro,proObj);
+                                }
+                            });
+                            if(proObj.x<mapLeft || proObj.x>mapRight
+                            || proObj.y<mapTop || proObj.y>mapBottom){
+                                DisableProjectile(pro,proObj);
+                            }
+                            SetPosition(pro,proObj.x,proObj.y);
+                        },1000/30);
+                    }
+                    return pro;
+
+                    function GetRecycleProjectile(){
+                        if(!o.projectiles)o.projectiles=[];
+                        let pro;
+                        for(let i=0;i<o.projectiles.length;i++){
+                            pro=o.projectiles[i];
+                            if(pro.css("display")=="none")return pro;
+                        }return null;
+                    }
+                }
+                function DisableProjectile(pro,proObj){
+                    pro.removeClass("adv_badBullet");
+                    pro.hide();
+                    clearInterval(proObj.onFrame);
+                }
+                function TryHurtEnemy(value){
+                    if(value==0.5);
+                    else if(o.flashTimer)return;
+
+                    o.health-=value;
+                    if( (value==0.5 && o.health>-1) || o.health>0){
+                        element.addClass("adv_flashing");
+                        clearTimeout(o.flashTimer);
+                        o.flashTimer=setTimeout(function(){
+                            element.removeClass("adv_flashing");
+                            o.flashTimer=null;
+                        },1001);
+                    }else{
+                        clearTimeout(o.onFrame);
+                        clearInterval(o.onFrame);
+                        clearInterval(o.onFrame2);
+                        clearTimeout(o.onFrame2);
+                        clearTimeout(o.flashTimer);
+                        element.remove();
+                    }
+                }
+                function KnockbackPlayer(){
+                    let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
+                    playerObj.x+=AlongRangleX(rangle)*8;
+                    playerObj.y+=AlongRangleY(rangle)*8;
+                }
+                function GetStandardPlayerTouch(){
+                    return function(){
+                        if(playerObj.SWORD){
+                            if(o.health<=0){
+                                TryHurtEnemy(1);
+                                Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                return;
+                            }
+                            TryHurtEnemy(1);
+                            if(o.health<=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
+                        }
+                        KnockbackPlayer();
+                        TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                    };
+                }
+                function GetStandardGoodBulletTouch(){
+                    return function(){
+                        TryHurtEnemy(0.5);
+                        if(o.health<=-1){
+                            Build("BONES8",o.x/cellSize,o.y/cellSize);
+                        }
+                    };
+                }
+
+                let element,o;
+                switch(p){
+                    case "GRASS":
+                    case "BLACK":
+                        element=Img(layer0);break;
+                    case "LAVA":
+                        element=Img(layer0);
+                        element.addClass("adv_lava");
+                        SetHitbox(element,54/2,54/2-5,54/2-6);
+                        o=GetObj(element);
+                        o.onPlayerTouch=function(){
+                            KnockbackPlayer();
+                            StunPlayer(500);
+                            TryHurtPlayer(1);
+                        };
+                        let overlay=NewDiv(layer0).addClass("adv_lavaOverlay");
+                        SetPosition(overlay,x*cellSize,y*cellSize);
+                        SetSize(overlay,cellSize,cellSize);
+                        let delay= ((x+y)*0.25) %4;
+                        overlay.css("animation-delay",delay+"s");
+                        break;
+                    case "PIT":
+                        element=Img(layer0);
+                        element.addClass("adv_pit");
+                        SetHitbox(element,54/2,54/2-5,54/2-6);
+                        break;
+                    case "TREE1"://one tree, no hitbox
+                        element=Img(layer0);break;
+                    case "TREE2"://four trees
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitbox(element,54/2,54/2,54/2);break;
+                    case "WELL":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+3,24);break;
+                    case "TOMBSTONE":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+8,15);break;
+                    case "HOUSE":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54-5,54,54-15);
+                        SetSize(element,54*2,54*2);break;
+                    case "GREYBRICKFLOOR":
+                        element=Img(layer0);break;
+                    case "GREYBRICKWALL":
+                    case "BLACKBRICKWALL":
+                    case "REDBRICKWALL":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitbox(element,54/2,54/2,54/2);break;
+                    case "GREYBRICKDOOR":
+                        if(mapData[id][p])return;
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitbox(element,54/2,54/2,54/2);
+                        GetObj(element).onPlayerTouch=function(){
+                            if($(".adv_slot").eq(4-1).html().length!=0){
+                                $(".adv_slot").eq(4-1).html("");
+                                element.remove();
+                                mapData[id][p]=true;
+                                playerObj.KEY=false;
+                                ShowMessage("The key unlocked the castle door!");
+                            }
+                        };break;
+                    case "REDBRICKDOOR":
+                        if(mapData[id][p])return;
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitbox(element,54/2,54/2,54/2);
+                        GetObj(element).onPlayerTouch=function(){
+                            if($(".adv_slot").eq(6-1).html().length!=0){
+                                $(".adv_slot").eq(4-1).html("");
+                                $(".adv_slot").eq(5-1).html("");
+                                $(".adv_slot").eq(6-1).html("");
+                                element.remove();
+                                mapData[id][p]=true;
+                                playerObj.STAR=false;
+                                ShowMessage("The three stars unlocked the door!");
+                            }
+                        };break;
+                    case "GREYCAVEWALL":
+                    case "BROWNCAVEWALL":
+                    case "REDCAVEWALL":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitbox(element,54/2,54/2,54/2);break;
+                    case "GREYCAVEFLOOR":
+                    case "REDCAVEFLOOR":
+                    case "HECKFLOOR":
+                        element=Img(layer0);break;
+                    case "GREYROCK1"://large city skyline
+                    case "BROWNROCK1":
+                    case "REDROCK1":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2-5,54/2-5);break;
+                    case "GREYROCK2"://large boulder
+                    case "BROWNROCK2":
+                    case "REDROCK2":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-10);break;
+                    case "GREYROCK3"://large cone mountain
+                    case "BROWNROCK3":
+                    case "REDROCK3":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+5,54/2-10);break;
+                    case "GREYROCK4"://medium boulder
+                    case "BROWNROCK4":
+                    case "REDROCK4":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-15);break;
+                    case "GREYROCK5"://stalagtites
+                    case "BROWNROCK5":
+                    case "REDROCK5":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-10);break;
+                    case "GREYROCK6"://large round rocks
+                    case "BROWNROCK6":
+                    case "REDROCK6":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+5,54/2-10);break;
+                    case "REDROCK7"://large volcano
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+5,54/2-10);break;
+                    case "BENCHSE"://facing bottom-right
+                    case "BENCHSW"://facing bottom-left
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-10);break;
+                    case "BENCHNE"://facing top-right
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2-5,54/2+5,54/2-10);break;
+                    case "BENCHNW"://facing top-left
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2+5,54/2+5,54/2-10);break;
+                    case "COFFIN":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+5,54/2-12);break;
+                    case "JUNK1"://medium with barrel
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+3,54/2-10);break;
+                    case "JUNK2"://large with crates
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-5);break;
+                    case "JUNK3"://medium with sack
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+3,54/2-13);break;
+                    case "CAMPFIRE":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2+3,54/2-3,54/2-7);break;
+                    case "BONES1"://skeleton
+                    case "BONES2"://skeleton smaller
+                    case "BONES6"://skeleton on wall facing bottom-right
+                    case "BONES7"://skeleton on wall facing bottom-left
+                    case "BONES8"://small pieces
+                        element=Img(layer0);break;
+                    case "BONES3"://medium pile of skulls
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+5,54/2-15);break;
+                    case "BONES4"://large skull/tusk ornament
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2-3,54/2-3,54/2-7);break;
+                    case "BONES5"://large tower of bones
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2-1,54/2-1,54/2-9);break;
+                    case "TABLE1"://backslash
+                    case "TABLE2"://forwardslash
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-7);break;
+                    case "TORCH"://torch
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2-13,54/2-15);break;
+                    case "CANDLESW"://rack facing bottom-left
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2-8,54/2+5,54/2-13);break;
+                    case "CANDLESE"://rack facing bottom-right
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2+8,54/2+5,54/2-13);break;
+                    case "FIREOFF":
+                        if(fires.length==0){
+                            mapData[id]["fireFunction"]=function(){
+                                ShowMessage("The fires are all lit.");
+                            };
+                        }
+                        Div(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2+3,24);
+                        o=GetObj(element);
+                        o.fireId=fires.length;
+                        fires[fires.length]=element;
+                        if(mapData[id]["fireComplete"]){
+                            o.img.attr("src",SPRITES.FIREON);
+                        }else{
+                            mapData[id]["fireComplete"]=false;
+                            o.onPlayerTouch=function(){
+                                if(o.onFrame)return;// touch timer
+                                if(o.img.attr("src")==SPRITES.FIREON)return;
+
+                                if(o.fireId == currentFire){
+                                    currentFire++;
+                                    o.img.attr("src",SPRITES.FIREON);
+                                    if(currentFire>=fires.length){
+                                        mapData[id]["fireComplete"]=true;
+                                        mapData[id]["fireFunction"]();
+                                        o.onPlayerTouch=null;
+                                    }
+                                    o.onFrame=setTimeout(function(){
+                                        o.onFrame=null;
+                                    },500);
+                                }else{
+                                    currentFire=0;
+                                    for(let i=0;i<fires.length;i++){
+                                        GetObj(fires[i]).img.attr("src",SPRITES.FIREOFF);
+                                    }
+                                    o.img.attr("src",SPRITES.FIREON);
+                                    o.onFrame=setTimeout(function(){
+                                        o.onFrame=null;
+                                        o.img.attr("src",SPRITES.FIREOFF);
+                                        o.onFrame=setTimeout(function(){
+                                            o.onFrame=null;
+                                        },500);
+                                    },200);
+                                }
+                            };
+                        }
+                        break;
+                    //::::::::::::::::::::::::::::::::::::::::::
+                    case "COINS":
+                    case "POTION":
+                    case "SWORD":
+                    case "ARMOR":
+                    case "XBOW":
+                    case "KEY":
+                    case "STAR":
+                        if(mapData[id][p])return;
+
+                        element=Img(layer0);
+                        element.addClass("adv_item");
+                        if(p=="ARMOR"){
+                            SetHitCircle(element,54/2,54/2,5);
+                        }else{
+                            SetPosition(element,x*cellSize+11,y*cellSize+11);
+                            if(p=="STAR"){
+                                SetHitCircle(element,32/2,32/2,15);
+                            }else SetHitCircle(element,32/2,32/2,5);
+                        }
+                        GetObj(element).onPlayerTouch=function(){
+                            let slots=$(".adv_slot");
+                            if(p=="COINS"){
+                                let slot=slots.eq(1-1);
+                                if(slot.html().length==0){
+                                    slot.html("<img src='"+SPRITES[p]+"'><span></span>");
+                                }
+                                let span=slot.children().filter("span");
+                                let spanValue=parseInt(span.text());
+                                if(isNaN(spanValue))spanValue=0;
+                                span.text(""+(spanValue+10));
+                            }else if(p=="POTION"){
+                                if(playerObj.health==5)return;
+                                SetHealth(5);
+                            }else if(p=="SWORD"){
+                                playerObj.img.attr("src",SPRITES.PLAYER2);
+                                ShowMessage("You got a sword!");
+                                slots.eq(2-1).html("<img src='"+SPRITES[p]+"'>");
+                            }else if(p=="ARMOR"){
+                                playerObj.img.attr("src",SPRITES.PLAYER3);
+                                ShowMessage("You got armor!");
+                                slots.eq(3-1).html("<img src='"+SPRITES[p]+"'>");
+                            }else if(p=="XBOW"){
+                                playerObj.img.attr("src",SPRITES.PLAYER4);
+                                ShowMessage("You got a crossbow!");
+                                slots.eq(2-1).html("<img src='"+SPRITES[p]+"'>");
+                                playerObj["SWORD"]=false;
+                                ActivateXbow();
+                            }else if(p=="KEY"){
+                                ShowMessage("You got the castle key!");
+                                slots.eq(4-1).html("<img src='"+SPRITES[p]+"'>");
+                            }else if(p=="STAR"){
+                                ShowMessage("You got a magic star from the boss!");
+                                
+                                if(slots.eq(4-1).html().length==0){
+                                    slots.eq(4-1).html("<img src='"+SPRITES[p]+"'>");
+                                }else if(slots.eq(5-1).html().length==0){
+                                    slots.eq(5-1).html("<img src='"+SPRITES[p]+"'>");
+                                }else if(slots.eq(6-1).html().length==0){
+                                    slots.eq(6-1).html("<img src='"+SPRITES[p]+"'>");
+                                }
+                            }
+                            element.remove();
+                            mapData[id][p]=true;
+                            playerObj[p]=true;
+                        };break;
+                    //::::::::::::::::::::::::::::::::::::::::::
+                    case "JESTER":
+                    case "PERSONFARMER":
+                    case "PERSONLUMBERJACK":
+                    case "PERSONRANGERMAN":
+                    case "PERSONRANGERWOMAN":
+                    case "PERSONCHILD":
+                        element=Img(layer0);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,54/2-12);
+                        o=GetObj(element);
+                        o.message="";
+                        o.messagePrefix="";
+                        if(p=="JESTER")o.messagePrefix="<span>Jester</span><br>";
+                        else if(p=="PERSONFARMER")o.messagePrefix="<span>Farmer</span><br>";
+                        else if(p=="PERSONLUMBERJACK")o.messagePrefix="<span>Lumberjack</span><br>";
+                        else if(p=="PERSONRANGERMAN")o.messagePrefix="<span>Hunter</span><br>";
+                        else if(p=="PERSONRANGERWOMAN")o.messagePrefix="<span>Mother</span><br>";
+                        else if(p=="PERSONCHILD")o.messagePrefix="<span>Child</span><br>";
+                        o.onPlayerTouch=function(){
+                            if(o.message=="")return;
+                            KnockbackPlayer();
+                            ShowMessage(o.messagePrefix + o.message);
+                        };break;
+                    //::::::::::::::::::::::::::::::::::::::::::
+                    case "SKELETON":
+                    case "YETI":
+                    case "GHOST"://moveSpeed, points=[0,0  1,1  2,2]
+                        Div(layer2);
+                        if(p=="SKELETON"){
+                            element.addClass("adv_enemy");
+                            o.moveSpeed=4;
+                            o.health=0;
+                            o.attack=1;
+                            SetHitCircle(element,54/2,54/2,14);
+                        }else if(p=="YETI"){
+                            element.addClass("adv_enemy");
+                            o.img.css("transform","scale(125%,125%)");
+                            o.moveSpeed=6;
+                            o.health=2;
+                            o.attack=2;
+                            SetHitCircle(element,54/2,54/2,20);
+                        }else if(p=="GHOST"){
+                            element.addClass("adv_enemy2");
+                            o.moveSpeed=3;
+                            o.attack=1;
+                            SetHitCircle(element,54/2,54/2,14);
+                        }
+                        o.points=[x,y,  x+1,y,  x,y];
+                        o.currentPoint=0;
+                        o.delayStart=0;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                if(p=="SKELETON")element.addClass("adv_walkingSlower");
+                                else if(p=="YETI")element.addClass("adv_walking");
+                                else if(p=="GHOST");
+
+                                o.onFrame=setInterval(function(){
+                                    let px=o.points[o.currentPoint*2]*cellSize;
+                                    let py=o.points[o.currentPoint*2+1]*cellSize;
+                                    let dist=GetDistance(o.x,o.y,px,py);
+                                    let power=o.moveSpeed;
+                                    if(dist <= o.moveSpeed){
+                                        o.x=px;
+                                        o.y=py;
+                                        o.currentPoint++;
+                                        if(o.currentPoint >= o.points.length/2)o.currentPoint=0;
+                                        px=o.points[o.currentPoint*2];
+                                        py=o.points[o.currentPoint*2+1];
+                                        power-=dist;
+                                    }
+                                    let rangle=GetRangle(o.x,o.y,px,py);
+                                    o.x+=AlongRangleX(rangle)*power;
+                                    o.y+=AlongRangleY(rangle)*power;
+                                    SetPosition(element,o.x,o.y);
+                                },1000/30);
+                            },o.delayStart);
+                        },1);
+                        if(p=="GHOST"){
+                            o.onPlayerTouch=function(){
+                                KnockbackPlayer();
+                                TryHurtPlayer(o.attack);
+                            };
+                        }else if(p=="YETI"){
+                            o.onPlayerTouch=function(){
+                                if(playerObj.SWORD){
+                                    if(o.health<=0){
+                                        TryHurtEnemy(1);
+                                        Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                        return;
+                                    }
+                                    TryHurtEnemy(1);
+                                    if(o.health<=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                }
+                                KnockbackPlayer();
+                                StunPlayer(200);
+                                TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                            };
+                        }else{
+                            o.onPlayerTouch=GetStandardPlayerTouch();
+                        }
+                        o.onGoodBulletTouch=GetStandardGoodBulletTouch();
+                        break;
+                    case "SNAKE"://shootSpeed, projectileSpeed, shootAngle
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,14);
+                        o.shootAngle=GetRangle(0,0,1,0);
+                        o.shootSpeed=1000*1.5;
+                        o.projectileSpeed=7;
+                        o.health=0;
+                        o.attack=1;
+                        o.delayStart=0;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            if(o.shootAngle>=0)o.img.addClass("flipx");
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                let func=function(){
+                                    let pro=FireProjectile(o.shootAngle);
+                                    if(pro.children().length==0){
+                                        NewDiv(pro).addClass("adv_snakeSpit");
+                                        SetHitCircle(pro,54/2,54/2,7);
+                                        let proObj=GetObj(pro);
+                                        proObj.onPlayerTouch=function(){
+                                            KnockbackPlayer();
+                                            if(!playerObj.ARMOR)TryHurtPlayer(1);
+                                            DisableProjectile(pro,proObj);
+                                        };
+                                    }
+                                };
+                                o.onFrame=setInterval(func,o.shootSpeed);
+                                func();// fire once immediately
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=GetStandardPlayerTouch();
+                        o.onGoodBulletTouch=GetStandardGoodBulletTouch();
+                        break;
+                    case "ARCHERSKELETON"://shootSpeed, projectileSpeed
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,14);
+                        o.shootSpeed=1000*1.5;
+                        o.projectileSpeed=10;
+                        o.health=0;
+                        o.attack=1;
+                        o.delayStart=1500;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                let func=function(){
+                                    let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
+                                    let pro=FireProjectile(rangle);
+                                    if(pro.children().length==0){
+                                        NewDiv(pro).addClass("adv_skelArrow");
+                                        SetHitCircle(pro,54/2,54/2,5);
+                                        let proObj=GetObj(pro);
+                                        proObj.onPlayerTouch=function(){
+                                            KnockbackPlayer();
+                                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                                            DisableProjectile(pro,proObj);
+                                        };
+                                    }
+                                    let deg=-RangleToDegrees(rangle)+180;
+                                    pro.css("transform","rotate("+deg+"deg)");
+                                };
+                                o.onFrame=setInterval(func,o.shootSpeed);
+                                func();// fire once immediately
+
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=GetStandardPlayerTouch();
+                        o.onGoodBulletTouch=GetStandardGoodBulletTouch();
+                        break;
+                    case "DRAGONSTATUE"://shootSpeed, projectileSpeed, shootAngle
+                        Div(layer2);
+                        element.addClass("adv_wall");
+                        SetHitCircle(element,54/2,54/2,17);
+                        o.shootAngle=GetRangle(0,0,1,0);
+                        o.shootSpeed=1000*1.5;
+                        o.projectileSpeed=7;
+                        o.attack=2;
+                        o.delayStart=0;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            if(o.shootAngle>=0)o.img.addClass("flipx");
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                let func=function(){
+                                    let pro=FireProjectile(o.shootAngle);
+                                    if(pro.children().length==0){
+                                        NewDiv(pro).addClass("adv_fireSpit");
+                                        SetHitCircle(pro,54/2,54/2,7);
+                                        let proObj=GetObj(pro);
+                                        proObj.onPlayerTouch=function(){
+                                            KnockbackPlayer();
+                                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                                            DisableProjectile(pro,proObj);
+                                        };
+                                    }
+                                };
+                                o.onFrame=setInterval(func,o.shootSpeed);
+                                func();// fire once immediately
+                            },o.delayStart);
+                        },1);
+                        break;
+                    case "DINOSAUR"://moveSpeed, startAngle
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,14);
+                        //o.img.css("transform","scale(125%,125%)");
+                        o.moveSpeed=5;
+                        o.startAngle=GetRangle(0,0,1,-1);
+                        o.bounceThresh=0.5;
+                        o.health=1;
+                        o.attack=2;
+                        o.delayStart=0;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                o.moveX=AlongRangleX(o.startAngle);
+                                o.moveY=AlongRangleY(o.startAngle);
+                                element.addClass("adv_walking");
+                                o.onFrame=setInterval(function(){
+                                    o.x+=o.moveX*o.moveSpeed;
+                                    o.y+=o.moveY*o.moveSpeed;
+                                    let touch;
+                                    $(".adv_wall, .adv_lava, .adv_pit").each(function(){
+                                        touch=GetTouch(o,$(this));
+                                        if(touch){
+                                            o.x+=touch.x*touch.dist;
+                                            o.y+=touch.y*touch.dist;
+
+                                            let ob=GetObj($(this));
+                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);// if circle, reverse???
+                                            else ReflectBox(touch.x,touch.y);
+                                        }
+                                    });
+                                    if(o.x<mapLeft){o.x=mapLeft;Reflect(1,0);}
+                                    else if(o.x>mapRight){o.x=mapRight;Reflect(-1,0);}
+                                    if(o.y<mapTop){o.y=mapTop;Reflect(0,1);}
+                                    else if(o.y>mapBottom){o.y=mapBottom;Reflect(0,-1);}
+
+                                    SetPosition(element,o.x,o.y);
+
+                                    function Reflect(xxx,yyy){
+                                        if(o.moveX<0){if(xxx>o.bounceThresh)o.moveX=-o.moveX;}
+                                        else if(o.moveX>0){if(xxx<-o.bounceThresh)o.moveX=-o.moveX;}
+                                        if(o.moveY<0){if(yyy>o.bounceThresh)o.moveY=-o.moveY;}
+                                        else if(o.moveY>0){if(yyy<-o.bounceThresh)o.moveY=-o.moveY;}
+                                        if(o.moveX<0)o.img.addClass("flipx");
+                                        else o.img.removeClass("flipx");
+                                    }
+                                    function ReflectBox(xxx,yyy){
+                                        if(xxx==-1 || xxx==0 || xxx==1){
+                                            if(yyy==-1 || yyy==0 || yyy==1){
+                                                Reflect(xxx,yyy);
+                                            }
+                                        }
+                                    }
+                                },1000/30);
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=GetStandardPlayerTouch();
+                        o.onGoodBulletTouch=GetStandardGoodBulletTouch();
+                        break;
+                    case "REDGHOST"://moveSpeed
+                        Div(layer2);
+                        element.addClass("adv_enemy2");
+                        SetHitCircle(element,54/2,54/2,14);
+                        o.moveSpeed=2.5;
+                        o.attack=1;
+                        o.delayStart=1000;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                o.onFrame=setInterval(function(){
+                                    let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
+                                    o.x+=AlongRangleX(rangle)*o.moveSpeed;
+                                    o.y+=AlongRangleY(rangle)*o.moveSpeed;
+                                    SetPosition(element,o.x,o.y);
+                                },1000/30);
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=function(){
+                            KnockbackPlayer();
+                            TryHurtPlayer(o.attack);
+                        };
+                        break;
+                    case "BOSSGLOW"://moveSpeed, shootSpeed
+                        if(mapData[id]["STAR"])return;
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,20);
+                        o.img.css("transform","scale(125%,125%)");
+                        o.moveSpeed=5.5;
+                        o.movingHorizontal=true;
+                        o.shootSpeed=150;
+                        o.health=15;
+                        o.attack=2;
+                        o.delayStart=2000;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+                                
+                                element.addClass("adv_walking");
+                                o.movingHorizontal=!o.movingHorizontal;
+                                SwitchDirection();
+                                o.onFrame=setInterval(function(){
+                                    let axisDiff=0.0;
+                                    if(o.movingHorizontal){
+                                        axisDiff=playerObj.x-o.x;
+                                        if(o.switchAxisDiff<0){
+                                            o.x-=o.moveSpeed;
+                                            if(axisDiff>=0)SwitchDirection();
+                                        }else{
+                                            o.x+=o.moveSpeed;
+                                            if(axisDiff<0)SwitchDirection();
+                                        }
+                                    }else{
+                                        axisDiff=playerObj.y-o.y;
+                                        if(o.switchAxisDiff<0){
+                                            o.y-=o.moveSpeed;
+                                            if(axisDiff>=0)SwitchDirection();
+                                        }else{
+                                            o.y+=o.moveSpeed;
+                                            if(axisDiff<0)SwitchDirection();
+                                        }
+                                    }
+                                    //if(Math.random()>0.999)SwitchDirection();
+                                    SetPosition(element,o.x,o.y);
+                                },1000/30);
+
+                                function SwitchDirection(){
+                                    o.movingHorizontal=!o.movingHorizontal;
+                                    if(o.movingHorizontal)o.switchAxisDiff=playerObj.x-o.x;
+                                    else o.switchAxisDiff=playerObj.y-o.y;
+                                }
+
+                                o.onFrame2=setInterval(FirePuddle,o.shootSpeed);
+                                FirePuddle();
+
+                                function FirePuddle(){
+                                    let pro=FireProjectile(0,true);// true means "isPuddle"
+                                    let proObj=GetObj(pro);
+                                    if(pro.children().length==0){
+                                        NewDiv(pro).addClass("adv_glowPuddle");
+                                        SetHitCircle(pro,54/2,54/2,8);
+                                        proObj.onPlayerTouch=function(){
+                                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                                        };
+                                    }
+                                    proObj.onFrame=setTimeout(function(){
+                                        DisableProjectile(pro,proObj);
+                                    },1000*4);
+                                };
+
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=function(){
+                            if(playerObj.SWORD){
+                                TryHurtEnemy(1);
+                                if(o.health<=0){
+                                    Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                    Build("STAR",o.x/cellSize,o.y/cellSize);
+                                    return;
+                                }
+                            }
+                            KnockbackPlayer();
+                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                        };
+                        o.onGoodBulletTouch=function(){
+                            TryHurtEnemy(0.5);
+                            if(o.health<=-1){
+                                Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                Build("STAR",o.x/cellSize,o.y/cellSize);
+                            }else if(o.health<7){
+                                o.moveSpeed=8;
+                            }
+                        };
+                        break;
+                    case "BOSSTUSK"://moveSpeed
+                        if(mapData[id]["STAR"])return;
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,20);
+                        o.img.css("transform","scale(125%,125%)");
+                        o.moveSpeed=8;
+                        o.health=15;
+                        o.attack=3;
+                        o.delayStart=2000;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+                                
+                                Charge();
+
+                                function Charge(){
+                                    element.addClass("adv_walking");
+                                    o.onFrame=setInterval(function(){
+                                        let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
+                                        o.x+=AlongRangleX(rangle)*o.moveSpeed;
+                                        o.y+=AlongRangleY(rangle)*o.moveSpeed;
+                                        SetPosition(element,o.x,o.y);
+                                    },1000/30);
+                                    o.onFrame2=setTimeout(function(){
+                                        clearInterval(o.onFrame);
+                                        element.removeClass("adv_walking");
+                                        o.onFrame2=setTimeout(function(){
+                                            Charge();
+                                        },1500);// wait time
+                                    },1000);// charge time
+                                }
+
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=function(){
+                            if(playerObj.SWORD){
+                                TryHurtEnemy(1);
+                                if(o.health<=0){
+                                    Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                    Build("STAR",o.x/cellSize,o.y/cellSize);
+                                    return;
+                                }
+                            }
+                            KnockbackPlayer();
+                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                        };
+                        o.onGoodBulletTouch=function(){
+                            TryHurtEnemy(0.5);
+                            if(o.health<=-1){
+                                Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                Build("STAR",o.x/cellSize,o.y/cellSize);
+                            }
+                        };
+                        break;
+                    case "BOSSDRAGON"://moveSpeed, startAngle
+                        if(mapData[id]["STAR"])return;
+                        Div(layer2);
+                        element.addClass("adv_enemy");
+                        SetHitCircle(element,54/2,54/2,20);
+                        o.img.css("transform","scale(125%,125%)");
+                        o.moveSpeed=3;
+                        o.startAngle=GetRangle(0,0,1,-1);
+                        o.bounceThresh=0.5;
+                        o.shootSpeed=700;
+                        o.projectileSpeed=4;
+                        o.shootAngleSpin=10;
+                        o.shootAngleSpinRight=true;
+                        o.shootAngleDeg=0;
+                        o.health=15;
+                        o.attack=2;
+                        o.delayStart=2000;
+                        o.onFrame=setTimeout(function(){// skip one frame
+                            o.onFrame=setTimeout(function(){// delayStart
+
+                                o.moveX=AlongRangleX(o.startAngle);
+                                o.moveY=AlongRangleY(o.startAngle);
+                                element.addClass("adv_walking");
+                                o.onFrame=setInterval(function(){
+                                    o.x+=o.moveX*o.moveSpeed;
+                                    o.y+=o.moveY*o.moveSpeed;
+                                    let touch;
+                                    $(".adv_wall, .adv_lava, .adv_pit").each(function(){
+                                        touch=GetTouch(o,$(this));
+                                        if(touch){
+                                            o.x+=touch.x*touch.dist;
+                                            o.y+=touch.y*touch.dist;
+
+                                            let ob=GetObj($(this));
+                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);// if circle, reverse???
+                                            else ReflectBox(touch.x,touch.y);
+                                        }
+                                    });
+                                    if(o.x<mapLeft){o.x=mapLeft;Reflect(1,0);}
+                                    else if(o.x>mapRight){o.x=mapRight;Reflect(-1,0);}
+                                    if(o.y<mapTop){o.y=mapTop;Reflect(0,1);}
+                                    else if(o.y>mapBottom){o.y=mapBottom;Reflect(0,-1);}
+
+                                    SetPosition(element,o.x,o.y);
+
+                                    function Reflect(xxx,yyy){
+                                        if(o.moveX<0){if(xxx>o.bounceThresh)o.moveX=-o.moveX;}
+                                        else if(o.moveX>0){if(xxx<-o.bounceThresh)o.moveX=-o.moveX;}
+                                        if(o.moveY<0){if(yyy>o.bounceThresh)o.moveY=-o.moveY;}
+                                        else if(o.moveY>0){if(yyy<-o.bounceThresh)o.moveY=-o.moveY;}
+                                        //if(o.moveX<0)o.img.addClass("flipx");
+                                        //else o.img.removeClass("flipx");
+                                    }
+                                    function ReflectBox(xxx,yyy){
+                                        if(xxx==-1 || xxx==0 || xxx==1){
+                                            if(yyy==-1 || yyy==0 || yyy==1){
+                                                Reflect(xxx,yyy);
+                                            }
+                                        }
+                                    }
+                                },1000/30);
+
+                                o.onFrame2=setInterval(function(){
+                                    let pro,proObj,deg;
+                                    for(let i=0;i<3;i++){
+                                        deg=o.shootAngleDeg+(i*(360/3));
+
+                                        pro=FireProjectile(DegreesToRangle(deg));
+                                        if(pro.children().length==0){
+                                            NewDiv(pro).addClass("adv_fireSpit");
+                                            SetHitCircle(pro,54/2,54/2,7);
+                                            proObj=GetObj(pro);
+                                            proObj.onPlayerTouch=function(){
+                                                TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
+                                            };
+                                        }
+                                    }
+                                    if(Math.random()>0.96)o.shootAngleSpinRight=!o.shootAngleSpinRight;
+                                    o.shootAngleDeg+= (o.shootAngleSpinRight) ? o.shootAngleSpin : -o.shootAngleSpin;
+
+                                },o.shootSpeed);
+
+                            },o.delayStart);
+                        },1);
+                        o.onPlayerTouch=function(){
+                            if(playerObj.SWORD){
+                                TryHurtEnemy(1);
+                                if(o.health<=0){
+                                    Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                    Build("STAR",o.x/cellSize,o.y/cellSize);
+                                    return;
+                                }
+                            }
+                            KnockbackPlayer();
+                            TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack );
+                        };
+                        o.onGoodBulletTouch=function(){
+                            TryHurtEnemy(0.5);
+                            if(o.health<=-1){
+                                Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                Build("STAR",o.x/cellSize,o.y/cellSize);
+                            }
+                        };
+                        break;
+                        /*
+                    SKELETON        walker   atk 1, hp 0
+                    SNAKE           shooter  atk 1, hp 0
+                        (sword)
+                    GHOST           walker   atk 1*, invincible
+                    ARCHERSKELETON  shooter  atk 1, hp 0
+                    
+                    DINOSAUR        bouncer  atk 2, hp 1 (costs 2:1)
+                    REDGHOST        chaser   atk 1*, invincible slow through walls
+                        (armor) (very early)
+                    YETI            walker   atk 2, hp 2 (costs 4:2) (choose which ones to kill)
+                    DRAGONSTATUE    shooter  atk 2, invincible
+                        (xbow)
+                    BOSSDRAGON      slow bouncer.
+                                    3 bullet streams that rotate.
+                                    rotate direction changes when he's hurt.
+                    BOSSTUSK        repeatedly pauses and chases very fast.
+                                    kills you in one hit.
+                    BOSSGLOW        chases in cardinal directions.
+                                    leaves danger-patches behind him.
+                    //*/
+
+                    default: console.log("unhandled unit "+p);break;
+                }//end build switch
+                return element;
+            }//end build
+            
+            function Load(){
+                let o;
+                switch(id){
+                    case 1:// outside, town         JESTER       CHECKPOINT
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:"TREE2",blue:"WELL",purple:"GREYROCK3",
+                            black:null,white:"HOUSE",brown:"TREE1",circle:null,map:""+
+                            "🟢🟤🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢"+
+                            "🟤🟢🟢⚫⚪⚫⚫⚪⚫⭕🟢🟢"+
+                            "🟢🟢⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "🟢⚫⚪⚫⚫⭕🔵⚫⚫⚫⚫🟢"+
+                            "🟢⚫⚫⚫⚫⚫⚫⚫⚫⚪⚫🟢"+
+                            "🟢⚫⚫⚫⚫⚫⚫🟣⚫⚫⚫🟢"+
+                            "🟢🟢⚫⚫🟢🟢🟢⚫⚫⚫⚫🟢"+
+                            "🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢"});
+                        CheckpointPlayerPosition(5,3);
+                        if(CHEATITEMS){
+                            Build("SWORD",1,5);
+                            Build("ARMOR",2,5);
+                            Build("XBOW",3,5);
+                        }
+                        if(playerObj.visitedCastle){
+                            ;
+                        }else{
+                            GetObj(Build("JESTER",9,1)).message="The villagers were captured! I plan to rescue them. Any ideas?";
+                        }
+                        SetPortals(null,2,null,null);break;
+                    case 2:// outside, woods bottom
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:"TREE2",blue:null,purple:"GREYROCK3",
+                            black:null,white:null,brown:"TREE1",circle:null,map:""+
+                            "🟤🟢⚫⚫⚫🟢🟢⚫🟢🟤⚫⚫"+
+                            "🟢🟢🟢🟤⚫🟢⚫⚫⚫🟢🟤⚫"+
+                            "⚫⚫🟢🟢⚫🟢⚫⚫⚫🟣🟢🟤"+
+                            "🟢⚫⚫🟢🟤🟤🟢🟢⚫⚫⚫🟢"+
+                            "🟢⚫🟣⚫🟢🟢🟤🟤🟢⚫⚫🟢"+
+                            "🟢⚫⚫⚫⚫⚫🟢🟢⚫⚫🟢🟢"+
+                            "🟢🟢🟢🟢⚫⚫⚫⚫⚫🟢🟤⚫"+
+                            "🟤🟢🟤🟤🟢🟢🟢🟢🟢🟤⚫🟢"});
+                        SetPortals(3,null,null,1);break;
+                    case 3:// outside, woods top
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:"TREE2",blue:null,purple:"GREYROCK3",
+                            black:null,white:null,brown:"TREE1",circle:null,map:""+
+                            "🟤🟢🟤🟢🟢⚫🟢🟢🟢🟢🟢🟤"+
+                            "🟢🟤🟢🟢⚫⚫🟢⚫⚫⚫⚫🟢"+
+                            "🟤🟢⚫⚫⚫🟢⚫⚫🟢⚫⚫🟢"+
+                            "🟢⚫⚫🟢⚫⚫⚫🟢🟤🟢⚫🟢"+
+                            "🟢⚫🟢🟤🟢⚫🟢🟤🟢⚫⚫🟢"+
+                            "🟢⚫🟣🟢⚫⚫⚫🟢⚫🟣⚫🟢"+
+                            "🟢🟢⚫⚫⚫🟢🟢⚫⚫⚫🟢🟤"+
+                            "🟤🟢🟢🟢🟢🟤🟢⚫🟢🟢🟤🟢"});
+                        SetPortals(4,null,2,null);break;
+                    case 4:// outside, castle entrance         JESTER
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:"TORCH",green:"TREE2",blue:null,purple:"GREYROCK3",
+                            black:null,white:"GREYBRICKWALL",brown:"TREE1",circle:null,map:""+
+                            "⚫⚪⚪⚪⚪⭕⚪⚪⚪⚪⚪⚪"+
+                            "🟢⚪⚪⚪⚪⭕⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚪⚪⚪⚪⭕⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚫🟣⚫🟡⚫🟡⭕⚫⚫🟢🟤"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫🟢"+
+                            "⚫⚫🟢⚫⚫⚫⚫⚫⚫🟢🟢🟤"+
+                            "🟢🟢🟢🟢⚫⚫⚫🟢🟢🟤🟤🟢"+
+                            "🟤🟢🟤🟢🟢⚫🟢🟤🟤🟢🟢🟤"});
+                        Build("GREYBRICKFLOOR",5,0);
+                        Build("GREYBRICKFLOOR",5,1);
+                        Build("GREYBRICKFLOOR",5,2);
+                        Build("GREYBRICKDOOR",5,2);
+
+                        playerObj.visitedCastle=true;
+                        // if the door has been opened, or if you have the key, dont show the jester
+                        if(mapData[id]["GREYBRICKDOOR"]==true || playerObj.KEY){//$(".adv_slot").eq(4-1).html().length>0){
+                            ;
+                        }else{
+                            GetObj(Build("JESTER",7,3)).message="The castle seems to be locked... I think the grave-digger has a key.";
+                        }
+                        SetPortals(21,null,3,5);break;
+                    case 5:// outside, graveyard right
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:"TREE2",blue:"TOMBSTONE",purple:"GREYROCK3",
+                            black:null,white:null,brown:"TREE1",circle:null,map:""+
+                            "🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟤"+
+                            "⚫🔵⚫⚫🔵⚫⚫🔵🟢🟢🟢🟢"+
+                            "⚫⚫⚫🔵⚫⭕🔵⚫⚫🟢⚫⚫"+
+                            "⚫⚫🔵⚫⚫🔵⚫⚫⚫⚫⚫⚫"+
+                            "⚫🔵⚫⚫🔵⚫⚫🔵⚫⚫⚫⚫"+
+                            "⚫⚫⚫🔵⚫⚫🔵⚫⚫🟢⚫⚫"+
+                            "⚫⚫🔵⚫⚫🔵⚫⚫🟢🟢🟢🟢"+
+                            "🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢"});
+                        if(playerObj.KEY){
+                            o=GetObj(Build("GHOST",5,2));o.points=[5,2,  4,3,  5,4,  6,3];
+                        }
+                        SetPortals(null,4,null,6);break;
+                    case 6:// outside, graveyard left
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:"TORCH",green:"TREE2",blue:"TOMBSTONE",purple:"GREYROCK3",
+                            black:null,white:"GREYBRICKWALL",brown:"TREE1",circle:null,map:""+
+                            "🟢🟢⚪⭕⚪🟢🟢🟢🟢🟢🟢🟢"+
+                            "🟢⚫⚪⭕⚪⚫⚫⚫⚫⚫⚫⚫"+
+                            "🟢⚫🟡⚫🟡⚫⚫⚫🔵⚫⚫⚫"+
+                            "🟢🟣⚫⚫🔵⚫⚫🔵⚫⚫🔵⚫"+
+                            "🟢🟢⚫🔵⚫⚫🔵⚫⚫🔵⚫⚫"+
+                            "🟢🟢⚫⚫⚫🔵⚫⚫🔵⚫⚫⚫"+
+                            "🟢🟢🟢🟢⚫⚫⚫🔵⚫⚫🔵⚫"+
+                            "🟢🟢🟣🟢🟢🟢🟢🟢🟢🟢🟢🟢"});
+                        Build("GREYBRICKFLOOR",3,0);
+                        Build("GREYBRICKFLOOR",3,1);
+                        //Build("KEY",3,0);
+                        SetPortals(7,5,null,null);break;
+                    case 7:// crypt, stairs right
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚫⚫⚫⚫⚪🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(null,null,6,8);break;
+                    case 8:// crypt, stairs left
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚫⚫⚫⚫⚫"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪⚪⚪⚪⚪"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
+                        SetPortals(null,7,9,null);break;
+                    case 9:// crypt lobby                   CHECKPOINT
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤"+
+                            "🟤🟤🟤⚪🔵⚫⚫⚫🔵⚪🟤🟤"+
+                            "⚪⚪⚪⚪🔵⚫⚫⚫🔵⚪⚪⚪"+
+                            "⚫⚫⚫⚫⚫⚫🟠⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪🔵⚫⚫⚫🔵⚪⚪⚪"+
+                            "🟤🟤🟤⚪🔵🔵🔵🔵🔵⚪🟤🟤"+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪🟤🟤"});
+                        CheckpointPlayerPosition(6,3);
+                        if(CHEATITEMS){
+                            Build("SWORD",5,5);
+                            Build("ARMOR",6,5);
+                            Build("XBOW",7,5);
+                        }
+                        SetPortals(8,16,null,10);break;
+                    case 10:// crypt left
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚫⚪🟤🟤⚪⚫⚪🟤"+
+                            "🟤🟤🟤⚪⚫⚪⚪⚪⚪⚫⚪🟤"+
+                            "🟤🟤🟤⚪⚫🔵⚪⚪🔵⚫⚪🟤"+
+                            "⚪⚪⚪⚪⚫🔵🔵🔵🔵⚫⚪⚪"+
+                            "⚫⭕⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪⭕🔵🔵🔵🔵🔵⚪⚪"+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        o=GetObj(Build("SNAKE",1,4));o.shootAngle=GetRangle(0,0,1,0);o.delayStart=0;
+                        o=GetObj(Build("SNAKE",4,5));o.shootAngle=GetRangle(0,0,0,-1);o.delayStart=750;
+                        SetPortals(11,9,null,13);break;
+                    case 11:// crypt left, coffin trap
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟤🟤⚪🟡⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "⚪⚪⚪🔵⚪⚪⚪⚪⚪⚫🔵⚪"+
+                            "⚫⚫⚫⭕⚫⚫⚫🔵⚪⚫🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚫⚪⚪⚫🔵⚪"+
+                            "🟤🟤⚪🔵🔵⚪⚫⚫⚫⚫🔵⚪"+
+                            "🟤🟤⚪🔴🔵⚪⚪⚪⚪⚫🔵⚪"+
+                            "🟤🟤⚪⚪⚫⚪🟤🟤⚪⚫⚪⚪"});
+                        GetObj(Build("SNAKE",10,1)).shootAngle=GetRangle(0,0,-1,0);
+                        GetObj(Build("SKELETON",3,3)).points=[3,3,  6,3,  6,5,  9,5,  9,1,  3,1];
+                        SetPortals(null,null,10,12);break;
+                    case 12:// crypt left, skel roundabout
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤⚪⭕🟠🔵🟠🔵🟠🔵🔵⚪⚪"+
+                            "🟤⚪⚫⚪⚪⚪⚪⚪⚪⚫⚫⚫"+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚪⚫⚪⚪"+
+                            "⚫⚫⚫🔵🟠🔵🔵🔵🟠⭕⚪🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤"});
+                        o=GetObj(Build("SKELETON",2,2));o.points=[2,2,  2,5,  9,5,  9,2];o.currentPoint=0;
+                        o=GetObj(Build("SKELETON",9,5));o.points=[2,2,  2,5,  9,5,  9,2];o.currentPoint=2;
+                        SetPortals(null,11,13,14);break;
+                    case 13:// crypt left, snake room
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪🟤"+
+                            "🟤⚪⭕⚫⚫⚫🔵🔵⚫⭕⚪🟤"+
+                            "🟤⚪🔵🔵🔵⚫⚫⚫⚫🔵⚪⚪"+
+                            "⚪⚪🔵🔵⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚫⚫⭕⚫⚫🔵🔵🔵⚫⭕⚪⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        o=GetObj(Build("SNAKE",2,2));o.shootAngle=GetRangle(2,2,9,3);o.delayStart=0;
+                        o=GetObj(Build("SNAKE",2,5));o.shootAngle=GetRangle(2,5,8,4);o.delayStart=300;
+                        o=GetObj(Build("SNAKE",9,2));o.shootAngle=GetRangle(9,2,2,5);o.delayStart=600;
+                        o=GetObj(Build("SNAKE",9,5));o.shootAngle=GetRangle(9,5,2,3);o.delayStart=1200;
+                        SetPortals(12,10,null,15);break;
+                    case 14:// crypt left, skel party
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"CANDLESW",green:"CANDLESE",blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤⚪🟢🟢⭕⚫⚫⭕🟡🟡⚪🟤"+
+                            "🟤⚪🟢⚫⭕⚫⚫⭕⚫🟡⚪🟤"+
+                            "🟤⚪⭕⭕🟠⭕⚫🟠⭕⭕⚪🟤"+
+                            "🟤⚪🔵⚫⭕⚫⚫⭕⚫🔵⚪⚪"+
+                            "⚪⚪⚫🔵⭕⚫⚫⭕⚫⚫⚫⚫"+
+                            "⚪⚫⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚪⚪🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        o=GetObj(Build("SKELETON",2,3));o.points=[2,3,  4,5,  7,5,  9,3,  7,1,  4,1];o.currentPoint=0;
+                        o=GetObj(Build("SKELETON",7,5));o.points=[2,3,  4,5,  7,5,  9,3,  7,1,  4,1];o.currentPoint=2;
+                        o=GetObj(Build("SKELETON",7,1));o.points=[2,3,  4,5,  7,5,  9,3,  7,1,  4,1];o.currentPoint=4;
+
+                        o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  4,2,  7,2,  8,3,  7,4,  4,4];o.currentPoint=0;
+                        o=GetObj(Build("SKELETON",7,2));o.points=[3,3,  4,2,  7,2,  8,3,  7,4,  4,4];o.currentPoint=2;
+                        o=GetObj(Build("SKELETON",7,4));o.points=[3,3,  4,2,  7,2,  8,3,  7,4,  4,4];o.currentPoint=4;
+                        Build("SKELETON",5,3);
+                        SetPortals(null,12,15,null);break;
+                    case 15:// crypt left, sword room
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚪🔵🔵⚫⚫🔵⚫🔵⚫⚪"+
+                            "⚪⚫⚪🔵⚪⚫⚪🔵⚪⚪⚫⚪"+
+                            "⚪🔵⚫⭕⚪⭕⚪⚫🔵⚫🔵⚪"+
+                            "⚪⚫⚪⚪🔵🔵⚪⚫⚪⚪⚪⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚫🔵⚪🔵⚫"+
+                            "⚪⚫⚫🔵⚫⚫⚫🔵⚪🟡🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  1,3,  1,6,  7,6,  7,3,  10,3,  10,1,  3,1];o.delayStart=0;
+                        o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  1,3,  1,6,  7,6,  7,3,  10,3,  10,1,  3,1];o.delayStart=2000;
+                        o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  1,3,  1,6,  7,6,  7,3,  10,3,  10,1,  3,1];o.delayStart=4000;
+                        o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  3,1,  10,1,  10,3,  7,3,  7,6,  1,6,  1,3];
+                        Build("SWORD",5,3);
+                        SetPortals(14,13,null,null);break;
+                    case 16:// crypt right, serpentine one
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪🔵🔵⚪⚫⚫⚫⚫⚫⚫⭕⚫"+
+                            "⚪⚪🔵⚪⚫⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚫⚫⚪⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=0;
+                        o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=3000;
+                        o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=6000;
+                        o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=9000;
+                        SetPortals(null,17,null,9);break;
+                    case 17:// crypt right, serpentine two
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚫⭕⚫⚫⚫⭕⚪🔵🔴⚪"+
+                            "⚫⚫⚪⚪⚪⚪⚪⚫⚫🔵🔵⚪"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚪🔵🔵⚪"+
+                            "⚪🔵⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪🔵⚫⚫⚫⚫⚫⚫⚫⭕🔵⚪"+
+                            "⚪⚪⚪🔵⚪🔵⚪⚫⚪⚪🟡⚪"+
+                            "🟤🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪"});
+                        GetObj(Build("SKELETON",3,1)).points=[3,1,  7,1];
+                        o=GetObj(Build("SNAKE",9,5));o.shootAngle=GetRangle(0,0,-1,0);o.shootSpeed+=500;
+                        SetPortals(null,null,18,16);break;
+                    case 18:// crypt right, square with snakes
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪"+
+                            "⚪⭕⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "⚪⚫⚪🟠🔵🔵🔵🔵🔵⚪⚫⚪"+
+                            "⚪⚫🔵🔵🔵🔵🔵🔵🔵⚪⚫⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "⚪⭕⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"});
+                        GetObj(Build("SKELETON",1,6)).points=[1,6,  10,6,  10,1,  1,1];
+                        GetObj(Build("SNAKE",1,1)).shootAngle=GetRangle(0,0,0,1);
+                        o=GetObj(Build("SNAKE",10,1));o.shootAngle=GetRangle(0,0,-1,0);o.shootSpeed+=900;
+                        GetObj(Build("SNAKE",1,6)).shootAngle=GetRangle(0,0,1,0);
+                        GetObj(Build("SNAKE",10,6)).shootAngle=GetRangle(0,0,-1,0);
+                        SetPortals(17,null,19,null);break;
+                    case 19:// crypt right, snake firing squad
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "⚪⭕⚫⚫⚫⚫⭕⚫⚫⚫⚫⚪"+
+                            "⚫⭕⚫⚫⭕⚫⚫⚫⭕⚫🔵⚪"+
+                            "⚪⭕⚫⚫⚫⚫⭕⚫⚫🔵🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        GetObj(Build("SKELETON",8,4)).points=[8,4,  6,3,  4,4,  6,5];
+                        o=GetObj(Build("SNAKE",1,3));o.shootAngle=GetRangle(0,0,1,0);o.shootSpeed+=1000;o.projectileSpeed-=2;
+                        o=GetObj(Build("SNAKE",1,4));o.shootAngle=GetRangle(0,0,1,0);o.shootSpeed+=1000;o.projectileSpeed-=2;o.delayStart=o.shootSpeed/2;
+                        o=GetObj(Build("SNAKE",1,5));o.shootAngle=GetRangle(0,0,1,0);o.shootSpeed+=1000;o.projectileSpeed-=2;
+                        SetPortals(18,null,null,20);break;
+                    case 20:// crypt right, key room
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪🔵⭕⚫⚫⭕⚫⚫⚫⚫🔵⚪"+
+                            "⚪🟠⚫⚫⚫⚫⚫⚫⚫⚫🔵⚪"+
+                            "⚪🔵⭕⚫⭕⚫⚫⭕⚫⚫⚫⚫"+
+                            "⚪🟠⚫⚫⚫⚫⚫⚫⚫⚫🔵⚪"+
+                            "⚪🔵⭕⚫⚫⭕⚫⚫⚫⚫🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("SNAKE",2,2));o.shootAngle=GetRangle(0,0,1,1);
+                        o=GetObj(Build("SNAKE",5,2));o.shootAngle=GetRangle(0,0,1,1);
+                        o=GetObj(Build("SNAKE",2,6));o.shootAngle=GetRangle(0,0,1,-1);
+                        o=GetObj(Build("SNAKE",5,6));o.shootAngle=GetRangle(0,0,1,-1);
+                        Build("KEY",2,4);
+                        Build("BONES1",2,4);
+                        SetPortals(null,19,null,null);break;
+                    case 21:// castle, church                 CHECKPOINT
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"CANDLESW",yellow:"CANDLESE",green:null,blue:"BENCHNE",purple:"BENCHNW",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚫⚪🟤"+
+                            "⚪⚫🟡🟡🟡⚫🟠🟠🟠⚫⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚫🔵🔵🔵⚫🟣🟣🟣⚫⚪⚪"+
+                            "⚪⚫🔵🔵🔵⚫🟣🟣🟣⚫⚫⚫"+
+                            "⚪⚫🔵🔵🔵⚫🟣🟣🟣⚫⚪⚪"+
+                            "⚪⚫🔵🔵🔵⚫🟣🟣🟣⚫⚪🟤"+
+                            "⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪🟤"});
+                        CheckpointPlayerPosition(5,4);
+                        if(CHEATITEMS){
+                            Build("SWORD",1,3);
+                            Build("ARMOR",1,4);
+                            Build("XBOW",1,5);
+                        }
+                        SetPortals(22,23,4,null);break;
+                    case 22:// castle, church stockroom
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕ (1 barrel, 2 crates, 3 sack)
+                            red:null,orange:"TORCH",yellow:"COINS",green:"JUNK1",blue:"JUNK2",purple:"JUNK3",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪🔵🟣🟡⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪🟣🔵🔵⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪🟢🟢🟣⚪🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪🔵🔵🟣⚪⚪⚪⚪🟤"+
+                            "⚪🔵🔵🔵🟢🟣🔵🔵🔵🔵⚪🟤"+
+                            "⚪⚫⚫⚫⚫🟠⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚫⚪🟤"});
+                        o=GetObj(Build("GHOST",6,-1));o.points=[6,1,  5,1];o.delayStart=11000;
+                        SetPortals(null,null,21,null);break;
+                    case 23:// castle, cafeteria bottom
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:"TABLE2",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⭕🔵⚫🟣⭕🔵⚫🟣⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "⚪⚪⚫🟣⚫🔵⚫🟣⚫🔵⚫⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪⚫🔵⚫🟣⚫🔵⚫🟣⚫⚪"+
+                            "🟤⚪⚫⚫⭕⚫⚫⚫⭕⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("SKELETON",2,1));o.points=[2,6,  4,6,  4,0,  2,0];
+                        o=GetObj(Build("SKELETON",4,6));o.points=[4,6,  4,0,  6,0,  6,6];
+                        o=GetObj(Build("SKELETON",6,1));o.points=[6,6,  8,6,  8,0,  6,0];o.delayStart=1000;
+                        o=GetObj(Build("SKELETON",8,6));o.points=[8,6,  8,0,  10,0,  10,6];o.delayStart=1000;
+                        o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  2,2,  2,4,  10,4];
+                        SetPortals(24,null,null,21);break;
+                    case 24:// castle, cafeteria top
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:"TABLE2",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"+
+                            "🟤⚪⭕⚫⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "🟤⚪⚫🔵⚫🟣⚫🔵⚫🟣⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫🟣⚫🔵⚫🟣⚫🔵⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫🔵⚫🟣⚫🔵⚫🟣⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"});
+                        o=GetObj(Build("SKELETON",2,1));o.points=[2,1,  4,1,  4,3,  2,3];o.delayStart=0;
+                        o=GetObj(Build("SKELETON",2,1));o.points=[2,1,  6,1,  6,5,  2,5];o.delayStart=1000;
+                        o=GetObj(Build("SKELETON",2,1));o.points=[2,1,  8,1,  8,7,  2,7];o.delayStart=2000;
+                        
+                        o=GetObj(Build("SKELETON",10,1));o.points=[10,1,  10,3,  8,3,  8,1];o.delayStart=0;
+                        o=GetObj(Build("SKELETON",10,1));o.points=[10,1,  10,5,  6,5,  6,1];o.delayStart=1000;
+                        o=GetObj(Build("SKELETON",10,1));o.points=[10,1,  10,7,  4,7,  4,1];o.delayStart=2000;
+                        SetPortals(25,null,23,null);break;
+                    case 25:// castle, barracks archer
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHSW",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🔴🔴⚪⚫⚫⚫⚫⚫⚫⚪🟤🟤"+
+                            "🔴⚪⚫⚫⚫⚫⚫⚫⚫🟠⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫🔵⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫🔵⚫⚫⚪"+
+                            "⚫⭕⚫⚫⚫⚫⚫⚫🔵⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"});
+                        Build("ARCHERSKELETON",1,5);
+                        SetPortals(32,null,24,26);break;
+                    case 26:// castle, barracks treasure below
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHNE",purple:"BENCHNW",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
+                            "🟤🟤⚪⚫⭕⚫⚫⚫⭕⚫⚪🔴"+
+                            "🟤⚪⚫⚫⚫⭕⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚫⚫⚫🔵🔵⚫⚫⚫🟣🟣⚫⚫"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("ARCHERSKELETON",4,1));o.delayStart+=0;
+                        o=GetObj(Build("ARCHERSKELETON",8,1));o.delayStart+=o.shootSpeed/2;
+                        o=GetObj(Build("SKELETON",5,2));o.points=[5,2,  7,2];
+                        SetPortals(31,25,null,27);break;
+                    case 27:// castle, courtyard bottom
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHNE",blue:"WELL",purple:"GREYROCK2",
+                            black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
+                            "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪⚫🟤🟣⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫🔵⚫⚫🟤⚫⚪⚪"+
+                            "⚪🔴🟤⚫⚫⚫⚫🟣🟤🔴⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫⚫⚫🟤🟠⚪⚪"+
+                            "⚪⚫🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪🔴🟣🟢⚫⚫⚫⚫⚫🟠⚪⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("ARCHERSKELETON",2,4));o.delayStart+=0;
+                        o=GetObj(Build("ARCHERSKELETON",3,5));o.delayStart+=o.shootSpeed/2;
+                        SetPortals(28,26,null,null);break;
+                    case 28:// castle, courtyard middle
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHSW",blue:"BENCHNE",purple:"GREYROCK2",
+                            black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
+                            "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪⚫🟤🟣⚫⚫⚫🔴🟤⭕⚪⚪"+
+                            "⚪⚫🟤⚫🟢⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪🔴🟤🔵⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫⚫🟢🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫🔵⚫🟤⚫⚪⚪"+
+                            "⚪⭕🟤⚫⚫⚫⚫🟣🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"});
+                        o=GetObj(Build("ARCHERSKELETON",1,6));o.delayStart+=0;
+                        o=GetObj(Build("ARCHERSKELETON",9,1));o.delayStart+=o.shootSpeed/2;
+                        o=GetObj(Build("SKELETON",2,1));o.points=[2,7,  8,7,  8,0,  2,0];
+                        SetPortals(29,null,27,null);break;
+                    case 29:// castle, courtyard top
+                        QuickBuildFull("GRASS");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHNW",blue:"WELL",purple:"GREYROCK2",
+                            black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪🔴🔴⚫⚫🔴⚫⚫⚫🟠⚪⚪"+
+                            "⚪🔴🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚫🟤🔵⚫⚫⚫⚫🟤🟠⚪⚪"+
+                            "⚪⚫🟤🟢⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪🔴🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫⭕🟣🟤⚫⚪⚪"+
+                            "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"});
+                        o=GetObj(Build("ARCHERSKELETON",8,2));o.delayStart+=0;
+                        o=GetObj(Build("ARCHERSKELETON",6,6));o.delayStart+=o.shootSpeed/2;
+                        SetPortals(null,30,28,null);break;
+                    case 30:// castle, barracks treasure above
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHNE",purple:"BENCHNW",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚫⚫⚫⚫🔵🔵⚫🟣🟣⚫⚫⚪"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪🔵⚫⭕⚫⚫⚫⭕⚫🟣⚪"+
+                            "🟤🟤⚪🔵⚫⚫⚫⚫⚫🟣⚫🔴"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"});
+                        o=GetObj(Build("ARCHERSKELETON",4,5));o.delayStart+=0;
+                        o=GetObj(Build("ARCHERSKELETON",8,5));o.delayStart+=o.shootSpeed/2;
+                        o=GetObj(Build("SKELETON",5,4));o.points=[5,4,  7,4];
+                        SetPortals(null,null,31,29);break;
+                    case 31:// castle, barracks treasure
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:"COINS",green:null,blue:null,purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚫🟠⭕🟠⚫⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚫🟠🟡🟠⚫⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"});
+                        Build("POTION",6,2);
+                        SetPortals(30,null,26,null);break;
+                    case 32:// castle, pit
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:"COINS",green:null,blue:"PIT",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🔴🔴⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"+
+                            "🔴🔴⚪🔵🔵⚫⚫🔵🔵⚪🟤🟤"+
+                            "🔴🔴⚪🔵🔵🔵🔵🔵🔵⚪🟤🟤"+
+                            "🔴🔴⚪🔵🔵🔵🔵🔵🔵⚪🟤🟤"+
+                            "🔴🔴⚪🔵🔵⚫⚫🔵🔵⚪🟤🟤"+
+                            "🔴🔴⚪🔵🔵⚫⚫🔵🔵⚪🟤🟤"+
+                            "🔴🔴⚪⚫🟠⚫⚫🟠⚫⚪🟤🟤"+
+                            "🔴🔴⚪⚫⚫⚫⚫⚫⚫⚪🟤🟤"});
+                        SetPortals(33,null,25,null);break;
+                    case 33:// castle, thrones
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:"CANDLESE",green:"CANDLESW",blue:"BENCHSE",purple:"BENCHSW",
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🔴⚪⚫⚫🟡🔵🟣🟢⚫⚫⚪⚪"+
+                            "🔴⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "🔴⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪⚪"+
+                            "🔴⚪⚫⚫🟠⚫⚫🟠⚫⚫⚪🟤"+
+                            "🔴⚪⚪⚪⚪⚫⚫⚪⚪⚪⚪🟤"+
+                            "🔴🔴⚪⚪🟠⚫⚫🟠⚪⚪🟤🟤"+
+                            "🔴🔴⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"});
+                        Build("GREYROCK6",2,3);
+                        SetPortals(null,34,32,null);break;
+                    case 34:// castle, prison
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫🔵⚪"+
+                            "⚫⚫⚪⚫⚪⚫⚪⚫⚪⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚫⚫⚪⚫⚪⚫⚪⚫⚪⚫⚪"+
+                            "⚪🔵⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                            Build("BONES6",2,2);
+                            Build("BONES7",4,2);
+                            Build("BONES6",6,2);
+                            Build("BONES7",8,2);
+
+                            Build("BONES7",3,4);
+                            Build("BONES6",5,4);
+                            Build("BONES7",7,4);
+                            Build("BONES6",9,4);
+
+                            o=GetObj(Build("GHOST",2,2));o.points=[2+1,2-1,  2-1,2-1,  2-1,2+1,  2+1,2+1];o.delayStart+=1000;
+                            o=GetObj(Build("GHOST",4,2));o.points=[4+1,2-1,  4+1,2+1,  4-1,2+1,  4-1,2-1];
+                            o=GetObj(Build("GHOST",6,2));o.points=[6+1,2-1,  6-1,2-1,  6-1,2+1,  6+1,2+1];o.delayStart+=1000;
+                            o=GetObj(Build("GHOST",8,2));o.points=[8+1,2-1,  8+1,2+1,  8-1,2+1,  8-1,2-1];
+
+                            o=GetObj(Build("GHOST",3,4));o.points=[3+1,4+1,  3+1,4-1,  3-1,4-1,  3-1,4+1];
+                            o=GetObj(Build("GHOST",5,4));o.points=[5+1,4+1,  5-1,4+1,  5-1,4-1,  5+1,4-1];o.delayStart+=1000;
+                            o=GetObj(Build("GHOST",7,4));o.points=[7+1,4+1,  7+1,4-1,  7-1,4-1,  7-1,4+1];
+                            o=GetObj(Build("GHOST",9,4));o.points=[9+1,4+1,  9-1,4+1,  9-1,4-1,  9+1,4-1];o.delayStart+=1000;
+
+                        SetPortals(null,35,null,33);break;
+                    case 35:// castle, stairs top
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚫⚫⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(null,null,36,34);break;
+                    case 36:// castle, stairs bottom
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚫⚫⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(35,null,null,37);break;
+                    case 37:// castle/cave
+                        QuickBuildFull("GREYCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"REDCAVEFLOOR",orange:"BROWNCAVEWALL",yellow:null,green:null,blue:"COFFIN",purple:null,
+                            black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟠🟠🟠🟠🟤⚪⚫🔵🔵⚫⚫⚫"+
+                            "🟠🔴🔴🟠🟠⚪🔵⚫⚫🔵⚪⚪"+
+                            "🔴🔴🔴🔴🔴⚪🔵⚫⭕🔵⚪🟤"+
+                            "🟠🔴🔴🔴🔴⚫⚫🔵🔵⚫⚪🟤"+
+                            "🟠🟠🟠🟠🟠⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        Build("GREYROCK6",4,5);
+                        Build("BROWNROCK5",2,3);
+                        Build("BROWNROCK5",1,5);
+                        SetPortals(null,36,null,38);break;
+                    case 38:// cave lobby                   CHECKPOINT
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"PIT",yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤⚪⚪⚪⚫⚫⚫⚫⚫⚫⚪⚪"+
+                            "⚪⚪⚫⚫⚫⚫🟠🟠🟠⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫🟠🟠🟠🟠🟠⚫⚪"+
+                            "⚪⚫⚫⭕⚫⚫🟠🟠🟠🟠⚫⚫"+
+                            "⚪⚪⚫🔴⚫⚫⚫🟠🟠🟠⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚫⚫⚪⚪⚪⚪"+
+                            "🟤🟤🟤🟤🟤⚪⚪⚫⚪🟤🟤🟤"});
+                        CheckpointPlayerPosition(4,3);
+                        if(CHEATITEMS){
+                            Build("SWORD",3,3);
+                            Build("ARMOR",2,3);
+                            Build("XBOW",2,4);
+                        }
+                        Build("BROWNROCK1",1,4);
+                        Build("BROWNROCK2",2,5);
+                        Build("BROWNROCK3",10,5);
+                        Build("BROWNROCK4",5,4);
+                        Build("BROWNROCK5",2,2);
+                        Build("BROWNROCK5",1,3);
+                        Build("BROWNROCK6",4,1);
+                        Build("CAMPFIRE",3,4);
+                        SetPortals(null,37,39,null);break;
+                    case 39:// cave, S with arrows
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:null,purple:null,
+                            black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:"ARCHERSKELETON",map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪"+
+                            "⚪⚫⚫⚫⚫🟤🟤⚫⚫⚫⚫⚪"+
+                            "⚫⚫🟤🟤⚫🟤🟤🟤🟤🟤⚫⚪"+
+                            "⚪🟤🟤🟤⚫🟤🟤🟤🟤🟤⚫⚪"+
+                            "⚪🟤🟤🟤⚫🟤🟤🟤⭕🟤⚫⚪"+
+                            "⚪⭕🟤🟤⚫🟤🟤🟤🟤🟤⚫⚪"+
+                            "⚪⚫🟤🟤⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("SKELETON",4,2));o.points=[4,2,  4,5];
+                        SetPortals(38,null,null,40);break;
+                    case 40:// cave, prison
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"JUNK2",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"+
+                            "⚪⚫⭕⚫⚫⭕⚫⚫⭕⚫🔵⚪"+
+                            "⚪⚫🟣🟣🟣🟣🟣🟣⚪⚪⚫⚫"+
+                            "⚪⚫🟣⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪🟣⚫⚪"+
+                            "⚪⚫⚪⚪🟣🟣🟣🟣🟣🟣⚫⚪"+
+                            "⚪⚫⭕⚫⚫⭕⭕⚫⭕⚫⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        FindImages(SPRITES.BROWNROCK2).each(function(){
+                            let obj=GetObj($(this));
+                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                        });
+                        o=GetObj(Build("GHOST",2,1));o.points=[10,1,  10,6,  1,6,  1,1];
+                        o=GetObj(Build("GHOST",5,1));o.points=[10,1,  10,6,  1,6,  1,1];
+                        o=GetObj(Build("GHOST",8,1));o.points=[10,1,  10,6,  1,6,  1,1];
+
+                        o=GetObj(Build("GHOST",2,6));o.points=[10,1,  10,6,  1,6,  1,1];o.currentPoint=2;
+                        o=GetObj(Build("GHOST",5,6));o.points=[10,1,  10,6,  1,6,  1,1];o.currentPoint=2;
+                        o=GetObj(Build("GHOST",8,6));o.points=[10,1,  10,6,  1,6,  1,1];o.currentPoint=2;
+
+                        o=GetObj(Build("GHOST",6,6));o.points=[10,6,  10,1,  1,1,  1,6];o.moveSpeed+=1.5;
+                        SetPortals(41,39,null,null);break;
+                    case 41:// cave, one archer
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"ARCHERSKELETON",map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚪⚫⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪🔵⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪🟣⚫⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚫⭕⚫⚫🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚫⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪🔵⚫⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫🔵⚪"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪⚪"});
+                        SetPortals(47,null,40,42);break;
+                    case 42:// cave, archer squad left
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK1",purple:"BROWNROCK5",
+                            black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪🔵🟤🟣🟤🟤🟤🟤🟤⭕⚪⚪"+
+                            "⚪🟤🟤🟤🟤🟤🟤🟤🟤⭕⚪⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪🟤🟤🟤🟤🟤🟤🟤🟤⭕⚪⚪"+
+                            "⚪🔵🟣🟤🟣🟤🟤🟤🟤⭕⚪⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("ARCHERSKELETON",9,1));o.delayStart=o.shootSpeed/4*0;
+                        o=GetObj(Build("ARCHERSKELETON",9,2));o.delayStart=o.shootSpeed/4*1;
+                        o=GetObj(Build("ARCHERSKELETON",9,4));o.delayStart=o.shootSpeed/4*2;
+                        o=GetObj(Build("ARCHERSKELETON",9,5));o.delayStart=o.shootSpeed/4*3;
+                        SetPortals(null,41,null,43);break;
+                    case 43:// cave, dino room 1
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚫⚪🟤"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚫⚪⚪"+
+                            "⚪⚪⚪⚪⚫⚫⚪⚪⚫⚫⚫⚫"+
+                            "⚪🔵⚪⚪⚫⚫⚪⚪⚫⚫🔵⚪"+
+                            "⚪🔴⚪⚪⚫⚫⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚫⚫⭕⚫⚪🟤🟤🟤🟤🟤"+
+                            "⚪⚫⚪⚪⚪⚪⚪🟤🟤🟤🟤🟤"});
+                        o=GetObj(Build("DINOSAUR",4,6));o.delayStart+=1000;
+                        SetPortals(null,42,44,null);break;
+                    case 44:// cave, dino room 2
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚫🟣⚫⚫⚫⚫⚫⚫🔵⚪"+
+                            "⚪🔵⚫⚫🟣⭕⚫⚫⚫⚫⚫⚪"+
+                            "⚫⚫⚫⚪⚪⚪⚪⚪⚪⚫⚫⚪"+
+                            "⚪⭕⚫⚪⚪⚪⚪⚪⚪⚫⚫⚪"+
+                            "⚪⚫⚫🔵⚫⚫⚫🟣⚫⚫⚫⚪"+
+                            "⚪🔵⚫⚫⚫⚫🟣⭕⚫⚫🔵⚫"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        SetPortals(43,46,null,45);break;
+                    case 45:// cave, dino room gold
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "⚪⚪⚫⚫⚫⭕⚫⚫⚫⚫⚪⚪"+
+                            "⚪⭕⚫⚫⚫⚫⚫⚫⭕⚫⚫⚪"+
+                            "⚪⚫🟡⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪"+
+                            "⚪⚪⚫⚫⚫⚫⭕⚫⭕⚫⚪⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"});
+                        Build("BONES1",2,3);
+                        Build("COINS",2,3);
+                        SetPortals(null,44,null,null);break;
+                    case 46:// cave, dino room armor
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪🟤🟤🟤🟤"+
+                            "⚪🔵⚫⚫⚫⚫⚫⚪🟤🟤🟤🟤"+
+                            "⚪⚫⚫⚪⚪⚫⚫⚪⚪⚪⚪⚪"+
+                            "⚪⚫⚫⚪⚪⚫⚫⚪🔵🟠🔵⚪"+
+                            "⚪⚫⚫⚪⚪⭕⚫⚪⚫⚫⚫⚪"+
+                            "⚫⚫🔵⚪⚪🔵⚫⚫🟣⚫🔵⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        Build("BONES1",9,4);
+                        Build("ARMOR",9,4);
+                        SetPortals(null,null,null,44);break;
+                    case 47:// cave, archer squad top
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:"BLACKBRICKWALL",blue:"GREYCAVEFLOOR",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
+                            "🟢🟢🔵🟢🟢🟤🟤🟤🟤🟤🟤⚫"+
+                            "🟢🟢🔵🟢🟢⚫⚫⚫⭕🟤🟤🟤"+
+                            "⚫🟠⚫🟠⚫⚫🟤🟤⚫🟤🟤⭕"+
+                            "⭕🟤🟤🟤🟤🟤🟤🟤⚫🟤🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⚫🟤🟤⭕"+
+                            "⭕🟤🟤⚫🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⚫⚫⚫🟤"+
+                            "⚫🟤🟤🟤🟤🟤🟤🟤🟤🟤⚫🟤"});
+                        o=GetObj(Build("ARCHERSKELETON",0,3));o.delayStart=1500+o.shootSpeed/6*0;
+                        o=GetObj(Build("ARCHERSKELETON",0,5));o.delayStart=1500+o.shootSpeed/6*2;
+                        //o=GetObj(Build("ARCHERSKELETON",0,7));o.delayStart=1500+o.shootSpeed/6*4;
+                        //o=GetObj(Build("ARCHERSKELETON",11,0));o.delayStart=1500+o.shootSpeed/6*5;
+                        o=GetObj(Build("ARCHERSKELETON",11,2));o.delayStart=1500+o.shootSpeed/6*3;
+                        o=GetObj(Build("ARCHERSKELETON",11,4));o.delayStart=1500+o.shootSpeed/6*1;
+                        o=GetObj(Build("SKELETON",8,1));o.points=[8,1,  8,4,  3,4,  3,6,  10,6,  3,6,  3,4,  8,4];
+                        o=GetObj(Build("SKELETON",8,1));o.points=[8,1,  8,4,  3,4,  3,6,  10,6,  3,6,  3,4,  8,4];o.delayStart=2000;
+                        SetPortals(49,null,41,48);break;
+                    case 48:// cave, secret
+                        QuickBuildFull("REDCAVEFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"BROWNROCK5",yellow:"COINS",green:"BLACKBRICKWALL",blue:"JUNK1",purple:"BROWNROCK2",
+                            black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪🟢🟢🟢🟢🟢🟢"+
+                            "⚪⚪⚪⚪🟤🟤🟢🟢🟢🟢🟢🟢"+
+                            "⚪⚪🟤🟤🟤🟤⚫🟡🔵⚫⚫⚫"+
+                            "⚪🟤🟤🟣🟤🟤⚫⚫⚫⚫⚫⚫"+
+                            "⚪🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤⚪"+
+                            "⚪🟤🟤🟤🟣🟤🟤🟤🟤🟤🟤⚪"+
+                            "⚪🟠🟤🟤🟤🟤🟣🟤🟤🟤🟠⚪"+
+                            "⚪⚪🟠🟤🟤🟤🟤🟤🟤🟠⚪⚪"});
+                        FindImages(SPRITES.BROWNROCK2).each(function(){
+                            let obj=GetObj($(this));
+                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                        });
+                        SetPortals(null,47,null,null);break;
+                    case 49:// dark, lobby                  CHECKPOINT
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪⭕⚫⭕⚪🟤🟤🟤🟤"+
+                            "🟤⚪⚪⚪⭕⚫⭕⚪⚪⚪🟤🟤"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚪🟤🟤"+
+                            "🟤⚪⚫🔵⚫⚫⚫🔵⚫⚪🟤🟤"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚪🟤🟤"+
+                            "🟤⚪⚫⚪⚪⚪⚪⚪⚪⚪🟤🟤"+
+                            "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        CheckpointPlayerPosition(5,4);
+                        if(CHEATITEMS){
+                            Build("SWORD",3,3);
+                            Build("ARMOR",2,3);
+                            Build("XBOW",2,4);
+                        }
+                        o=GetObj(Build("DRAGONSTATUE",4,1));o.shootAngle=GetRangle(0,0,1,0);o.delayStart=1000*99999;
+                        o=GetObj(Build("DRAGONSTATUE",6,1));o.shootAngle=GetRangle(0,0,-1,0);o.delayStart=1000*99999;
+                        o=GetObj(Build("DRAGONSTATUE",4,2));o.shootAngle=GetRangle(0,0,1,0);o.delayStart=1000*99999;
+                        o=GetObj(Build("DRAGONSTATUE",6,2));o.shootAngle=GetRangle(0,0,-1,0);o.delayStart=1000*99999;
+                        SetPortals(54,null,47,null);break;
+                    case 50:// dark, maze a1
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"WELL",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪🟤🟤⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚫⚪⚪⚪⚪⚫⚫⚫⚫⚫⚫"+
+                            "⚪⭕⚫⚫⚪⚪⭕⭕⭕⭕⚪⚪"+
+                            "⚪⚪⚫⚪⚫⚪⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚪⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚪⚪⚪⚫⚪⚫⚫⚫⚫⚪🟤"+
+                            "🟤⚪⚫⚫⭕⚪⚫⚫⚫⚫⚪🟤"+
+                            "🟤⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪🟤"});
+                        o=GetObj(Build("DRAGONSTATUE",6,2));o.shootAngle=GetRangle(6,1,7,3);
+                        o=GetObj(Build("DRAGONSTATUE",7,2));o.shootAngle=GetRangle(6,1,7,3);
+                        o=GetObj(Build("DRAGONSTATUE",8,2));o.shootAngle=GetRangle(8,1,7,3);
+                        o=GetObj(Build("DRAGONSTATUE",9,2));o.shootAngle=GetRangle(8,1,7,3);
+                        o=GetObj(Build("YETI",1,2));o.points=[1,2,  3,2];
+                        o=GetObj(Build("YETI",4,6));o.points=[4,6,  4,3];
+                        Build("BONES1",3,2);
+                        Build("BONES1",4,3);
+                        SetPortals(null,53,51,56);break;
+                    case 51:// dark, maze a2
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"DINOSAUR",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
+                            "⚪⚫⚫⚫⚫⚫🔴⚪⚫⚫⭕⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚪⚪⚪⚫⚪"+
+                            "⚪🔴🔴🔴🔴⚫⚫⭕🟡⚪⚫⚫"+
+                            "⚪🔴🔴🔴🔴⚫⚫⚪⚪⚪⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚪⚫⚫⚫⚪"+
+                            "⚪⚫⚫⚫⚫⚫🔴⚪⚫⚪⚪⚪"+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪🟤🟤"});
+                        o=GetObj(Build("YETI",10,1));o.points=[10,1,  10,5];o.delayStart=1500;
+                        $(".adv_enemy").each(function(){
+                            let obj=GetObj($(this));
+                            if(obj.bounceThresh){
+                                obj.delayStart=1000;
+                                obj.startAngle=DegreesToRangle(Math.random()*360);
+                                obj.moveSpeed-=0.5;
+                            }
+                        });
+                        if(!mapData[id]["COINS"]){
+                            let element=Build("BLACKBRICKWALL",7,3);
+                            o=GetObj(element);
+                            o.onFrame=setInterval(function(){
+                                if(FindImages(SPRITES.DINOSAUR).length>0){
+                                    return;
+                                }
+                                clearInterval(o.onFrame);
+                                o.onFrame=null;
+                                element.addClass("adv_flashing");
+                                o.flashTimer=setTimeout(function(){
+                                    o.flashTimer=null;
+                                    element.removeClass("adv_flashing");
+                                    element.remove();
+                                },2000);
+                            },2000);
+                        }
+                        SetPortals(50,54,52,null);break;
+                    case 52:// dark, maze a3
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESE",purple:"CANDLESW",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
+                            "⚪⭕⚫⚫⚫⚫⚫⚪⚫⭕⚫⚪"+
+                            "⚪⚪⚪⚪⚪⚪⚫⚪⚪⚫⚫⚪"+
+                            "⚪⚫⚫⚫🟣⚪⚫⚪⚫⚫⚪⚪"+
+                            "⚪⚫⚪⚫⚪🔵⚫⚪⚫⚪⚪⚪"+
+                            "⚪⚫⚪⚫⚪⚪⚫⚪⭕⚫⚫⚪"+
+                            "⚫⭕⚪⚫⚫⚫⚫⚪⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("YETI",9,1));o.points=[9,1,  10,1,  10,2,  9,2];o.moveSpeed+=2;
+                        o=GetObj(Build("YETI",8,5));o.points=[8,5,  8,6,  9,6,  9,5,  10,5,  10,6,  9,6,  9,5];o.moveSpeed+=2;
+
+                        Build("BONES1",9.5,1.5);
+                        Build("BONES1",8.5,5.5);
+                        Build("BONES2",9.5,5.5);
+
+                        o=GetObj(Build("YETI",1,1));o.points=[1,1,  6,1,  6,6,  3,6,  3,3,  1,3,  1,6,    1,3,  3,3,  3,6,  6,6,  6,1];o.moveSpeed+=1;
+                        o=GetObj(Build("YETI",1,6));o.points=[1,1,  6,1,  6,6,  3,6,  3,3,  1,3,  1,6,    1,3,  3,3,  3,6,  6,6,  6,1];o.moveSpeed+=1;o.currentPoint=6;
+                        SetPortals(51,55,null,58);break;
+                    case 53:// dark, maze b1
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚪⭕⚪⚫⚫⚫"+
+                            "⚪⚫⚫⚫⚫⚫⚪⚫⚪⚫⚪⚪"+
+                            "⚪⚪⚪⚪⚪⚫⚪🔴⚪⚫⚪🟤"+
+                            "⚪🟠🟡🟠⚪⚫⚪⚫⚪⚫⚪🟤"+
+                            "⚪⚫⚫⭕⚪⚫⚪⚫⚪⚫⚪🟤"+
+                            "⚪⚫⚫⚫⚫⭕⚪⚫⚫⚫⚪🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"});
+                        Build("DINOSAUR",3,5);
+                        Build("DINOSAUR",5,6);
+                        o=GetObj(Build("YETI",7,1));o.points=[7,1,  7,6,  9,6,  9,1,  9,6,  7,6];o.moveSpeed+=1;
+                        SetPortals(null,56,null,50);break;
+                    case 54:// dark, maze b2          JESTER
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:"WELL",blue:"CANDLESE",purple:"CANDLESW",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤⚪⚪⚪⚪⚪⚪⚪🟤🟤🟤"+
+                            "🟤⚪⚪🔵⚫⚫⚫🟣⚪⚪🟤🟤"+
+                            "⚪⚪🔵⚫⚫⚫⚫⭕🟣⚪⚪⚪"+
+                            "⚫⚫⚫⚫⚫🟢⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚪⚪⚪"+
+                            "🟤⚪⚪⚫⚫⚫⚫⚫⚪⚪🟤🟤"+
+                            "🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"});
+                            if(playerObj.visitedRitual){
+                                ;
+                            }else{
+                                GetObj(Build("JESTER",7,2)).message="Do you hear the dreadful roaring of the yeti beasts? My sword is mightier, so I fear not.";
+                            }
+                        SetPortals(null,57,55,51);break;
+                    case 55:// dark, maze b3
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESE",purple:"CANDLESW",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪🟤"+
+                            "⚪🔵🟣⚪⚪⭕⚪⚪🔵🟣⚪⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("REDGHOST",5,5));o.delayStart=0;
+                        SetPortals(54,58,49,52);break;
+                    case 56:// dark, maze c1
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESW",purple:"CANDLESE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚫⚫⚫⚫⚫⚪⚫⚫⚫⚫⚫⚫"+
+                            "⚪🟣⚪⚪⚫⚪⚫⚪⚪🔵⚪⚪"+
+                            "⚪⚪⚪⚪⚫⚪⚫⚫⚪⚪⚪🟤"+
+                            "🟤⚪⚪⚪⚫⚫⚪⚫⚪🟤🟤🟤"+
+                            "🟤⚪🟣⚪⚪⚫⚪⚫⚪⚪⚪🟤"+
+                            "🟤⚪⚫⚫⚫⚫⚪⚫⚫🔵⚪🟤"+
+                            "🟤⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪🟤"});
+                        o=GetObj(Build("REDGHOST",5.5,3.5));o.delayStart=0;
+                        SetPortals(null,50,57,53);break;
+                    case 57:// dark, maze c2
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:"PIT",blue:"WELL",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪🟤"+
+                            "⚪⚫⚫⚫🟢🟢🟢⭕⚫⚫⚪🟤"+
+                            "⚪⚫⚫⚫🟢🟢🟢⚫⚫🟠⚪⚪"+
+                            "⚫⚫⚫⚫🟢🟢🟢⚫⚫⚫⚫⚫"+
+                            "⚪⚫⚫⚫🟢🟢🟢⚫⚫🟠⚪⚪"+
+                            "⚪⚫⚫⚫🟢🟢🟢⭕⚫⚫⚪🟤"+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        o=GetObj(Build("ARCHERSKELETON",7,1));o.delayStart=o.shootSpeed/2*0;
+                        o=GetObj(Build("ARCHERSKELETON",7,5));o.delayStart=o.shootSpeed/2*1;
+                        SetPortals(56,59,58,54);break;
+                    case 58:// dark, maze c3
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⭕⚪🟤"+
+                            "⚪⚪⚪⚪⚪⚫⚫⚫⚫⭕⚪🟤"+
+                            "⚪🟠🟡🟠⚪⚫⚫⚫⭕⚪⚪🟤"+
+                            "⚪⚫⚫⚫⚪⚫⚫⭕⚪⚪⚪⚪"+
+                            "⚫⚫⚫⚫⚪⚫⚫⚫⚫⚫⚫⚫"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        let rangle=GetRangle(0,0,-1,0);
+                        o=GetObj(Build("DRAGONSTATUE",9,1));o.shootAngle=rangle;
+                        o=GetObj(Build("DRAGONSTATUE",9,2));o.shootAngle=rangle;o.delayStart=o.shootSpeed/2;
+                        o=GetObj(Build("DRAGONSTATUE",9,3));o.shootAngle=rangle;
+                        o=GetObj(Build("DRAGONSTATUE",8,4));o.shootAngle=rangle;
+                        o=GetObj(Build("DRAGONSTATUE",7,5));o.shootAngle=rangle;
+                        SetPortals(57,52,null,55);break;
+                    case 59:// dark, puzzle
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤🟤"+
+                            "🟤⚪⚪⚫⭕⚫⭕⚫⚪⚪🟤🟤"+
+                            "⚪⚪⭕⚫⚫⚫⚫⚫⭕⚪⚪🟤"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        Build("FIREOFF",8,2);
+                        Build("FIREOFF",2,2);
+                        Build("FIREOFF",6,1);
+                        Build("FIREOFF",4,1);
+                        if(mapData[id]["fireComplete"]==false){
+                            let element=Build("BLACKBRICKWALL",5,0);
+                            mapData[id]["fireFunction"]=function(){
+                                element.addClass("adv_flashing");
+                                let o=GetObj(element);
+                                o.flashTimer=setTimeout(function(){
+                                    o.flashTimer=null;
+                                    element.removeClass("adv_flashing");
+                                    element.remove();
+                                },2000);
+                            };
+                        }
+                        SetPortals(60,null,49,57);break;
+                    case 60:// dark, 3yeti gold
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"JUNK2",purple:"JUNK1",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫🟣🔵⚫⚫⚫⚫🔵🔵🟡⚪"+
+                            "⚪⚫🔵🟣⚫🔵🔵⚫🔵🔵⭕⚪"+
+                            "⚪⚫🟣🔵⚫🔵🔵⚫🔵🔵⚫⚪"+
+                            "⚪⚫🔵🟣⚫🔵🔵⚫🔵🔵⚫⚪"+
+                            "⚪⚫🟣🔵⚫🔵🔵⚫🔵🔵⚫⚪"+
+                            "⚪⚫⚫⚫⚫🟠🔵⭕⚫⚫⭕⚪"+
+                            "⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("YETI",10,2));o.points=[10,1,  10,6];
+                        o=GetObj(Build("YETI",10,6));o.points=[10,6,  7,6];
+                        o=GetObj(Build("YETI",7,6));o.points=[7,6,  7,1];
+                        Build("BONES1",7,2);
+                        Build("BONES2",7,4);
+                        Build("BONES1",9,6);
+                        Build("BONES1",10,2);
+                        Build("BONES2",10,3);
+                        SetPortals(61,null,59,null);break;
+                    case 61:// dark, ritual                        CHECKPOINT
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "⚪⚫🔴🟣🟣🟣🔵🔵🔵⚫⚫⚪"+
+                            "⚪⚫🟣🟣🟣🟣🔵🔵🔵🔵⚫⚪"+
+                            "⚪⚫🟣🟣🟣🟠🟠🟠🟠🟠🟠⚫"+
+                            "⚪⚫🟢🟢🟢🟠🟠🟠🟠🟠🟠⚫"+
+                            "⚪⚫🟢🟢🟢🟢🟡🟡🟡🟡⚫⚪"+
+                            "⚪⚫⚫🟢🟢🟢🟡🟡🟡⚫⚫⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        CheckpointPlayerPosition(5.5,3.5);
+                        playerObj.visitedRitual=true;
+                        if(CHEATITEMS){
+                            Build("SWORD",9,1);
+                            Build("ARMOR",10,1);
+                            Build("XBOW",10,2);
+                        }
+                        SetPortals(64,62,60,null);break;
+                    case 62:// dark, ritual hall top
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪🟤🟤🟤🟤"+
+                            "⚫🟠🟠🟠🟠🟠🟠⚪🟤🟤🟤🟤"+
+                            "⚫🟠🟠🟠🟠🟠🟠⚪🟤🟤🟤🟤"+
+                            "⚪⚪⚪⚪⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"});
+                        SetPortals(null,null,63,61);break;
+                    case 63:// dark, ritual hall bottom
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"});
+                        SetPortals(62,null,68,null);break;
+                    case 64:// dark top, yetis
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
+                            "⚪⭕⚫⚫⚫⚫⚫⚫⚫⭕⚫⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
+                            "⚪⭕⚫⚫⚪⚪⚫⚫⚫⚪⚫⚫"+
+                            "⚪⚪⚪⚫⚪⚪⚫⚪⚪⚪⚫⚪"+
+                            "⚪⚫⚫⚫⚪⚪⭕⚫⚫⚫⚫⚪"+
+                            "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        o=GetObj(Build("YETI",1,1));o.points=[1,1,  1,4];
+                        o=GetObj(Build("YETI",1,4));o.points=[1,4,  3,4];
+                        o=GetObj(Build("YETI",9,1));o.points=[10,1,  1,1];o.currentPoint=1;
+                        //o=GetObj(Build("YETI",6,4));o.points=[6,4,  8,4];
+                        o=GetObj(Build("YETI",6,6));o.points=[6,6,  10,6];
+                        Build("BONES1",8,1);
+                        Build("BONES2",3,1);
+                        Build("BONES1",1,3);
+                        Build("BONES2",7,6);
+                        SetPortals(65,66,61,null);break;
+                    case 65:// dark top, potion
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
+                            "🟤⚪🟣🟣⚫🟠🔴🟠⚫🔵🔵⚪"+
+                            "🟤⚪🟣⚫⭕⚫⭕⚫⭕⚫🔵⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⭕⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⭕⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"});
+                        SetPortals(null,null,64,null);break;
+                    case 66:// dark top, puzzle
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:null,yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
+                            "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"+
+                            "🟤⚪⚫⚫🟠⚫⚫⚫🟠⚫⚫⚪"+
+                            "🟤⚪🟠⚫⭕⚫⚫⚫⚫⚫🟠⚪"+
+                            "⚪⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "⚪⚪🟠⚫⚫⚫⚫⚫⭕⚫🟠⚪"+
+                            "🟤⚪⚫⚫🟠⚫⚫⚫🟠⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
+                        Build("FIREOFF",10,5);
+                        Build("FIREOFF",2,2);
+                        Build("FIREOFF",2,5);
+                        Build("FIREOFF",4,6);
+                        Build("FIREOFF",8,6);
+                        Build("FIREOFF",10,2);
+                        Build("FIREOFF",8,1);
+                        Build("FIREOFF",4,1);
+                        if(mapData[id]["fireComplete"]==false){
+                            let element=Build("BLACKBRICKWALL",6,0);
+                            mapData[id]["fireFunction"]=function(){
+                                element.addClass("adv_flashing");
+                                let o=GetObj(element);
+                                o.flashTimer=setTimeout(function(){
+                                    o.flashTimer=null;
+                                    element.removeClass("adv_flashing");
+                                    element.remove();
+                                },2000);
+                            };
+                        }
+                        SetPortals(67,null,null,64);break;
+                    case 67:// dark top, xbow
+                        QuickBuildFull("GREYBRICKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:null,green:"XBOW",blue:null,purple:null,
+                            black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚪⚪⚪⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪🟠🟢🟠⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚫⚫⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚫⚫🔴⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
+                        SetPortals(null,null,66,null);break;
+                    case 68:// heck entrance           JESTER
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"TORCH",yellow:"BONES3",green:"REDROCK2",blue:null,purple:"BONES5",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
+                            "🟤🟤⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"+
+                            "🟤🟤⚪⚪⚪🟠🟠⚪⚪⚪🟤🟤"+
+                            "🟤🟤🟤🔴🟣⚫⚫⚫🟢🟤🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⚫🟣🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⚫⚫⚫⚫"+
+                            "🟤🟤🟤🟤⚫🟣⚫⚫🟡⚫⚫⚫"+
+                            "🟤🟤🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        FindImages(SPRITES.REDROCK2).each(function(){
+                            let obj=GetObj($(this));
+                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                        });
+                        if(playerObj.XBOW){
+                            ;
+                        }else{
+                            GetObj(Build("JESTER",7,2)).message="My gear cannot face the perils here. Yours neither, I suspect.";
+                        }
+                        SetPortals(63,69,null,null);break;
+                    case 69:// heck nw
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK5",blue:null,purple:"REDROCK7",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟢⚫⚫⚫🟤🟤🟤🟤"+
+                            "🟤🟤⚫⚫⚫⚫⚫⚫🟢🟤🟤🟤"+
+                            "🟤⚫⚫⚫⚫⚫🟣⚫⚫⚫🟤🟤"+
+                            "⚫⚫🟢🟤🟤🟤⚫⚫⚫⚫⚫⚫"+
+                            "⚫⚫🟤🟤🟤⚫🟠⚫🟡⚫⚫⚫"+
+                            "🟤🟤🟤🟤🟢⚫⚫⚫⚫🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚫⚫⚫⚫🟤🟤🟤🟤"});
+                        SetPortals(null,72,70,68);break;
+                    case 70:// heck sw
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK5",blue:"BONES4",purple:"REDROCK7",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
+                            "🟤🟤🟤🟤⚫⚫⚫⚫🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟢⚫⚫⚫🟤🟤🟤🟤"+
+                            "🟤🟤🔵⚫⚫⚫⚫⚫⚫🟡🟤🟤"+
+                            "🟤⚫⚫⚫🟢⚫⚫⚫⚫⚫⚫⚫"+
+                            "🟤⚫⚫🟤🟤🟠⚫⚫🟣⚫⚫⚫"+
+                            "🟤⚫⚫🟤🟤🟤🟢⚫⚫⚫⚫⚫"+
+                            "🟤🔵⚫🔵🟤🟤🟤🟢⚫⚫🟡🟤"+
+                            "🟤🟤⚫⚫🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(69,71,73,null);break;
+                    case 71:// heck se
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK2",blue:"REDROCK5",purple:"REDROCK7",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟢🟤🟤"+
+                            "🟤🟤🟤🔵⚫⚫⚫⚫🟤🟤🟤🟤"+
+                            "⚫⚫⚫⚫⚫⚫⚫⚫🟤🟤🟢🟤"+
+                            "⚫⚫🟠⚫⚫🔵⚫⚫⚫🟤🟤🟤"+
+                            "⚫🔵🟤🟤🟤🟤⚫⚫⚫⚫🟡⚫"+
+                            "🟤🟤🟤🟣🟤🟤🟤🟤🟡⚫⚫⚫"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        FindImages(SPRITES.REDROCK2).each(function(){
+                            let obj=GetObj($(this));
+                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                        });
+                        SetPortals(72,74,null,70);break;
+                    case 72:// heck ne
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK2",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
+                            "🟤🟤🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤"+
+                            "🟤🟣🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟢⚫🟢🟤🟤🟣🟤"+
+                            "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤"+
+                            "⚫🟡⚫⚫⚫⚫⚫🟤🟤🟤🟤🟤"+
+                            "⚫⚫🟠⚫⚫🟡🟤🟤🟤🟣🟤🟤"+
+                            "🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤"});
+                        FindImages(SPRITES.REDROCK2).each(function(){
+                            let obj=GetObj($(this));
+                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                        });
+                        SetPortals(75,null,71,69);break;
+                    case 73:// heck BOSSTUSK
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK6",blue:"BONES4",purple:"REDROCK7",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:"BOSSTUSK",map:""+
+                            "🟤🟤⚫⚫🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤⚫⚫🔵⚫⚫⚫⚫🟣🟤🟤"+
+                            "🟤🔵⚫⚫⚫🟢⚫⚫⭕⚫🟤🟤"+
+                            "🟤⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫🟤"+
+                            "🟤⚫⚫⚫⚫⚫⚫⚫🟢⚫⚫🟤"+
+                            "🟤⚫⚫🟢⚫⚫⚫⚫⚫⚫🟤🟤"+
+                            "🟤🟤⚫⚫⚫⚫⚫🟣🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(70,null,null,null);break;
+                    case 74:// heck BOSSDRAGON
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK2",
+                            black:null,white:"REDBRICKWALL",brown:"LAVA",circle:"BOSSDRAGON",map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤🟤⚫⚫⚫⚫⚫🟤🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⭕⚫🟤🟤"+
+                            "🟤🟤🟤⚫⚫⚫⚫⚫⚫⚫⚫🟤"+
+                            "🟤🔵⚫⚫⚫⚫⚫⚫⚫⚫⚫🟤"+
+                            "⚫⚫🔵⚫⚫⚫⚫⚫⚫⚫🟤🟤"+
+                            "⚫🔵🟤🟤⚫⚫⚫⚫⚫🟤🟤🟤"+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
+                        SetPortals(null,null,null,71);break;
+                    case 75:// heck BOSSGLOW
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK6",
+                            black:null,white:"REDBRICKWALL",brown:"BLACK",circle:"BOSSGLOW",map:""+
+                            "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"+
+                            "🟤⚪⭕⚫⚫⚫⚫🟣⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫🟣⚪"+
+                            "🟤⚪🟣⚫⚫⚫⚫⚫⚫⚫🟣⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
+                            "🟤⚪⚫⚫⚫⚫⚫🟣⚫⚫⚫⚪"+
+                            "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"});
+                        Build("REDBRICKDOOR",6,0);
+                        SetPortals(76,null,72,null);break;
+                    case 76:// heck end
+                        QuickBuildFull("HECKFLOOR");
+                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            red:"POTION",orange:"DINOSAUR",yellow:"COINS",green:"BONES5",blue:"REDROCK5",purple:"REDROCK6",
+                            black:null,white:"REDBRICKWALL",brown:"BLACK",circle:null,map:""+
+                            "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
+                            "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪🟤🟤"+
+                            "🟤🟤🟤⚪🟡🔴⭕⭕⭕⚪🟤🟤"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🟤🟤"+
+                            "🟤🟤🟤⚪⭕⭕⚫⚫⭕⚪🟤🟤"+
+                            "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🟤🟤"+
+                            "🟤🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤"+
+                            "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
+                        GetObj(Build("PERSONRANGERMAN",6+0.3,2)).message="Thank you for rescuing my family. I'm in your debt.";
+                        GetObj(Build("PERSONRANGERWOMAN",7,2)).message="Now we can return home!";
+                        GetObj(Build("PERSONCHILD",8-0.6,2)).message="It's scary here!";
+                        GetObj(Build("PERSONLUMBERJACK",4,4)).message="It's been like a sauna in here. I can't wait to return to the forest.";
+                        GetObj(Build("PERSONFARMER",5,4)).message="The skeletons captured us. I wonder where they came from?";
+                        GetObj(Build("JESTER",8,4)).message="We've rescued the villagers! Wonderful!<br>Do you happen to have 120 gold coins?";
+
+                        SetPortals(null,null,75,null);break;
+                    default: console.log("unhandled map "+id);break;
+                }//end load switch
+            }//end load
+        }//end loadmap
+
+        const showHits=false;
+        const STARTMAP=1;//  town:1, crypt:9, castle:21, cave:38, dark:49, heck:61
+        const CHEATWALLS=false;
+        const CHEATITEMS=false;
+
+    </script>
+
+    <style>
+        body{background-color:darkslategrey;}
+    </style>
+</head>
+<body>
+    <div id="adventure"></div>
+</body>
+</html>

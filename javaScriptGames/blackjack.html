@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Kevin's Blackjack</title>
+
+    <style>
+        body{
+            background-color:darkgreen;
+        }
+
+        #blackjack{
+            position:relative;
+            width:600px;
+            height:600px;
+            background-color:forestgreen;
+            border:1px solid black;
+            text-align:left;
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight:bold;
+            font-size:1.4em;
+            overflow:hidden;
+            user-select:none;
+        }
+        #bl_title{
+            position:absolute;
+            width:100%;
+            background-color:dimgrey;
+            border:1px solid black;
+            padding:5px 0 5px 10px;
+            text-shadow:0 0 3px black,0 0 3px black;
+            color:dimgrey;
+            font-style:italic;
+            font-size:larger;
+        }
+        #bl_helpButton{
+            position:absolute;
+            width:40px;
+            height:30px;
+            top:5px;
+            right:5px;
+            background-color:dodgerblue;
+            color:white;
+            padding-top:5px;
+            text-align:center;
+            border-radius:999px;
+            cursor:pointer;
+        }
+        .bl_card{
+            display:inline-block;
+            width:80px;
+            height:123px;
+            background:url("cards/gray_back.png");
+            background-size:contain;
+            background-repeat:no-repeat;
+            border-radius:6px;
+        }
+        #bl_shoeBox{
+            position:absolute;
+            width:150px;
+            height:150px;
+            right:0;
+            top:15%;
+            transform:rotate(-90deg);
+        }
+        #bl_shoe{
+            position:absolute;
+            width:80px;
+            height:123px;
+            background:url("cards/gray_back.png") silver;
+            background-size:contain;
+            background-repeat:no-repeat;
+            border:1px solid silver;
+            border-radius:6px;
+        }
+        #bl_chipBox{
+            position:absolute;
+            width:20px;
+            height:20px;
+            right:15px;
+            bottom:330px;
+        }
+        .bl_chip{
+            position:absolute;
+            width:40px;
+            height:40px;
+            background-image:radial-gradient(white 39%,indianred 40%);
+            border:5px dashed white;
+            border-radius:999px;
+            box-shadow:0 0 7px black;
+        }
+        #bl_chipLabel{
+            position:absolute;
+            width:190px;
+            height:40px;
+            right:0;
+            bottom:0;
+            color:white;
+            text-shadow:0 0 3px black,0 0 3px black;
+            font-size:larger;
+            text-align:center;
+        }
+        .bl_score{
+            position:absolute;
+            left:20px;
+            width:160px;
+            text-align:center;
+            font-size:larger;
+            color:rgba(255,255,255,0.5);
+        }
+        #bl_dealerScore{
+            top:calc(50px + 123px + 10px);
+        }
+        #bl_playerScore{
+            bottom:calc(180px + 123px + 10px);
+        }
+        .bl_zone{
+            position:absolute;
+            left:20px;
+            width:999px;/* was 405 */
+            height:123px;
+        }
+        .bl_zoneSquish > *{
+            margin-right:-40px;
+            box-shadow:-3px 0 7px black;
+        }
+        #bl_dealerZone{
+            top:50px;
+        }
+        #bl_playerZone{
+            bottom:180px;
+        }
+        .bl_button{
+            position:absolute;
+            width:160px;
+            bottom:120px;
+            padding:5px;
+            background-color:lightskyblue;
+            border:5px double black;
+            border-radius:999px;
+            box-shadow: 0px 0px 10px black;
+            cursor:pointer;
+            text-align:center;
+        }
+        .bl_button:hover{
+            border-color:white;
+        }
+        #bl_standButton{
+            left:20px;
+        }
+        #bl_hitButton{
+            left:225px;
+        }
+        #bl_startButton{
+            width:200px;
+            left:100px;
+            bottom:40px;
+            padding:15px;
+        }
+
+        .bl_cardToDealer{
+            position:absolute;
+            animation: bl_cardToDealer 0.75s ease-in 0s 1 normal;/*match CARD_DELAY*/
+            animation-fill-mode:forwards;
+        }@keyframes bl_cardToDealer{
+            from{transform:rotate(-90deg);right:60px;top:90px;}
+            to{transform:rotate(0deg);right:450px;top:50px;}
+        }
+        .bl_cardToPlayer{
+            position:absolute;
+            animation: bl_cardToPlayer 0.75s ease-in 0s 1 normal;/*match CARD_DELAY*/
+            animation-fill-mode:forwards;
+        }@keyframes bl_cardToPlayer{
+            from{transform:rotate(-90deg);right:60px;top:90px;}
+            to{transform:rotate(0deg);right:450px;top:295px;}
+        }
+        .bl_chipToPlayer{
+            position:absolute;
+            animation: bl_chipToPlayer 1.5s ease-in-out 0s 1 normal;/*match CHIP_DELAY*/
+            animation-fill-mode:forwards;
+        }@keyframes bl_chipToPlayer{
+            0%{right:500px;top:-50px;}
+            60%{right:400px;}
+            100%{right:70px;top:400px;}
+        }
+        .bl_chipToDealer{
+            position:absolute;
+            animation: bl_chipToDealer 1.5s ease-in-out 0s 1 normal;/*match CHIP_DELAY*/
+            animation-fill-mode:forwards;
+        }@keyframes bl_chipToDealer{
+            0%{right:70px;top:400px;}
+            40%{right:400px;}
+            100%{right:500px;top:-50px;}
+        }
+
+        .bl_cardHidden{
+            background-image:url("cards/gray_back.png") !important;
+        }
+        .bl_cardFlip{
+            animation:bl_cardFlip 0.75s ease-in-out 0s 1 normal;/*match CARD_DELAY*/
+            animation-fill-mode:forwards;
+        }@keyframes bl_cardFlip{
+            0%{transform:scaleX(100%);background-image:url("cards/gray_back.png");}
+            50%{transform:scaleX(0%);}
+            100%{transform:scaleX(100%);}
+        }
+
+        #bl_message{
+            position:absolute;
+            width:280px;
+            height:100px;
+            left:160px;
+            top:200px;
+            text-align:center;
+            font-style:italic;
+            font-size:1.2em;
+            color:rgba(0,0,0,0.5);
+        }
+        #bl_message > *{
+            text-shadow:0 0 3px black,0 0 3px black;
+            animation:bl_textEffect 0.5s ease-in-out 0s infinite alternate;
+        }@keyframes bl_textEffect{
+            from{font-size:1em;}
+            to{font-size:1.2em;}
+        }
+        .bl_textBad{
+            color:indianred;
+        }
+        .bl_textGood{
+            color:lime;
+        }
+        .bl_textNatural{
+            color:yellow;
+        }
+    </style>
+    <script>
+        "use strict";
+
+        function $(id){
+            return document.getElementById(id);
+        }
+
+        //=================== Initialization ====================
+
+        const CARD_BACK="gray_back";
+        const CARD_DELAY=1000*0.75;
+        const CHIP_DELAY=1000*1.5;
+
+        let blackjack;
+        let chips=[];
+        let deck=[];
+
+        let shoe=[];
+        let shoeHeightStep=0;
+
+        window.onload=function(){
+            Startup();
+            EnterFocus();
+        }
+        function Startup(){
+            blackjack=$("blackjack");
+            let html="";
+
+            html+="<div id='bl_chipBox'></div>";
+            html+="<div id='bl_chipLabel'></div>";
+
+            html+="<div id='bl_dealerScore' class='bl_score'></div>";
+            html+="<div id='bl_playerScore' class='bl_score'></div>";
+            html+="<div id='bl_dealerZone' class='bl_zone'></div>";
+            html+="<div id='bl_playerZone' class='bl_zone'></div>";
+            
+            html+="<div id='bl_shoeBox'>       <div id='bl_shoe'></div>       </div>";
+
+            html+="<div id='bl_standButton' class='bl_button'>Stand</div>";
+            html+="<div id='bl_hitButton' class='bl_button'>Hit</div>";
+            html+="<div id='bl_startButton' class='bl_button'></div>";
+
+            html+="<div id='bl_message'></div>";
+
+            html+="<div id='bl_title'>Kevin's Blackjack</div>";
+            html+="<div id='bl_helpButton'>?</div>";
+
+            // hidden input keyboard detection
+            html +="<input id='bl_hiddenInput' type='text' style='width:0;height:0;opacity:0;'>";
+
+            blackjack.innerHTML=html;
+
+            // hidden input keyboard detection
+            blackjack.onclick=EnterFocus;
+            $("bl_hiddenInput").setAttribute("onkeypress","OnKeyPress(event)");
+
+            show($("bl_shoe"),false);
+
+            show($("bl_standButton"),false);
+            $("bl_standButton").onclick=StandButton;
+            show($("bl_hitButton"),false);
+            $("bl_hitButton").onclick=HitButton;
+
+            show($("bl_startButton"),true);
+            $("bl_startButton").innerText="New game";
+            $("bl_startButton").onclick=StartButton;
+
+            $("bl_helpButton").onclick=function(){
+                let message="===========================\n"+
+                            "Tip\n\n"+
+
+                            "You can use the S and H keys on the keyboard, if you've clicked within the game.\n\n"+
+
+                            "===========================";
+                alert(message);
+            };
+
+            StartupChips();
+            CreateDeck();
+        }
+        function StartupChips(){
+            let jitter=0;
+            let rotate=0;
+            let html="";
+            let style="";
+            let x,y;
+            for(x=0;x<3;x++){
+                for(y=0;y<33;y++){
+                    jitter=Math.floor(Math.random()*4)-2;
+                    rotate=Math.floor(Math.random()*360);
+                    style="right:"+((x*55)+jitter)+"px;top:"+(y*8)+"px;";
+                    style+="transform:rotate("+rotate+"deg);";
+                    style+="visibility:hidden;";
+                    html+="<div class='bl_chip' style='"+style+"'></div>";
+                }
+            }
+            $("bl_chipBox").innerHTML=html;
+            chips=document.getElementsByClassName("bl_chip");
+        }
+        function CreateDeck(){
+            let suits=["C","D","H","S"];
+            let pips=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+            for(let s=0;s<suits.length;s++){
+                for(let p=0;p<pips.length;p++){
+                    deck.push(pips[p]+suits[s]);
+                }
+            }
+        }
+
+        //=================== Keyboard detection ====================
+
+        function EnterFocus(){
+            $("bl_hiddenInput").focus();
+        }
+        function OnKeyPress(event){
+            if(event.key=="s"){
+                if($("bl_standButton").style.visibility=="visible"){
+                    StandButton();
+                }else if($("bl_startButton").style.visibility=="visible"){
+                    StartButton();
+                }
+            }else if(event.key=="h"){
+                if($("bl_hitButton").style.visibility=="visible"){
+                    HitButton();
+                }else if($("bl_startButton").style.visibility=="visible"){
+                    StartButton();
+                }
+            }
+        }
+
+        //=================== Utilities ====================
+
+        function show(element,visible){
+            element.style.visibility=(visible)?"visible":"hidden";
+        }
+        function RemoveClass(element,c){
+            let s=element.className;
+            let index=s.indexOf(c);
+            while(index!=-1){
+                s = s.slice(0,index) + s.slice(index+c.length);
+                index=s.indexOf(c);
+            }
+            element.className=s;
+        }
+        function RemoveFromString(s,phrase){
+            let index=s.indexOf(phrase);
+            if(index==-1)return s;
+            return s.slice(0,index) + s.slice(index+phrase.length);
+        }
+        function ResetShoe(){
+            shoe=[];
+            let tempShoe=[].concat(deck,deck,deck,deck);// four decks of cards
+            shoeHeightStep=100/tempShoe.length;
+
+            let randomIndex;
+            while(tempShoe.length){
+                randomIndex=Math.floor(Math.random()*tempShoe.length);
+                shoe.push(tempShoe[randomIndex]);
+                tempShoe.splice(randomIndex,1);
+            }
+            $("bl_shoe").style.borderLeftWidth=(shoe.length*shoeHeightStep)+"px";
+        }
+        function ResetChips(){
+            playerChips=15;// starting chips
+            $("bl_chipLabel").innerText=playerChips+" chips";
+            let x=0;
+            for(x=0;x<playerChips;x++){
+                show(chips[x],true);
+            }
+            for(x=playerChips;x<chips.length;x++){
+                show(chips[x],false);
+            }
+        }
+        function CardToPlayer(){
+            let insignia=DrawCardName();
+            let animCard=NewCardElement(blackjack,"gray_back");
+            animCard.className+=" bl_cardToPlayer";
+            if(playerCards.length==5)$("bl_playerZone").className+=" bl_zoneSquish";
+            setTimeout(function(){
+                blackjack.removeChild(animCard);
+                let element=NewCardElement($("bl_playerZone"),insignia);
+                playerCards[playerCards.length]={
+                    element:element,
+                    insignia:insignia
+                };
+                $("bl_playerScore").innerText=GetHandValue(playerCards);
+            },CARD_DELAY);
+        }
+        function CardToDealer(){
+            let insignia=DrawCardName();
+            let animCard=NewCardElement(blackjack,"gray_back");
+            animCard.className+=" bl_cardToDealer";
+            if(dealerCards.length==5)$("bl_dealerZone").className+=" bl_zoneSquish";
+            setTimeout(function(){
+                blackjack.removeChild(animCard);
+                let element=NewCardElement($("bl_dealerZone"),insignia);
+                if(dealerCards.length==1)element.className+=" bl_cardHidden";
+                dealerCards[dealerCards.length]={
+                    element:element,
+                    insignia:insignia
+                };
+                if(dealerCards.length!=2)$("bl_dealerScore").innerText=GetHandValue(dealerCards);
+            },CARD_DELAY);
+        }
+        function DrawCardName(){
+            let card=shoe[0];
+            shoe.shift();
+            if(shoe.length==0)ResetShoe();
+            $("bl_shoe").style.borderLeftWidth=(shoe.length*shoeHeightStep)+"px";
+            return card;
+        }
+        function NewCardElement(parent,name){
+            let card=document.createElement("div");
+            parent.appendChild(card);
+            card.className="bl_card";
+            card.style.backgroundImage="url('cards/"+name+".png')";
+            return card;
+        }
+        function GiveChip(){
+            let chip=document.createElement("div");
+            blackjack.appendChild(chip);
+            chip.className+=" bl_chip";
+            chip.className+= " bl_chipToPlayer";
+            setTimeout(function(){// give chip @ 98, target 98
+                blackjack.removeChild(chip);
+                if(playerChips<0 || playerChips>98);
+                else show(chips[playerChips],true);
+                playerChips++;
+                $("bl_chipLabel").innerText=playerChips+" chips";
+            },1500);
+        }
+        function TakeChip(){
+            let chip=document.createElement("div");
+            blackjack.appendChild(chip);
+            chip.className+=" bl_chip";
+            chip.className+= " bl_chipToDealer";
+            if(playerChips<1 || playerChips>99);
+            else show(chips[playerChips-1],false);
+            playerChips--;
+            $("bl_chipLabel").innerText=playerChips+" chips";
+            setTimeout(function(){
+                blackjack.removeChild(chip);
+            },1500);
+
+            // if you have 99, just do the animation
+        }
+        function FlipDealerCardTwo(){
+            let card=dealerCards[1].element;
+            RemoveClass(card,"bl_cardHidden");
+            card.className+=" bl_cardFlip";
+            setTimeout(function(){
+                $("bl_dealerScore").innerText=GetHandValue(dealerCards);
+                RemoveClass(card,"bl_cardFlip");
+            },CARD_DELAY);
+        }
+        function GetCardValue(o){
+            let pip=o.insignia.slice(0,-1);
+            if(pip=="A")return 11;
+            if(pip=="J" || pip=="Q" || pip=="K")return 10;
+            return parseInt(pip);
+        }
+        function GetHandValue(h){
+            let i,v;
+            let value=0;
+            let variants=[];
+            variants[0]=0;
+            for(i=0;i<h.length;i++){
+                value=GetCardValue(h[i]);
+                if(value==11){
+                    for(v=0;v<variants.length;v++)variants[v]+=1;
+                    variants[variants.length]=variants[0]-1 + 11;
+                }else{
+                    for(v=0;v<variants.length;v++)variants[v]+=value;
+                }
+            }
+            let bestValue=-1;
+            for(i=0;i<variants.length;i++){
+                value=variants[i];
+                if(value>21)continue;
+                if(value>bestValue)bestValue=value;
+            }
+            if(bestValue==-1)return variants[0];
+            return bestValue;
+        }
+        function Message(s){
+            $("bl_message").innerHTML=s;
+        }
+
+        //=================== Gameplay ====================
+
+        let dealerCards=[];
+        let playerCards=[];
+        let playerChips=0;
+
+        function StartButton(){
+            if(playerChips==0){
+                // start a new game
+                show($("bl_shoe"),true);
+                $("bl_startButton").innerText="Continue";
+                ResetChips();
+                ResetShoe();
+            }
+            show($("bl_startButton"),false);
+            NewRound();
+        }
+        function NewRound(){
+            Message("");
+
+            dealerCards=[];
+            $("bl_dealerScore").innerText="";
+            $("bl_dealerZone").innerHTML="";
+            RemoveClass($("bl_dealerZone"),"bl_zoneSquish");
+
+            playerCards=[];
+            $("bl_playerScore").innerText="";
+            $("bl_playerZone").innerHTML="";
+            RemoveClass($("bl_playerZone"),"bl_zoneSquish");
+
+            CardToPlayer();setTimeout(function(){
+                CardToDealer();setTimeout(function(){
+                    CardToPlayer();setTimeout(function(){
+                        CardToDealer();setTimeout(function(){
+                            PlayerTurnCheck();
+                        },CARD_DELAY);
+                    },CARD_DELAY);
+                },CARD_DELAY);
+            },CARD_DELAY);
+        }
+        function PlayerTurnCheck(){
+            let playerHandValue=parseInt($("bl_playerScore").innerText);
+            if(playerHandValue>21){// bust
+                Message("<span class='bl_textBad'>Bust</span>");
+                DelayToDealerTurn();
+            }else if(playerHandValue==21){
+                if(playerCards.length==2){// natural
+                    Message("<span class='bl_textNatural'>Natural</span>");
+                }else{// 21
+                    Message("<span class='bl_textGood'>You got 21</span>");
+                }
+                DelayToDealerTurn();
+            }else{
+                Message("What will you do?");
+                show($("bl_standButton"),true);
+                show($("bl_hitButton"),true);
+            }
+        }
+        function DelayToDealerTurn(){
+            setTimeout(function(){
+                Message("");
+                DealerTurnCheck();
+            },1000*3);
+        }
+        function StandButton(){
+            Message("");
+            show($("bl_standButton"),false);
+            show($("bl_hitButton"),false);
+            DealerTurnCheck();
+        }
+        function HitButton(){
+            Message("");
+            show($("bl_standButton"),false);
+            show($("bl_hitButton"),false);
+            CardToPlayer();setTimeout(PlayerTurnCheck,CARD_DELAY);
+        }
+
+        function DealerTurnCheck(){
+            if(dealerCards[1].element.className.indexOf("bl_cardHidden")!=-1){
+                FlipDealerCardTwo();setTimeout(DealerTurnCheck,CARD_DELAY+1000*0.5);
+                return;
+            }
+
+            let dealerHandValue=parseInt($("bl_dealerScore").innerText);
+            let playerHandValue=parseInt($("bl_playerScore").innerText);
+            if(playerHandValue>21){
+                Lose();
+            }else if(playerHandValue==21 && playerCards.length==2){
+                if(dealerHandValue==21 && dealerCards.length==2){
+                    Standoff();
+                }else Win();
+            }else if(dealerHandValue<17){
+                CardToDealer();setTimeout(DealerTurnCheck,CARD_DELAY+1000*0.5);
+            }else if(dealerHandValue>21){
+                Win();
+            }else{
+                if(dealerHandValue>playerHandValue){
+                    Lose();
+                }else if(dealerHandValue<playerHandValue){
+                    Win();
+                }else Standoff();
+            }
+        }
+        function Lose(){
+            Message("<span class='bl_textBad'>You lose</span>");
+            setTimeout(function(){//delay
+                
+                TakeChip();setTimeout(function(){
+                    if(playerChips==0){
+                        Message("<span class='bl_textBad'>Game over</span>");
+                        $("bl_startButton").innerText="New game";
+                    }
+                    show($("bl_startButton"),true);
+                },CHIP_DELAY);
+            },1000*1);
+        }
+        function Win(){
+            Message("<span class='bl_textGood'>You WIN</span>");
+            setTimeout(function(){//delay
+                
+                GiveChip();
+                let playerHandValue=parseInt($("bl_playerScore").innerText);
+                if(playerHandValue==21 && playerCards.length==2){
+                    setTimeout(GiveChip,1000*0.5);// natural pays extra chip
+                }
+                setTimeout(function(){
+                    show($("bl_startButton"),true);
+                },CHIP_DELAY+1000*0.5);
+            },1000*1);
+        }
+        function Standoff(){
+            Message("Standoff...");
+            show($("bl_startButton"),true);
+        }
+        
+    </script>
+</head>
+<body>
+    <center>
+        <div id="blackjack"></div>
+    </center>
+</body>
+</html>

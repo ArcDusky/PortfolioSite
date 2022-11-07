@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Kevin's Moonlander</title>
+
+    <style>
+        body{background-color:darkslategrey;}
+        #moonlander{
+            position:relative;
+            width:700px;
+            height:500px;
+            background-color:rgb(100, 60, 139);
+            margin-left:auto;margin-right:auto;
+            overflow:hidden;
+            outline:2px solid black;
+            font-family:sans-serif;
+            user-select:none;
+            text-align:center;
+        }
+        #moonlander.ml_gameWin{
+            outline-style:solid;
+            outline-color:lime;
+            animation: ml_gameWin 0.25s ease-out 0s infinite alternate;
+        }
+        @keyframes ml_gameWin{
+            from{outline-width:0px;}
+            to{outline-width:10px;}
+        }
+        .ml_uiBlock{
+            position:absolute;
+            background-color:rgb(64,64,83);
+            font-weight:bold;
+            color:cyan;
+        }
+        #ml_titleBar{
+            position:absolute;
+            width:700px;
+            height:60px;
+            background-color:rgb(64,64,83);
+        }
+        #ml_titleArea{
+            width:400px;
+            height:40px;
+            color:rgb(64,64,83);
+            text-shadow:0 0 3px cyan,
+                        0 0 3px cyan;
+            font-style:italic;
+            font-size:2em;
+        }
+        #ml_timeArea{
+            left:400px;
+            width:100px;
+            height:35px;
+            padding-top:5px;
+        }
+        #ml_fuelArea{
+            left:500px;
+            width:160px;
+            height:35px;
+            padding-top:5px;
+        }
+        #ml_howToPlay{
+            left:660px;
+            width:40px;
+            height:40px;
+            background-color:dodgerblue;
+            color:white;
+            border-radius:999px;
+            font-size:2em;
+            outline:none;
+            cursor:pointer;
+            transform:scale(50%,50%);
+        }
+        .ml_levelButton{
+            top:40px;
+            height:20px;
+            cursor:pointer;
+            outline:1px solid black;
+        }
+        .ml_levelButton:hover{
+            text-decoration:underline;
+            background-color:darkslateblue;
+        }
+        .ml_selectedLevelButton{
+            text-decoration:underline;
+        }
+        #ml_pauseScreen{
+            position:absolute;
+            width:700px;
+            padding-top:200px;
+            height:240px;
+            top:60px;
+            background-color:rgba(0,0,0,0.5);
+            color:white;
+            font-weight:bold;
+            text-shadow:0 0 3px black,
+                        0 0 3px black;
+        }
+        /*######################*/
+        #moonlander.ml_level1{background-color:rgb(100, 60, 139);}
+        #moonlander.ml_level2{background-color:rgb(60, 75, 139);}
+        #moonlander.ml_level3{background-color:rgb(44, 104, 86);}
+        #moonlander.ml_level4{background-color:rgb(100, 60, 139);}
+        #moonlander.ml_level5{background-color:rgb(124, 48, 86);}
+        #moonlander.ml_level6{background-color:rgb(123, 52, 126);}
+        #moonlander.ml_level7{background-color:rgb(110, 69, 41);}
+        /*######################*/
+        .ml_rock{
+            position:absolute;
+            width:20px;
+            height:20px;
+            background-color:black;
+            border-radius:999px;
+            color:white;
+        }
+        .ml_rockBumps{outline:3.5px dashed black;}/* --------BUMPY------- */
+        .ml_platform{
+            position:absolute;
+            width:20px;
+            height:20px;
+            background-color:rgb(64,64,64);
+            outline:1px solid black;
+        }
+        .ml_goal{
+            background-color:lightgreen;
+        }
+        .ml_explosion{
+            position:absolute;
+            width:10px;
+            height:10px;
+            border-radius:999px;
+
+            animation: ml_explosion 0.5s ease-out 0s infinite alternate;
+            border:2px solid red;
+            border-width:0 0 2px 0;
+        }
+        @keyframes ml_explosion{
+            0%{background-color:yellow;}
+            100%{background-color:orangered;}
+        }
+        .ml_blastHolder{
+            position:absolute;
+        }
+        .ml_blast{
+            position:absolute;
+            width:10px;
+            height:10px;
+            border-radius:999px;
+            left:-5px;
+            animation: ml_blast 1s ease-out 0s 1 normal;/* match with blastAnimation in the JS code */
+            outline-style:dotted;
+            outline-width:0px;
+        }
+        @keyframes ml_blast{
+            0%{  top:-5px;  background-color:cyan;                   }
+            3%{             background-color:cyan;                   }
+            4%{             background-color:rgba(255,255,255,0);    }
+            5%{             background-color:yellow;                 }
+            12%{            background-color:orangered;              outline-width:0px;}
+            16%{ top:50px;  background-color:rgba(128,128,128,0.5);  outline-color:rgba(128,128,128,0.2);outline-width:5px;}
+            100%{top:100px; background-color:rgba(0,0,0,0.03);       outline-color:rgba(0,0,0,0.03);outline-width:10px;transform:scale(500%,500%);}
+        }
+        #ml_winFlag{
+            position:absolute;
+            width:50px;
+            height:60px;
+            border-left:2px solid black;
+        }
+        #ml_winFlag_cloth{
+            position:absolute;
+            background-color:darkblue;
+            min-width:40%;
+            height:1.3em;
+            color:white;
+            font-size:0.8em;
+            overflow:hidden;
+            animation: ml_winFlag_cloth 0.3s linear 0s infinite alternate;
+        }
+        @keyframes ml_winFlag_cloth{
+            from{top:0%;}
+            to{top:5%;}
+        }
+        .ml_trail{
+            position:absolute;
+            width:2px;
+            height:2px;
+            background-color:white;
+            animation: ml_trail 15s ease-in 0s 1 normal;
+        }
+        @keyframes ml_trail{
+            from{opacity:0;}
+            to{opacity:1;}
+        }
+    </style>
+
+    <style>
+        #ml_ship{
+            position:absolute;
+            width:20px;
+            height:20px;
+
+            left:100px;
+            bottom:100px;
+
+            --light:white;
+            --dark:darkgrey;
+            --clear:rgba(0,0,0,0);
+        }
+        #ml_ship_hitbox{display:none;
+            position:absolute;
+            width:100%;
+            height:100%;
+            background-color:red;
+            border-radius: 99px;
+        }
+        #ml_ship_middle1{
+            position:absolute;
+            width:30%;
+            height:20%;
+            left:35%;
+            bottom:80%;
+            background-image:linear-gradient(to right,var(--dark)0%,var(--light)50%,var(--dark)100%);
+            border-radius:99px 99px 0 0;
+            transform:scaleY(450%);
+        }
+        #ml_ship_middle2{
+            position:absolute;
+            width:30%;
+            height:15%;
+            left:35%;
+            background-color:var(--light);
+        }
+        .ml_ship_wingBack{
+            position:absolute;
+            width:35%;
+            height:40%;
+            left:0%;
+            bottom:20%;
+            background-color:var(--dark);
+        }
+        .ml_ship_wingSlant{
+            position:absolute;
+            width:35%;
+            height:25%;
+            left:0%;
+            bottom:60%;
+            background-image:linear-gradient(to top left,var(--dark)50%,var(--clear)50.1%);
+        }
+        .ml_ship_wingBottomTip{
+            position:absolute;
+            width:15%;
+            height:25%;
+            left:0%;
+            bottom:-5%;
+            background-color:var(--dark);
+            border-bottom:2px solid black;
+        }
+        .ml_ship_wingColumn1{
+            position:absolute;
+            width:10%;
+            height:20%;
+            left:10%;
+            bottom:10%;
+            border-radius:99px 99px 0 0;
+            background-image:linear-gradient(to bottom,var(--light)50%,var(--clear)50.1%);
+            transform:scaleY(800%);
+        }
+        #ml_ship_rightWing{
+            position:absolute;
+            width:100%;
+            height:100%;
+            left:0%;
+            transform:scaleX(-100%);
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        "use strict";
+
+        const blastAnimation = "ml_blast 1s ease-out 0s 1 normal";
+
+        let frameTimer;
+        let keys=[];
+
+        $(document).ready(function(){
+            Startup();
+            LoadLevel(1);
+            $(".ml_levelButton").first().addClass("ml_selectedLevelButton");
+            EnterFocus();
+        });
+        function Startup(){
+            let html="";
+            
+            html+="<div id='ml_nonpauseScreen' style='position:absolute;width:100%;height:100%;'>";
+                html+="<div id='ml_trailHolder'></div>";
+                html+="<div id='ml_winFlag'><div id='ml_winFlag_cloth'>☼</div></div>";
+                html+="<div id='ml_explosionHolder'></div>";
+                html+="<div id='ml_level'></div>";
+                html+="<div id='ml_ship'>"+GetShipHtml()+"</div>";
+
+                html+="<div class='ml_uiBlock' id='ml_titleBar'></div>";
+                html+="<div class='ml_uiBlock' id='ml_titleArea'>Kevin's Moonlander</div>";
+                html+="<div class='ml_uiBlock' id='ml_howToPlay'>?</div>";
+                html+="<div class='ml_uiBlock' id='ml_timeArea'></div>";
+                html+="<div class='ml_uiBlock' id='ml_fuelArea'></div>";
+
+                let www=700/7;//level button width
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*0)+"px;'>Level 1</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*1)+"px;'>Level 2</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*2)+"px;'>Level 3</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*3)+"px;'>Level 4</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*4)+"px;'>Level 5</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*5)+"px;'>Level 6</div>";
+                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*6)+"px;'>Level 7</div>";
+
+                html+="<input id='ml_hiddenInput' type='text' style='width:0;height:0;opacity:0;'></input>";
+            html+="</div>";
+            html+="<div id='ml_pauseScreen'>PAUSED<br>Click here to unpause</div>";
+
+            $("#moonlander").html(html);
+
+            // hidden input keyboard detection
+            $("#moonlander").click(EnterFocus);
+            $("#ml_hiddenInput").attr("onkeydown","KeyDown(event)");
+            $("#ml_hiddenInput").attr("onkeyup","KeyUp(event)");
+            $("#ml_hiddenInput").blur(ExitFocus);
+
+            $("#ml_howToPlay").click(function(){
+                let message="===========================\n"+
+                            "HOW TO PLAY\n\n"+
+                            "Fly the ship safely to the green landing pad.\n\n"+
+                            "THRUST with the UP key.\n"+
+                            "STEER with the LEFT and RIGHT keys.\n\n"+
+                            "(You can also use the W-A-S-D keys)\n\n"+
+                            "Press R to restart the level.\n"+
+                            "===========================";
+                alert(message);
+            });
+            $(".ml_levelButton").click(function(){
+                let num=$(this).text();
+                num=parseInt(num[num.length-1]);
+                LoadLevel(num);
+                $(".ml_selectedLevelButton").removeClass("ml_selectedLevelButton");
+                $(this).addClass("ml_selectedLevelButton");
+            });
+
+            function GetShipHtml(){
+                return ''+
+                '<div id="ml_ship_middle1"></div>'+
+                '<div id="ml_ship_middle2"></div>'+
+                '<div>'+
+                    '<div class="ml_ship_wingBack"></div>'+
+                    '<div class="ml_ship_wingSlant"></div>'+
+                    '<div class="ml_ship_wingBottomTip"></div>'+
+                    '<div class="ml_ship_wingColumn1"></div>'+
+                '</div>'+
+                '<div id="ml_ship_rightWing">'+
+                    '<div class="ml_ship_wingBack"></div>'+
+                    '<div class="ml_ship_wingSlant"></div>'+
+                    '<div class="ml_ship_wingBottomTip"></div>'+
+                    '<div class="ml_ship_wingColumn1"></div>'+
+                '</div>'+
+                '<div id="ml_ship_hitbox"></div>';
+            }
+        }
+        function EnterFocus(){
+            $("#ml_hiddenInput").focus();
+            $("#ml_pauseScreen").hide();
+
+            if(frameTimer==null){// start framerate
+                frameTimer=setInterval(Frame,1000/30);
+            }
+            if(gameTimerInt!=0 && !gameover){// if clock was running, resume it
+                StartGameTimer();
+            }
+        }
+        function ExitFocus(){
+            $("#ml_pauseScreen").show();
+            clearInterval(frameTimer);// stop framerate
+            frameTimer=null;
+
+            if(gameTimer){// if clock was running, stop it
+                StopGameTimer();
+                gameTimerInt+=0.5;//punish
+                ShowGameTimer();
+            }
+
+            for(let x=0;x<keys.length;x++){// set all keys to false
+                keys[x]=false;
+            }
+        }
+        function KeyDown(event){
+            event.preventDefault();
+            SetKey(event.key,true);
+            $(this).val("");
+        }
+        function KeyUp(event){
+            event.preventDefault();
+            SetKey(event.key,false);
+            $(this).val("");
+        }
+        function GetKeyId(sss){
+            switch(sss){
+                case "w":return 0;
+                case "s":return 1;
+                case "a":return 2;
+                case "d":return 3;
+                case "ArrowUp":return 4;
+                case "ArrowDown":return 5;
+                case "ArrowLeft":return 6;
+                case "ArrowRight":return 7;
+                case "r":return 8;// for restarting
+                case "b":return 9;// for toggling rock bumps
+                default:return 10;//dump
+            }
+        }
+        function GetKey(sss){
+            return keys[GetKeyId(sss)];
+        }
+        function SetKey(sss,bbb){
+            keys[GetKeyId(sss)]=bbb;
+        }
+        function GetAxis(sss){
+            let power=0;
+            if(sss=="x"){
+                if(GetKey("a")||GetKey("ArrowLeft")){
+                    power--;
+                }if(GetKey("d")||GetKey("ArrowRight")){
+                    power++;
+                }return power;
+            }else if(sss=="y"){
+                if(GetKey("w")||GetKey("ArrowUp")){
+                    power++;
+                }return power;
+            }else{console.log("error axis");return -1;}
+        }
+        
+        let gameover=false;
+        const shipPower=0.3;
+        const shipSteer=4.0;
+        const gravity=0.1;
+        let shipX=100.0;
+        let shipY=100.0;
+        let shipAngle=0.0;
+        let shipVelocityX=0.0;
+        let shipVelocityY=0.0;
+        let shipFuel=0.0;
+
+        let gameTimer;
+        let gameTimerInt=0;
+        let trailTimer;
+
+        let blastCounter=0;
+        let rocks=[];
+        let platforms=[];
+
+        let chosenLevel=1;
+        let prevR=false;
+
+        let rockBumps=false;
+
+        function ShowFuel(){
+            $("#ml_fuelArea").text("⛽ Fuel: "+Math.ceil(shipFuel));
+        }
+        function ShowGameTimer(){
+            let min=Math.floor(gameTimerInt/60);
+            let sec=Math.floor(gameTimerInt-(min*60));
+            if(sec<10)sec="0"+sec;
+            $("#ml_timeArea").text("⌚ "+min+":"+sec);
+        }
+        function StartGameTimer(){
+            gameTimer=setInterval(GameTimerStep,1000);
+            trailTimer=setInterval(MakeTrail,1000*0.33);
+        }
+        function GameTimerStep(){
+            gameTimerInt++;
+            ShowGameTimer();
+        }
+        function StopGameTimer(){
+            clearInterval(gameTimer);
+            gameTimer=null;
+            clearInterval(trailTimer);
+            trailTimer=null;
+        }
+        function ResetGameTimer(){
+            StopGameTimer();
+            gameTimerInt=0;
+            ShowGameTimer();
+        }
+        function MakeTrail(){
+            let html="";
+            let style="left:"+(shipX-1)+"px;bottom:"+(shipY-1)+"px;";
+            html+="<div class='ml_trail' style='"+style+"'></div>";
+            $("#ml_trailHolder").append(html);
+        }
+        function Frame(){// 30 frames per second
+            let nowR=GetKey("r");
+            if(nowR && !prevR){
+                LoadLevel(chosenLevel);
+                prevR=nowR;
+                return;
+            }
+            prevR=nowR;
+
+            if(GetKey("b")){
+                rockBumps=!rockBumps;
+                $(".ml_rock").toggleClass("ml_rockBumps");
+            }
+
+            if(gameover)return;
+
+            shipVelocityY-=gravity;
+
+            let inputX=GetAxis("x");
+            let inputY=GetAxis("y");
+            
+            if(inputX!=0){
+                shipAngle+=inputX*shipSteer;
+                if(shipAngle<=-180)shipAngle+=360;// angle wrapping
+                else if(shipAngle>=180)shipAngle-=360;
+            }if(inputY!=0){
+                let rrr=shipAngle*Math.PI/180.0;
+                shipVelocityX+=Math.sin(rrr)*shipPower;
+                shipVelocityY+=Math.cos(rrr)*shipPower;
+                shipFuel-=0.1;
+                if(shipFuel<0)shipFuel=0;
+                ShowFuel();
+                //MakeBlast(); // moved it further down
+                if(!gameTimer){
+                    StartGameTimer();
+                }
+            }
+
+            shipX+=shipVelocityX;
+            shipY+=shipVelocityY;
+
+            if(inputY!=0)MakeBlast();
+
+            if(shipX<0)CrashAndLose();
+            else if(shipX>700)CrashAndLose();
+            if(gameover)return;
+            if(shipY<0)CrashAndLose();
+            else if(shipY>440)CrashAndLose();
+            if(gameover)return;
+
+            let ship=$("#ml_ship");
+            ship.css("transform","rotate("+shipAngle+"deg)");
+            ship.css("left",shipX-10);
+            ship.css("bottom",shipY-10);
+
+            RockDetection();
+            if(gameover)return;
+            PlatformDetection();
+
+            function MakeBlast(){
+                let eee=document.getElementById("ml_blast_"+blastCounter);
+                if(eee){
+                    //restart blast animation
+                    eee.style.animation="none";
+                    eee.offsetHeight;// trigger a "reflow"
+                    eee.style.animation=blastAnimation;
+                }else{
+                    let html="<div id='ml_blastHolder_"+blastCounter+"' class='ml_blastHolder'>";
+                    html+="<div id='ml_blast_"+blastCounter+"' class='ml_blast'></div>";
+                    html+="</div>"
+                    $("#ml_explosionHolder").append(html);
+                }
+                let style="transform:rotate("+shipAngle+"deg);left:"+shipX+"px;bottom:"+shipY+"px;";
+                $("#ml_blastHolder_"+blastCounter).attr("style",style);
+
+                blastCounter++;
+                if(blastCounter>40)blastCounter=0;
+            }
+            function RockDetection(){
+                let rock;
+                let dist=0.0;
+                for(let i=0;i<rocks.length;i++){
+                    rock = rocks[i];
+                    dist = GetDistance(shipX,shipY,rock.x,rock.y);
+                    if(dist<rock.radius){
+                        CrashAndLose();
+                        break;
+                    }
+                }
+            }
+            function PlatformDetection(){
+                let plat;
+                for(let i=0;i<platforms.length;i++){
+                    plat=platforms[i];
+                    //touching correctly
+                    if(shipX>plat.leftPost && shipX<plat.rightPost
+                    && shipY>plat.y && shipY<plat.topCollide
+                    && Math.abs(shipAngle)<35){
+                        if(shipVelocityY<0){//going down
+                            let mag = Math.sqrt(shipVelocityX*shipVelocityX+shipVelocityY*shipVelocityY);
+                            if(mag>3){// too fast
+                                CrashAndLose();
+                            }else{// gentle
+                                shipVelocityX=0;
+                                shipVelocityY=0;
+                                shipAngle=0;
+                                ship.css("transform","rotate("+shipAngle+"deg)");
+                                shipY=plat.y+10;
+                                ship.css("bottom",shipY-10);
+                                if(i==platforms.length-1){
+                                    Win();
+                                }
+                            }
+                        }
+                    // touching incorrectly
+                    }else if(shipX>plat.leftCollide && shipX<plat.rightCollide
+                    && shipY>plat.bottomCollide && shipY<plat.topCollide){
+                        CrashAndLose();
+                    }
+                }
+            }
+            function GetDistance(ax,ay,bx,by){
+                return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
+            }
+            function CrashAndLose(){
+                gameover=true;
+                StopGameTimer();
+
+                $("#ml_ship").hide();
+                let html="";
+                let style="";
+                let size=300.0;
+                let dist=0.0;
+                let angle=Math.random()*360.0;
+                let rrr=0.0;
+                let xxx=0.0;
+                let yyy=0.0;
+                for(let i=0;i<30;i++){
+                    angle+=72.0;
+                    angle+=(Math.random()*15.0)-7.5;
+                    rrr=angle*Math.PI/180.0;
+                    xxx=Math.sin(rrr)*dist;
+                    yyy=Math.cos(rrr)*dist;
+
+                    xxx=shipX+xxx;
+                    yyy=shipY+yyy;
+
+                    xxx-=5;// for the initial explosion size
+                    yyy-=5;
+
+                    style="left:"+xxx+"px;bottom:"+yyy+"px;";
+                    style+="transform:scale("+size+"%,"+size+"%);";
+                    style+="animation-delay:"+((i/30)*0.5)+"s;";
+
+                    html+="<div class='ml_explosion' style='"+style+"'></div>";
+
+                    size-=(300-40)/30;
+                    dist+=(    70/30);
+                }
+                $("#ml_explosionHolder").html(html);
+            }
+            function Win(){
+                gameover=true;
+                StopGameTimer();
+                $("#moonlander").addClass("ml_gameWin");
+                $("#ml_winFlag").show();
+            }
+        }
+        function LoadLevel(levelNumber){
+            rocks=[];
+            platforms=[];
+
+            $("#ml_level").html(LoadLevelHtml());
+            $(".ml_platform:last-of-type").addClass("ml_goal");
+            $("#moonlander").attr("class","ml_level"+levelNumber);
+            
+            $("#ml_explosionHolder").html("");
+            $("#ml_trailHolder").html("");
+            $("#ml_ship").show();
+            $(".ml_gameWin").removeClass("ml_gameWin");
+            $("#ml_winFlag").hide();
+            PlaceWinFlag();
+            shipAngle=0;
+            shipVelocityX=0;
+            shipVelocityY=0;
+            gameover=false;
+            chosenLevel=levelNumber;
+            ResetGameTimer();
+            ShowFuel();
+
+            if(rockBumps)$(".ml_rock").addClass("ml_rockBumps");
+
+            function MakeRock(x,y,radius){
+                rocks[rocks.length]={
+                    x:x,
+                    y:y,
+                    radius:radius + 10 // plus for ship's hitbox
+                };
+                let xxx=x-radius;
+                let yyy=y-radius;
+                let ident="";//rocks.length;
+                let html="<div class='ml_rock' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+(radius*2)+"px;height:"+(radius*2)+"px;'>"+ident+"</div>";
+                return html;
+            }
+            function MakePlatform(x,y,width){
+                platforms[platforms.length]={
+                    x:x,
+                    y:y,
+                    width:width,
+                    leftPost:x-(width/2)+7,// plus for ship's hitbox
+                    rightPost:x+(width/2)-7,
+                    leftCollide:x-(width/2)-10,
+                    rightCollide:x+(width/2)+10,
+                    topCollide:y+10,
+                    bottomCollide:y-20-10
+                };
+                let xxx=x-(width/2);
+                let yyy=y-20;// height offset
+                let html="<div class='ml_platform' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+width+"px;'></div>";
+                return html;
+            }
+            function PlaceWinFlag(){
+                let plat=$(".ml_goal");
+                let flag=$("#ml_winFlag");
+                let xxx=parseInt(plat.css("left"))+5+"px";
+                let yyy=parseInt(plat.css("bottom"))+20+"px";
+                flag.css("left",xxx);
+                flag.css("bottom",yyy);
+            }
+            function LoadLevelHtml(){
+                let html="";
+                if(levelNumber==1){
+                    html+=MakeRock(75,-270,296);
+                    html+=MakeRock(620,-235,269);
+                    html+=MakeRock(345,10,210);
+                    html+=MakeRock(350,195,145);
+                    html+=MakeRock(705,320,114);
+                    html+=MakeRock(-5,450,81);
+                    html+=MakePlatform(73,45,96);
+                    shipX=73;
+                    shipY=45+10;
+                    shipFuel=16;
+                    html+=MakePlatform(623,50,106);
+                }else if(levelNumber==2){
+                    html+=MakeRock(135,-295,331);
+                    html+=MakeRock(295,5,100);
+                    html+=MakeRock(35,190,55);
+                    html+=MakeRock(-415,85,467);
+                    html+=MakeRock(155,260,48);
+                    html+=MakeRock(70,210,37);
+                    html+=MakeRock(105,220,28);
+                    html+=MakeRock(455,250,52);
+                    html+=MakeRock(235,275,44);
+                    html+=MakeRock(300,275,29);
+                    html+=MakeRock(370,275,50);
+                    html+=MakeRock(515,205,31);
+                    html+=MakeRock(550,175,24);
+                    html+=MakeRock(720,460,132);
+                    html+=MakePlatform(67,265,74);
+                    shipX=67;
+                    shipY=265+10;
+                    shipFuel=23;
+                    html+=MakePlatform(133,50,106);
+                }else if(levelNumber==3){
+                    html+=MakeRock(0,-35,175);
+                    html+=MakeRock(270,-205,232);
+                    html+=MakeRock(640,-100,303);
+                    html+=MakeRock(660,595,256);
+                    html+=MakeRock(220,280,55);
+                    html+=MakeRock(290,235,55);
+                    html+=MakeRock(440,130,95);
+                    html+=MakeRock(355,195,54);
+                    html+=MakeRock(160,305,65);
+                    html+=MakePlatform(269,45,98);
+                    shipX=269;
+                    shipY=45+10;
+                    shipFuel=20;
+                    html+=MakePlatform(638,220,86);
+                }else if(levelNumber==4){
+                    html+=MakeRock(490,220,135);
+                    html+=MakeRock(240,545,139);
+                    html+=MakeRock(220,-20,103);
+                    html+=MakeRock(55,-270,284);
+                    html+=MakeRock(45,250,52);
+                    html+=MakeRock(105,265,40);
+                    html+=MakeRock(160,270,35);
+                    html+=MakeRock(220,275,37);
+                    html+=MakeRock(280,270,33);
+                    html+=MakeRock(365,250,73);
+                    html+=MakeRock(-355,215,389);
+                    html+=MakeRock(175,85,60);
+                    html+=MakeRock(695,450,54);
+                    html+=MakeRock(705,-5,63);
+                    html+=MakePlatform(75,320,80);
+                    shipX=75;
+                    shipY=320+10;
+                    shipFuel=25;
+                    html+=MakePlatform(59,30,98);
+                }else if(levelNumber==5){
+                    html+=MakeRock(640,-255,278);
+                    html+=MakeRock(305,120,54);
+                    html+=MakeRock(410,325,53);
+                    html+=MakeRock(195,180,124);
+                    html+=MakeRock(515,260,125);
+                    html+=MakeRock(-185,335,210);
+                    html+=MakeRock(65,340,17);
+                    html+=MakeRock(35,330,30);
+                    html+=MakeRock(195,320,34);
+                    html+=MakeRock(195,375,35);
+                    html+=MakeRock(195,460,63);
+                    html+=MakeRock(510,-15,69);
+                    html+=MakeRock(510,65,36);
+                    html+=MakeRock(510,120,36);
+                    html+=MakeRock(0,0,48);
+                    html+=MakeRock(705,440,47);
+                    html+=MakePlatform(45,375,40);
+                    shipX=45;
+                    shipY=375+10;
+                    shipFuel=29;
+                    html+=MakePlatform(637,40,94);
+                }else if(levelNumber==6){
+                    html+=MakeRock(595,105,40);
+                    html+=MakeRock(5,500,257);
+                    html+=MakeRock(335,220,37);
+                    html+=MakeRock(220,275,39);
+                    html+=MakeRock(450,140,40);
+                    html+=MakeRock(135,345,93);
+                    html+=MakeRock(280,245,42);
+                    html+=MakeRock(390,180,42);
+                    html+=MakeRock(525,120,45);
+                    html+=MakeRock(110,145,40);
+                    html+=MakeRock(265,-5,89);
+                    html+=MakeRock(220,95,52);
+                    html+=MakeRock(160,135,33);
+                    html+=MakeRock(150,-315,333);
+                    html+=MakeRock(340,360,20);
+                    html+=MakeRock(375,355,22);
+                    html+=MakeRock(415,345,25);
+                    html+=MakeRock(470,335,37);
+                    html+=MakeRock(550,325,57);
+                    html+=MakeRock(880,315,224);
+                    html+=MakeRock(610,260,23);
+                    html+=MakeRock(650,255,31);
+                    html+=MakeRock(580,285,27);
+                    html+=MakeRock(375,-165,187);
+                    html+=MakePlatform(135,35,40);
+                    shipX=135;
+                    shipY=35+10;
+                    shipFuel=32;
+                    html+=MakePlatform(630,300,40);
+                }else if(levelNumber==7){
+                    html+=MakeRock(55,-295,313);
+                    html+=MakeRock(345,-710,746);
+                    html+=MakeRock(690,-380,417);
+                    html+=MakeRock(645,315,24);
+                    html+=MakeRock(685,310,31);
+                    html+=MakeRock(285,105,22);
+                    html+=MakeRock(205,140,24);
+                    html+=MakeRock(160,215,27);
+                    html+=MakeRock(90,235,20);//(85,235,26);// 9
+                    html+=MakeRock(30,290,27);
+                    html+=MakeRock(35,175,24);
+                    html+=MakeRock(120,145,19);
+                    html+=MakeRock(380,105,23);
+                    html+=MakeRock(360,195,24);
+                    html+=MakeRock(295,255,24);
+                    html+=MakeRock(150,345,30);
+                    html+=MakeRock(320,360,17);//(320,360,27);// 17
+                    html+=MakeRock(225,300,22);//(220,300,18);// 18
+                    html+=MakeRock(360,265,20);
+                    html+=MakeRock(425,160,21);
+                    html+=MakeRock(415,220,12);
+                    html+=MakeRock(470,100,22);//(470,110,22);// 22
+                    html+=MakeRock(445,400,21);
+                    html+=MakeRock(500,365,15);//(500,365,21);// 24
+                    html+=MakeRock(465,305,21);
+                    html+=MakeRock(535,305,21);
+                    html+=MakeRock(575,235,24);
+                    html+=MakeRock(615,180,27);//(630,180,37);// 28
+                    html+=MakeRock(515,210,10);//(495,210,10);// 29
+                    html+=MakeRock(435,60,9);//(415,65,9);// 30
+                    html+=MakeRock(560,110,10);
+                    html+=MakeRock(595,390,10);
+                    html+=MakeRock(105,375,10);//(80,380,10);// 33
+                    html+=MakePlatform(55,35,40);
+                    shipX=55;
+                    shipY=35+10;
+                    shipFuel=24;
+                    html+=MakePlatform(665,355,60);//(665,355,40);
+                }else alert("could not load level "+levelNumber);
+                return html;
+            }
+        }
+        /*
+        mx = x - 200; // 200,200 is the other point
+        my = y - 200;
+        dist = Math.sqrt(mx * mx + my * my);
+        angle = Math.atan2( my, mx ) * 180 / Math.PI;
+        output.horizontal.innerHTML = Math.abs(mx);
+        output.vertical.innerHTML = Math.abs(my);
+        output.length.innerHTML = ((dist*100)>>0)/100;
+        output.angle.innerHTML = ((angle*100)>>0)/100;
+        -------------------------------------
+        x1 = x + cos(ang) * distance;
+        y1 = y + sin(ang) * distance;
+        // 0 is right, 90 is up
+        // if you swap the cos and sin, 0 is up, 90 is right
+        --------------------------------------
+        var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+        var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+
+        transform: rotate(20deg);
+        //*/
+    </script>
+</head>
+<body>
+    <div id="moonlander"></div>
+</body>
+</html>

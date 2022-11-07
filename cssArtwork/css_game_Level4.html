@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kevin's CSS Game Level 4</title>
+
+        <style>
+            body{
+                background-color:grey;
+            }
+            div.webPanel{
+                max-width:700px;
+                padding:10px;
+                margin:15px 15px;
+                
+                background-color:lightgrey;
+                border: 1px solid black;
+                border-radius: 5px;
+                box-shadow: 10px 10px rgba(0,0,0,0.5);
+            }
+
+            /* ===== level ===== */
+            div.ggg{
+                display:inline-block;
+                position:relative;
+                background-color:black;
+                width:600px;
+                height:600px;
+                border: 3px solid darkgrey;
+            }
+            .ooo{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-color:white;
+                visibility:hidden;/* hidden */
+            }
+            .ooo:hover>.ooo{
+                visibility:visible;
+            }
+
+            .oooStart{
+                visibility:visible;
+                background-color:palegoldenrod;
+                width:10%;
+                height:10%;
+                left:0%;
+                top:30%;
+            }
+            .ooo1{left:100%;top:0;}
+            .ooo2{left:0%;top:-100%;}
+            .ooo3{left:0%;top:-100%;}
+            .ooo4{left:100%;top:0%;}
+            .ooo5{left:100%;top:0%;}
+            .ooo6{left:0%;top:-100%;}
+            .ooo7{left:0%;top:100%;}
+            .ooo8{left:100%;top:0%;}
+            .ooo9{left:100%;top:0%;}
+            .ooo10{left:0%;top:100%;}
+            .ooo11{left:0%;top:100%;}
+            .ooo12{left:0%;top:100%;}
+            .ooo13{left:0%;top:100%;}
+            .ooo14{left:-100%;top:0%;}
+            .ooo15{left:-100%;top:0%;}
+            .ooo16{left:0%;top:100%;}
+            .ooo17{left:0%;top:100%;}
+            .ooo18{left:0%;top:100%;}
+            .ooo19{left:-100%;top:0%;}
+            .ooo20{left:-100%;top:0%;}
+            .ooo21{left:0%;top:100%;}
+            .ooo22{left:0%;top:100%;}
+            .ooo23{left:-100%;top:0%;}
+            .ooo24{left:100%;top:0%;}
+            .ooo25{left:0%;top:100%;}
+            .ooo26{left:0%;top:100%;}
+            .ooo27{left:100%;top:0%;}
+            .ooo28{left:100%;top:0%;}
+            .ooo29{left:0%;top:100%;}
+            .ooo30{left:0%;top:-100%;}
+            .ooo31{left:100%;top:0%;}
+            .ooo32{left:100%;top:0%;}
+            .ooo33{left:0%;top:-100%;}
+            .ooo34{left:0%;top:-100%;}
+            .ooo35{left:100%;top:0%;}
+            .ooo36{left:100%;top:0%;}
+            .ooo37{left:100%;top:0%;}
+            .ooo38{left:0%;top:100%;}
+            .ooo39{left:0%;top:100%;}
+            .ooo40{left:100%;top:0%;}
+            .ooo41{left:100%;top:0%;}
+            .ooo42{left:0%;top:100%;}
+            .ooo43{left:0%;top:-100%;}
+            .ooo44{left:100%;top:0%;}
+            .ooo45{left:100%;top:0%;}
+            .ooo46{left:0%;top:-100%;}
+            .ooo47{left:0%;top:-100%;}
+            .ooo48{left:100%;top:0%;}
+            .ooo49{left:-100%;top:0%;}
+            .ooo50{left:0%;top:-100%;}
+            .ooo51{left:0%;top:-100%;}
+            .ooo52{left:-100%;top:0%;}
+            .ooo53{left:-100%;top:0%;}
+            .ooo54{left:0%;top:-100%;}
+            .ooo55{left:0%;top:-100%;}
+            .ooo56{left:0%;top:-100%;}
+            .ooo57{left:-100%;top:0%;}
+            .ooo58{left:-100%;top:0%;}
+            .ooo59{left:0%;top:-100%;}
+            .ooo60{left:0%;top:-100%;}
+            .ooo61{left:0%;top:-100%;}
+            .ooo62{left:0%;top:-100%;}
+            .ooo63{left:100%;top:0%;}
+            .ooo64{left:100%;top:0%;}
+            .ooo65{left:0%;top:-100%;}
+            .ooo66{left:0%;top:100%;}
+            .ooo67{left:100%;top:0%;}
+            .ooo68{left:100%;top:0%;}
+            .ooo69{left:0%;top:100%;}
+            .ooo70{left:0%;top:100%;}
+
+            .oooEnd{
+                background-color:palegreen;
+                left:100%;
+                top:0%;
+            }
+
+            .ccc{
+                position:absolute;
+                left:5%;
+                top:5%;
+                width:64%;
+                height:64%;
+            }
+
+            .xxx{
+                position:absolute;
+                background-color:darkred;
+                width:10%;
+                height:10%;
+            }
+            .xxx1{
+                left:10%;
+                top:10%;
+                animation: xxxAnim 3s linear 0s infinite normal;
+            }
+            .xxx2{
+                left:10%;
+                top:80%;
+                animation: xxxAnim 3s linear 0s infinite reverse;
+            }
+            .xxx3{
+                left:80%;
+                top:80%;
+                animation: xxxAnim 3s linear -1.5s infinite reverse;
+            }
+            .xxx4{
+                left:80%;
+                top:10%;
+                animation: xxxAnim 3s linear -1.5s infinite normal;
+            }
+            .xxx5{left:10%;top:40%;}
+            .xxx6{left:10%;top:50%;width:20%;}
+            .xxx7{left:120%;top:40%;}
+            .xxx8{left:110%;top:50%;width:20%;}
+            .xxx9{left:40%;top:80%;width:20%;}
+            .xxx10{left:50%;top:90%;}
+            .xxx11{left:80%;top:80%;width:20%;}
+            .xxx12{left:80%;top:90%;}
+            .xxx13{left:60%;top:30%;width:20%;}
+
+            @keyframes xxxAnim{
+                0%{transform:translate(0%,0%);}
+                25%{transform:translate(400%,0%);}
+                50%{transform:translate(400%,400%);}
+                75%{transform:translate(0%,400%);}
+                100%{transform:translate(0%,0%);}
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <div class="webPanel">
+                <center>
+                    <h2>Level 4</h2>
+                    
+                    <div class="ggg">
+                    <div class="ccc">
+                        <div class="ooo oooStart">
+                        <div class="ooo ooo1">
+                        <div class="ooo ooo2">
+                        <div class="ooo ooo3">
+                        <div class="ooo ooo4">
+                        <div class="ooo ooo5">
+                        <div class="ooo ooo6"><!--knob-->
+                        <div class="ooo ooo7">
+                        <div class="ooo ooo8">
+                        <div class="ooo ooo9">
+                        <div class="ooo ooo10">
+                        <div class="ooo ooo11">
+                        <div class="ooo ooo12">
+                        <div class="ooo ooo13">
+                        <div class="ooo ooo14">
+                        <div class="ooo ooo15">
+                        <div class="ooo ooo16">
+                        <div class="ooo ooo17">
+                        <div class="ooo ooo18">
+                        <div class="ooo ooo19">
+                        <div class="ooo ooo20">
+                        <div class="ooo ooo21">
+                        <div class="ooo ooo22">
+                        <div class="ooo ooo23"><!--knob-->
+                        <div class="ooo ooo24">
+                        <div class="ooo ooo25">
+                        <div class="ooo ooo26">
+                        <div class="ooo ooo27">
+                        <div class="ooo ooo28">
+                        <div class="ooo ooo29"><!--knob-->
+                        <div class="ooo ooo30">
+                        <div class="ooo ooo31">
+                        <div class="ooo ooo32">
+                        <div class="ooo ooo33">
+                        <div class="ooo ooo34">
+                        <div class="ooo ooo35">
+                        <div class="ooo ooo36">
+                        <div class="ooo ooo37">
+                        <div class="ooo ooo38">
+                        <div class="ooo ooo39">
+                        <div class="ooo ooo40">
+                        <div class="ooo ooo41">
+                        <div class="ooo ooo42"><!--knob-->
+                        <div class="ooo ooo43">
+                        <div class="ooo ooo44">
+                        <div class="ooo ooo45">
+                        <div class="ooo ooo46">
+                        <div class="ooo ooo47">
+                        <div class="ooo ooo48"><!--knob-->
+                        <div class="ooo ooo49">
+                        <div class="ooo ooo50">
+                        <div class="ooo ooo51">
+                        <div class="ooo ooo52">
+                        <div class="ooo ooo53">
+                        <div class="ooo ooo54">
+                        <div class="ooo ooo55">
+                        <div class="ooo ooo56">
+                        <div class="ooo ooo57">
+                        <div class="ooo ooo58">
+                        <div class="ooo ooo59">
+                        <div class="ooo ooo60">
+                        <div class="ooo ooo61">
+                        <div class="ooo ooo62">
+                        <div class="ooo ooo63">
+                        <div class="ooo ooo64">
+                        <div class="ooo ooo65"><!--knob-->
+                        <div class="ooo ooo66">
+                        <div class="ooo ooo67">
+                        <div class="ooo ooo68">
+                        <div class="ooo ooo69">
+                        <div class="ooo ooo70">
+                        <a class="ooo oooEnd" href="css_game_End.html">
+                        </a></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div></div></div></div>
+                        </div></div>
+
+                        <div class="xxx xxx1"></div>
+                        <div class="xxx xxx2"></div>
+                        <div class="xxx xxx3"></div>
+                        <div class="xxx xxx4"></div>
+
+                        <div class="xxx xxx5"></div>
+                        <div class="xxx xxx6"></div>
+                        <div class="xxx xxx7"></div>
+                        <div class="xxx xxx8"></div>
+                        <div class="xxx xxx9"></div>
+                        <div class="xxx xxx10"></div>
+                        <div class="xxx xxx11"></div>
+                        <div class="xxx xxx12"></div>
+                        <div class="xxx xxx13"></div>
+
+                    </div>
+                    </div>
+                    
+                </center>
+            </div>
+        </center>
+    </body>
+</html>

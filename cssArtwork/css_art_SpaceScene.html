@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kevin's Space Scene</title>
+
+        <style>
+            body{
+                background-color:grey;
+            }
+            div.space{
+                display:inline-block;
+                position:relative;
+                width:600px;
+                height:600px;
+                background-color:black;
+                border:30px ridge hsl(230,15%,40%);
+                outline:1px solid black;
+            }
+            .starcluster{
+                position:absolute;
+                width:20%;
+                height:20%;
+                border-radius:50%;
+                border:0px solid yellow;
+            }
+            .star{
+                position:absolute;
+                background-color:white;
+                border-radius:50%;
+                width:0.05em;
+                height:0.05em;
+            }
+            .star:nth-child(1){left:15%;top:15%;}
+            .star:nth-child(2){left:75%;top:10%;}
+            .star:nth-child(3){left:45%;top:5%;}
+            .star:nth-child(4){left:75%;top:75%;}
+            .star:nth-child(5){left:50%;top:45%;}
+            .star:nth-child(6){left:50%;top:90%;}
+            .star:nth-child(7){left:85%;top:40%;}
+            .star:nth-child(8){left:15%;top:80%;}
+            .star:nth-child(9){left:30%;top:60%;transform:scale(2);}
+            .star:nth-child(10){left:8%;top:35%;}
+
+            .starcluster:nth-child(2){left:20%;top:0%;transform:rotate(45deg);}
+            .starcluster:nth-child(3){left:40%;top:0%;transform:rotate(90deg);}
+            .starcluster:nth-child(4){left:60%;top:0%;transform:rotate(135deg);}
+            .starcluster:nth-child(5){left:80%;top:0%;transform:rotate(180deg);}
+
+            .starcluster:nth-child(6){left:0%;top:20%;transform:rotate(225deg);}
+            .starcluster:nth-child(7){left:20%;top:20%;transform:rotate(270deg);}
+            .starcluster:nth-child(8){left:40%;top:20%;transform:rotate(315deg);}
+            .starcluster:nth-child(9){left:60%;top:20%;transform:rotate(0deg);}
+            .starcluster:nth-child(10){left:80%;top:20%;transform:rotate(45deg);}
+
+            .starcluster:nth-child(11){left:0%;top:40%;transform:rotate(90deg);}
+            .starcluster:nth-child(12){left:20%;top:40%;transform:rotate(135deg);}
+            .starcluster:nth-child(13){left:40%;top:40%;transform:rotate(180deg);}
+            .starcluster:nth-child(14){left:60%;top:40%;transform:rotate(225deg);}
+            .starcluster:nth-child(15){left:80%;top:40%;transform:rotate(270deg);}
+
+            .starcluster:nth-child(16){left:0%;top:60%;transform:rotate(315deg);}
+            .starcluster:nth-child(17){left:20%;top:60%;transform:rotate(0deg);}
+            .starcluster:nth-child(18){left:40%;top:60%;transform:rotate(45deg);}
+            .starcluster:nth-child(19){left:60%;top:60%;transform:rotate(90deg);}
+            .starcluster:nth-child(20){left:80%;top:60%;transform:rotate(135deg);}
+
+            .starcluster:nth-child(21){left:0%;top:80%;transform:rotate(180deg);}
+            .starcluster:nth-child(22){left:20%;top:80%;transform:rotate(225deg);}
+            .starcluster:nth-child(23){left:40%;top:80%;transform:rotate(270deg);}
+            .starcluster:nth-child(24){left:60%;top:80%;transform:rotate(315deg);}
+            .starcluster:nth-child(25){left:80%;top:80%;transform:rotate(0deg);}
+
+            .spacefade1{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-image:radial-gradient(at 10% 90%,hsla(0,100%,50%,0.3),#FF000000 70%);
+            }
+            .spacefade2{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-image:radial-gradient(at 90% 10%,hsla(250,100%,50%,.2),#FF000000 70%);
+            }
+
+            div.space>div.sun{
+                position:absolute;
+                width:2%;
+                height:2%;
+                background-color:hsl(55,100%,80%);
+                border-radius:50%;
+                left:5%;
+                top:5%;
+                box-shadow:0 0 3em 1em hsl(50,100%,60%);
+            }
+            div.space>div.planet1{
+                position:absolute;
+                width:20%;
+                height:20%;
+                background-image:radial-gradient(at 20% 20%,goldenrod,darkgoldenrod,brown,darkred,brown,darkred,brown,darkred,brown,darkgoldenrod 80%);
+                border-radius:50%;
+                left:5%;
+                top:40%;
+                box-shadow:0 -0.5em 2em 0 rosybrown;
+            }
+            div.space>div.planet1>div.ddd{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-image:radial-gradient(at 30% 30%,hsla(0,0%,100%,0.5),hsla(0,0%,50%,0),black 60%);
+                border-radius:50%;
+                transform:rotate(70deg);
+            }
+            div.space>div.planet2{
+                position:absolute;
+                width:5%;
+                height:5%;
+                background-image:radial-gradient(at 20% 20%,lightskyblue,lightseagreen,seagreen,lightseagreen,seagreen 80%);
+                border-radius:50%;
+                left:25%;
+                top:10%;
+                box-shadow:-0.3em -0.1em 1.5em 0 powderblue;
+            }
+            div.space>div.planet2>div.ddd{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-image:radial-gradient(at 30% 30%,hsla(0,0%,100%,0.3),hsla(0,0%,50%,0),black 70%);
+                border-radius:50%;
+                transform:rotate(-40deg);
+            }
+            div.space>div.planet3{
+                position:absolute;
+                width:3%;
+                height:3%;
+                background-image:radial-gradient(at 20% 20%,palegoldenrod,saddlebrown,black 80%);
+                border-radius:50%;
+                left:75%;
+                top:5%;
+                box-shadow:-0.2em 0 1em 0.1em palegoldenrod;
+                transform:rotate(10deg);
+            }
+            div.space>div.planet3>div.ddd{
+                position:absolute;
+                width:200%;
+                height:30%;
+                border-radius:50%;
+                left:-90%;
+                top:35%;
+                box-sizing:content-box;
+                border:0.1em solid hsl(60,50%,80%);
+                border-top-style:none;
+                border-left-width:0.5em;
+                border-right-width:0.5em;
+                border-right-color:hsl(60,20%,35%);
+            }
+            div.space>div.planet4{
+                position:absolute;
+                width:50%;
+                height:50%;
+                background-image:radial-gradient(at 20% 20%,darkblue,hsl(220,100%,60%),darkblue);
+                border-radius:50%;
+                right:5%;
+                bottom:5%;
+                box-shadow:-1.5em 0 5em 0 lightskyblue,1em -0.4em 3em hsla(20,100%,50%,0.5);
+                transform:rotate(60deg);
+                --landEdging:hsla(0,0%,0%,0.15);
+            }
+            div.space>div.planet4>div.nnn{
+                position:absolute;
+                border:0.3em dotted var(--landEdging);
+                border-radius:50% 10%;
+                box-shadow:0 0 2em 0 grey;
+            }
+            .nnn:nth-child(1){
+                background-color:hsl(50,30%,60%);/*pale goldenrod*/
+                left:63%;top:40%;
+                width:30%;height:30%;
+                transform:rotate(10deg);
+            }.nnn:nth-child(2){
+                background-color:forestgreen;
+                left:40%;top:35%;
+                width:15%;height:15%;
+                transform:rotate(0deg);
+            }.nnn:nth-child(3){
+                background-color:darkseagreen;
+                left:55%;top:15%;
+                width:20%;height:40%;
+                transform:rotate(-10deg);
+            }.nnn:nth-child(4){
+                background-color:yellowgreen;
+                left:50%;top:22%;
+                width:10%;height:30%;
+                transform:rotate(-10deg);
+            }.nnn:nth-child(5){
+                background-color:greenyellow;
+                left:65%;top:20%;
+                width:20%;height:30%;
+                transform:rotate(40deg);
+            }.nnn:nth-child(6){
+                background-color:cyan;
+                left:58%;top:48%;
+                width:9%;height:1%;
+                transform:rotate(-45deg);
+            }
+            .nnn:nth-child(7){
+                background-color:palegoldenrod;
+                left:10%;top:60%;
+                width:40%;height:22%;
+                transform:rotate(-100deg);
+            }.nnn:nth-child(8){
+                background-color:darkseagreen;
+                left:15%;top:50%;
+                width:20%;height:15%;
+                transform:rotate(-45deg);
+            }.nnn:nth-child(9){
+                background-color:greenyellow;
+                left:8%;top:45%;
+                width:15%;height:10%;
+                transform:rotate(20deg);
+            }.nnn:nth-child(10){
+                background-color:cyan;
+                left:14%;top:56%;
+                width:5%;height:2%;
+                transform:rotate(45deg);
+            }
+            .nnn:nth-child(11){
+                background-color:lightgrey;
+                left:3%;top:15%;
+                width:30%;height:10%;
+                transform:rotate(-40deg);
+            }.nnn:nth-child(12){
+                background-color:lightgrey;
+                left:25%;top:15%;
+                width:10%;height:5%;
+                transform:rotate(-10deg);
+            }
+
+            div.space>div.planet4>div.ddd{
+                position:absolute;
+                width:100%;
+                height:100%;
+                background-image:radial-gradient(at 16% 16%,hsl(170,100%,85%) 1%,hsla(0,0%,100%,0.3)6%,hsla(0,0%,100%,0)40%,black 60%);
+                border-radius:50%;
+                transform:rotate(-60deg);
+            }
+
+            div.space>div.ship{
+                position:absolute;
+                width:10%;
+                height:10%;
+                left:48%;
+                top:17%;
+                transform:rotate(-70deg);
+                --invisible:hsla(0,0%,0%,0);
+                --shipColor1:lightgrey;
+                --shipColor2:hsl(0,70%,50%);
+                --edging:hsl(0,0%,60%);
+            }
+            .ppp:nth-child(1){/*trail*/
+                position:absolute;
+                width:200%;
+                height:600%;
+                top:9%;
+                left:-231%;
+                border-radius:50%;
+                border:0.9em solid hsla(40,100%,50%,0.7);
+                border-bottom-width:0.5em;
+                border-left-width:0;
+                border-top-color:var(--invisible);
+                transform:rotate(20deg);
+            }
+            .ppp:nth-child(2){/*trail glow*/
+                position:absolute;
+                border-radius:50%;
+                background-image:radial-gradient(at 50% 25%, hsl(50,100%,50%)10%,var(--invisible)60%);
+                width:60%;
+                height:100%;
+                top:101%;
+                left:-10%;
+            }
+            .ppp:nth-child(3){/*right fin*/
+                position:absolute;
+                width:40%;
+                height:65%;
+                top:45%;
+                left:10%;
+                background-image:linear-gradient(to left, var(--shipColor2) 40%,var(--invisible)40%);
+                border-radius:50%;
+                transform:rotate(-20deg);
+            }
+            .ppp:nth-child(4){/*left fin*/
+                position:absolute;
+                width:40%;
+                height:65%;
+                top:45%;
+                left:-10%;
+                background-image:linear-gradient(to right, var(--shipColor2) 40%,var(--invisible)40%);
+                border-radius:50%;
+                transform:rotate(20deg);
+            }
+            .ppp:nth-child(5){/*body nw*/
+                position:absolute;
+                width:40%;
+                height:50%;
+                background-image:linear-gradient(to right, var(--shipColor1) 50%,var(--invisible)50%);
+                border-radius:50%;
+                transform:skewY(-60deg);
+            }
+            .ppp:nth-child(6){/*body ne*/
+                position:absolute;
+                width:40%;
+                height:50%;
+                background-image:linear-gradient(to left, var(--shipColor1) 50%,var(--invisible)50%);
+                border-radius:50%;
+                transform:skewY(60deg);
+            }
+            .ppp:nth-child(7){/*body sw*/
+                position:absolute;
+                width:30%;
+                height:30%;
+                top:58%;
+                background-image:linear-gradient(to right, var(--shipColor1) 50%,var(--invisible)50%);
+                border-radius:50%;
+                transform:skewY(30deg);
+            }
+            .ppp:nth-child(8){/*body se*/
+                position:absolute;
+                width:30%;
+                height:30%;
+                top:58%;
+                left:10%;
+                background-image:linear-gradient(to left, var(--shipColor1) 50%,var(--invisible)50%);
+                border-radius:50%;
+                transform:skewY(-30deg);
+            }
+            .ppp:nth-child(9){/*body middle*/
+                position:absolute;
+                width:12%;
+                height:38%;
+                top:50%;
+                left:14%;
+                background-color:var(--shipColor1);
+            }
+            .ppp:nth-child(10){/*thruster 1*/
+                position:absolute;
+                width:14%;
+                height:3%;
+                top:87%;
+                left:12%;
+                background-color:darkgrey;
+                border:0.05em solid darkslategrey;
+            }
+            .ppp:nth-child(11){/*thruster 2*/
+                position:absolute;
+                width:16%;
+                height:3%;
+                top:91%;
+                left:11%;
+                background-color:darkgrey;
+                border:0.05em solid darkslategrey;
+            }
+            .ppp:nth-child(12){/*thruster 3*/
+                position:absolute;
+                width:18%;
+                height:3%;
+                top:95%;
+                left:10%;
+                background-color:darkgrey;
+                border:0.05em solid darkslategrey;
+            }
+            .ppp:nth-child(13){/*thruster 4*/
+                position:absolute;
+                width:20%;
+                height:3%;
+                top:99%;
+                left:9%;
+                background-color:darkgrey;
+                border:0.05em solid darkslategrey;
+            }
+            .ppp:nth-child(14){/*window*/
+                position:absolute;
+                width:10%;
+                height:10%;
+                top:35%;
+                left:11.2%;
+                background-color:darkslategray;
+                border-radius:50%;
+                border:0.15em solid var(--edging);
+            }
+            .ppp:nth-child(15){/*slim fin*/
+                position:absolute;
+                width:3%;
+                height:60%;
+                top:50%;
+                left:19%;
+                background-color:var(--shipColor2);
+                border-radius:50%;
+            }
+            .ppp:nth-child(16){/*window*/
+                position:absolute;
+                width:20%;
+                height:10%;
+                top:20%;
+                left:10%;
+                border-top:0.1em solid var(--edging);
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <h2>Space Scene</h2>
+            
+            <div class="space">
+        
+            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+
+            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+
+            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+
+            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+
+            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+
+            <div class="spacefade1"></div>
+            <div class="spacefade2"></div>
+
+            <div class="sun"></div>
+            <div class="planet1">
+                <div class="ddd"></div>
+            </div>
+            <div class="planet2">
+                <div class="ddd"></div>
+            </div>
+            <div class="planet3">
+                <div class="ddd"></div>
+                <div class="rrr"></div>
+            </div>
+            <div class="planet4">
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+
+                <div class="nnn"></div>
+                <div class="nnn"></div>
+
+                <div class="ddd"></div>
+            </div>
+
+            <div class="ship">
+                <div class="ppp"></div>
+
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+                <div class="ppp"></div>
+            </div>
+
+        </div>
+            
+        </center>
+        
+    </body>
+</html>
