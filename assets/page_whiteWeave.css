@@ -82,7 +82,7 @@ footer{
 .linkBlock:hover{
     background-color:white;
 }
-.imageGallery a{
+.imageGallery > a{
     display:inline-block;
     width:80%;
     max-width:300px;
@@ -94,10 +94,10 @@ footer{
     background-color:var(--panelBackgrounds);
     box-shadow: 0 0 10px var(--blackShadow);
 }
-.imageGallery a:hover{
+.imageGallery > a:hover{
     background-color:white;
 }
-.imageGallery img{
+.imageGallery > a > img{
     width:100%;
 }
 
