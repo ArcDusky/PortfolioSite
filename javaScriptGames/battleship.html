@@ -264,8 +264,6 @@
             top:180px;
         }
 
-
-
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -366,6 +364,7 @@
             $("#bs_modeMenu_option4").attr("onmousedown","StartNewGame(4)");
 
             document.getElementById("bs_fastCheckbox").checked = false;
+            MarkDiagonalCells();
         }
 
         function Help(){
@@ -380,20 +379,18 @@
                         ;
             alert(message);
         }
+        function MarkDiagonalCells(){
+            let pos={x:0,y:0};
+            GetRightCell(pos.x,pos.y).addClass("bs_isDiagonal");
 
-        const waterColors = [
-            "midnightblue",
-            "navy",
-            "lightseagreen",
-            "seagreen",
-            "royalblue",
-            "steelblue",
-            "cadetblue",
-            "teal",
-            "darkolivegreen",
-            "darkslateblue",
-            "indigo"
-        ];
+            while(true){
+                pos.x+=2;
+                if(pos.x>9){pos.x-=9+2;pos.y++;}
+                if(pos.y>9)break;
+                GetRightCell(pos.x,pos.y).addClass("bs_isDiagonal");
+            }
+        }
+
         const shipNames = [
             "ERROR",
             "Carrier",
@@ -447,10 +444,6 @@
             BoardBlocks(true,false);
             BoardBorders(false,true);
             ShowShips(false,true);
-
-            let waterColorIndex = Math.floor(Math.random()*waterColors.length);
-            //$("#bs_leftBoard").css("background-color",waterColors[waterColorIndex]);
-            //$("#bs_rightBoard").css("background-color",waterColors[waterColorIndex]);
             
             gameStep=1;
             gameMode=mode;
@@ -461,10 +454,10 @@
             // 3 islands normal
             // 4 islands salvo
             if(gameMode==3 || gameMode==4){// islands
-                MakeIslands();
+                MakeLand();
             }
         }
-        function MakeIslands(){
+        function MakeLand(){
             for(let i=0;i<30;i++){
                 while(true){
                     let pos;
@@ -480,7 +473,7 @@
                         let lands = $("#bs_leftBoard").children(".bs_has_land");
                         if(lands.length==0)continue;
                         let randomLand = lands.eq(Math.floor(Math.random()*lands.length));
-                        let neighs = GetNeighbors_Perpendicular(randomLand);
+                        let neighs = GetLeftNeighbors_Perpendicular(randomLand);
                         neighs = neighs.not(".bs_has_land");
                         if(neighs.length==0)continue;
                         cell = neighs.eq(Math.floor(Math.random()*neighs.length));
@@ -492,7 +485,7 @@
                 }
             }
         }
-        function GetNeighbors_Perpendicular(cell){
+        function GetLeftNeighbors_Perpendicular(cell){
             let neighs = $();
             let c = GetCoords(cell);
             if(c.x-1 < 0){}else neighs = neighs.add(GetLeftCell(c.x-1,c.y));
@@ -674,7 +667,9 @@
         }
         function YouWin(){
             gameStep=4;
-            Message("You win!");
+            let yourShots = $("#bs_leftBoard").children(".bs_has_peg").length;
+            let cpuShots = $("#bs_rightBoard").children(".bs_has_peg").length;
+            Message("You win!<br>Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
             BoardBlocks(true,true);
             BoardBorders(false,false);
             ShowShips(true,true);
@@ -682,7 +677,9 @@
         }
         function YouLose(){
             gameStep=4;
-            Message("You lose!");
+            let yourShots = $("#bs_leftBoard").children(".bs_has_peg").length;
+            let cpuShots = $("#bs_rightBoard").children(".bs_has_peg").length;
+            Message("You lose!<br>Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
             BoardBlocks(true,true);
             BoardBorders(false,false);
             ShowShips(true,true);
@@ -791,13 +788,13 @@
         // #################################################
 
         function CpuPlaceShips(){
-            while(true){if(CpuTryPlaceShip(1)==true)break;}
-            while(true){if(CpuTryPlaceShip(2)==true)break;}
-            while(true){if(CpuTryPlaceShip(3)==true)break;}
-            while(true){if(CpuTryPlaceShip(4)==true)break;}
-            while(true){if(CpuTryPlaceShip(5)==true)break;}
+            while(true){if(Cpu_TryPlaceShip(1)==true)break;}
+            while(true){if(Cpu_TryPlaceShip(2)==true)break;}
+            while(true){if(Cpu_TryPlaceShip(3)==true)break;}
+            while(true){if(Cpu_TryPlaceShip(4)==true)break;}
+            while(true){if(Cpu_TryPlaceShip(5)==true)break;}
         }
-        function CpuTryPlaceShip(id){
+        function Cpu_TryPlaceShip(id){
             let pos = {
                 x: Math.floor(Math.random()*10),
                 y: Math.floor(Math.random()*10)
@@ -846,9 +843,9 @@
             }else{
                 ammo=1;
             }
-            timer_turnDelay=setTimeout(CpuShoot,Speed(2000,100));
+            timer_turnDelay=setTimeout(Cpu_ShootSmart,Speed(2000,100));
         }
-        function CpuShoot(){
+        function Cpu_ShootRandom(){
             let pos;
             let cell;
             while(true){
@@ -858,6 +855,14 @@
                 };
                 cell = $("#bs_rightCell"+pos.x+"_"+pos.y);
                 if(cell.hasClass("bs_has_peg")==false && $(cell).hasClass("bs_has_land")==false)break;
+            }
+
+            Cpu_ActuallyShoot(cell);
+        }
+        function Cpu_ActuallyShoot(cell){
+            if($(cell).hasClass("bs_has_peg")){
+                console.log("ERROR cpu trying to shoot pegged cell");Message("ERROR");
+                return;
             }
 
             if($(cell).hasClass("bs_has_ship")==true){
@@ -883,11 +888,218 @@
                 gameStep=0;
                 timer_turnDelay=setTimeout(YourTurn,Speed(2500,1000));
             }else{
-                timer_turnDelay=setTimeout(CpuShoot,Speed(2500,900));
+                timer_turnDelay=setTimeout(Cpu_ShootSmart,Speed(2500,900));
             }
         }
         function Speed(normal,fast){
             return document.getElementById("bs_fastCheckbox").checked ? fast : normal;
+        }
+
+        //----------------------------------------
+
+        function Cpu_ShootSmart(){
+            // unfinished ships? followup on them
+            for(let ship=1;ship<shipLengths.length;ship++){
+                let redPegs = $("#bs_rightBoard").children(".bs_has_ship"+ship).filter(".bs_has_red");
+                if(redPegs.length>0 && redPegs.length<shipLengths[ship]){
+                    //Cpu_ShootRandom();
+                    Cpu_Followup(ship,redPegs);
+                    return;
+                }
+            }
+
+            // hunt remaining ships
+            for(let ship=1;ship<shipLengths.length;ship++){
+                let redPegs = $("#bs_rightBoard").children(".bs_has_ship"+ship).filter(".bs_has_red");
+                if(redPegs.length==0){
+                    //Cpu_ShootRandom();
+                    Cpu_Hunt(ship);
+                    return;
+                }
+            }
+            console.log("ERROR cpu cannot shoot smart");Message("ERROR");
+        }
+        function Cpu_Followup(ship,redPegs){
+            let cell;
+            let cells;
+            if(redPegs.length==1){
+                cells = GetRightNeighbors_Perpendicular(redPegs);
+                cells = cells.not(".bs_has_land").not(".bs_has_peg");
+                if(cells.length==0){console.log("ERROR no neighs");Message("ERROR");return;}
+                
+                cell = cells.eq(Math.floor(Math.random()*cells.length));
+                Cpu_ActuallyShoot(cell);
+                return;
+
+                // dont guess direction where boat cannot fit?
+
+            }else{
+                if(GetCoords(redPegs.eq(0)).x == GetCoords(redPegs.eq(1)).x){
+                    // is vertical
+                    // shoot from top to bottom
+                    cell = TopMostCell(redPegs);
+                    while(true){
+                        cell = GetNeighbor(cell,0,1);
+                        if(cell == null || cell.hasClass("bs_has_land") || cell.hasClass("bs_has_white")){
+                            // other direction
+                            cell = TopMostCell(redPegs);
+                            cell = GetNeighbor(cell,0,-1);
+                            Cpu_ActuallyShoot(cell);
+                            return;
+                        }else if(cell.hasClass("bs_has_red")){
+                            continue;
+                        }else{
+                            Cpu_ActuallyShoot(cell);
+                            return;
+                        }
+                    }
+                }else{
+                    // is horizontal
+                    // shoot from left to right
+                    cell = LeftMostCell(redPegs);
+                    while(true){
+                        cell = GetNeighbor(cell,1,0);
+                        if(cell == null || cell.hasClass("bs_has_land") || cell.hasClass("bs_has_white")){
+                            // other direction
+                            cell = LeftMostCell(redPegs);
+                            cell = GetNeighbor(cell,-1,0);
+                            Cpu_ActuallyShoot(cell);
+                            return;
+                        }else if(cell.hasClass("bs_has_red")){
+                            continue;
+                        }else{
+                            Cpu_ActuallyShoot(cell);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        function Cpu_Hunt(ship){
+            // look for all possible horizontal positions
+            //     add +1 score to all cells involved
+            // then look for all possible vertical positions
+            //     add +1 score to all cells involved
+            // higher score cells are better guesses
+
+            let cellScores = NewCellScoresArray(10*10);
+
+            // score each cell
+            let x;
+            let y;
+            for(x=0;x<10;x++){
+                for(y=0;y<10;y++){
+                    ScoreAreaIfShipFits_Horizontal(shipLengths[ship],x,y);
+                    ScoreAreaIfShipFits_Vertical(shipLengths[ship],x,y);
+                }
+            }
+            // find best scores
+            let maxScore = GetMaxScore(cellScores);
+            let cell;
+            let cells = $();
+            for(x=0;x<cellScores.length;x++){
+                if(cellScores[x]==maxScore){
+                    let pos = ScoreIndexToCoords(x);
+                    cells = cells.add(GetRightCell(pos.x,pos.y));
+                }
+            }
+            // prioritize diagonals
+            let diagCells = cells.filter(".bs_isDiagonal");
+            if(diagCells.length>0){
+                cell = diagCells.eq(Math.floor(Math.random()*diagCells.length));
+                Cpu_ActuallyShoot(cell);
+                return;
+            }else{
+                cell = cells.eq(Math.floor(Math.random()*cells.length));
+                Cpu_ActuallyShoot(cell);
+                return;
+            }
+
+            console.log("ERROR cpu cannot hunt");Message("ERROR");
+            
+            function NewCellScoresArray(size){
+                let a = new Array(size);
+                for(let i=0;i<a.length;i++){
+                    a[i]=0;
+                }return a;
+            }
+            function GetMaxScore(a){
+                let max = -999;
+                for(let i=0;i<a.length;i++){
+                    if(a[i]>max)max=a[i];
+                }return max;
+            }
+            function CoordsToScoreIndex(x,y){
+                return x + y*10;
+            }
+            function ScoreIndexToCoords(index){
+                let y = Math.floor(index/10);
+                let x = index - (y*10);
+                return {x:x,y:y};
+            }
+            function ScoreAreaIfShipFits_Horizontal(shipLength,ox,oy){
+                let x;
+                for(x=0;x<shipLength;x++){
+                    if(ox + x > 9)return;
+                    let cell = GetRightCell(ox + x, oy);
+                    if(cell.hasClass("bs_has_land") || cell.hasClass("bs_has_peg")){
+                        return;
+                    }
+                }
+                for(x=0;x<shipLength;x++){
+                    cellScores[CoordsToScoreIndex(ox+x,oy)]++;
+                }
+            }
+            function ScoreAreaIfShipFits_Vertical(shipLength,ox,oy){
+                let y;
+                for(y=0;y<shipLength;y++){
+                    if(oy + y > 9)return;
+                    let cell = GetRightCell(ox, oy + y);
+                    if(cell.hasClass("bs_has_land") || cell.hasClass("bs_has_peg")){
+                        return;
+                    }
+                }
+                for(y=0;y<shipLength;y++){
+                    cellScores[CoordsToScoreIndex(ox,oy+y)]++;
+                }
+            }
+        }
+        function GetRightNeighbors_Perpendicular(cell){
+            let neighs = $();
+            let c = GetCoords(cell);
+            if(c.x-1 < 0){}else neighs = neighs.add(GetRightCell(c.x-1,c.y));
+            if(c.x+1 > 9){}else neighs = neighs.add(GetRightCell(c.x+1,c.y));
+            if(c.y-1 < 0){}else neighs = neighs.add(GetRightCell(c.x,c.y-1));
+            if(c.y+1 > 9){}else neighs = neighs.add(GetRightCell(c.x,c.y+1));
+            return neighs;
+        }
+        function GetNeighbor(cell,xoffset,yoffset){
+            let pos = GetCoords(cell);
+            if(pos.x+xoffset <0 || pos.x+xoffset >9)return null;
+            if(pos.y+yoffset <0 || pos.y+yoffset >9)return null;
+            return GetRightCell(pos.x+xoffset,pos.y+yoffset);
+        }
+        function TopMostCell(cells){
+            let minId = -1;
+            let minValue = 999;
+            for(let i=0;i<cells.length;i++){
+                let pos = GetCoords(cells.eq(i));
+                if(pos.y < minValue){
+                    minValue = pos.y;
+                    minId = i;
+                }
+            }return cells.eq(minId);
+        }
+        function LeftMostCell(cells){
+            let minId = -1;
+            let minValue = 999;
+            for(let i=0;i<cells.length;i++){
+                let pos = GetCoords(cells.eq(i));
+                if(pos.x < minValue){
+                    minValue = pos.x;
+                    minId = i;
+                }
+            }return cells.eq(minId);
         }
 
     </script>
