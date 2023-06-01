@@ -200,13 +200,22 @@
         #bs_placingMenu_ship3{top:calc(55px + 60px + 10px);}
         #bs_placingMenu_ship4{top:calc(55px + 90px + 15px);}
         #bs_placingMenu_ship5{top:calc(55px + 120px + 20px);}
+        #bs_placingMenu_rotate{
+            position:absolute;
+            bottom:10px;
+            right:10px;
+            overflow:hidden;
+            text-align:center;
+            cursor:pointer;
+        }#bs_placingMenu_rotateSymbol{
+            font-size:xx-large;
+        }
         
         .bs_you_ship,.bs_cpu_ship{
             pointer-events:none;
         }
-        .bs_placedShip{
-            ;
-        }.bs_unplacedShip{
+        .bs_placedShip{}
+        .bs_unplacedShip{
             opacity:0%;
         }.bs_heldShip{
             animation: bs_blinking 0.4s ease-out 0s infinite alternate;
@@ -339,6 +348,7 @@
             hhh += "<div id='bs_placingMenu_ship3' class='bs_placingMenu_ship bs_ship3'></div>";
             hhh += "<div id='bs_placingMenu_ship4' class='bs_placingMenu_ship bs_ship4'></div>";
             hhh += "<div id='bs_placingMenu_ship5' class='bs_placingMenu_ship bs_ship5'></div>";
+            hhh += "<div id='bs_placingMenu_rotate'>Rotate<br><span id='bs_placingMenu_rotateSymbol'>🔄</span></div>";
             hhh += "</div>";
 
             hhh += "<div id='bs_modeMenu'>";
@@ -354,6 +364,7 @@
             $("#bs_newGameButton").click(NewGameButton);
             $("#bs_help").click(Help);
             $(".bs_placingMenu_ship").attr("onmousedown","ClickPlaceMenuShip(this)");
+            $("#bs_placingMenu_rotate").click(RotateShip);
             $(".bs_rightCell").hover(HoverRightCell);
             $(".bs_rightCell").attr("onmousedown","ClickRightCell(event,this)");
             $(".bs_leftCell").attr("onmousedown","ClickLeftCell(this)");
@@ -579,13 +590,15 @@
         function ClickRightCell(event,cell){
             if(gameStep == 1){ // placing ships
                 if(event.button == 2){
-                    // rotate ship
-                    $(".bs_heldShip").toggleClass("bs_shipRotated");
+                    RotateShip();
                 }else if(event.button == 0){
                     TryPlaceShip(cell);
                     
                 }
             }
+        }
+        function RotateShip(){
+            $(".bs_heldShip").toggleClass("bs_shipRotated");
         }
         function TryPlaceShip(cell){
             let pos = GetCoords(cell);
