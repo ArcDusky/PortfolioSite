@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Kevin's Stratego</title>
+
+    <style>
+
+        /*
+        ai ideas
+        -- attacking movers is safer after killing your 7-8-9-10
+        -- attacking dormants is safer after killing your bombs
+        */
+
+        #stratego{
+            position:relative;
+            background-color:lightgrey;
+            font-size:1em;
+            width:530px;
+            height:620px;
+            border:1px solid black;
+            text-align:left;
+            user-select:none;
+            font-family:sans-serif;
+            overflow:hidden;
+        }
+        #sgo_header{
+            position:absolute;
+            width:100%;
+            height:30px;
+            left:0;
+            top:0;
+            overflow:hidden;
+            border:1px solid black;
+            background-color: grey;
+        }
+        #sgo_title{
+            position:absolute;
+            left:0;
+            top:0;
+            width:250px;
+            height:100%;
+            font-weight:bold;
+            font-style:italic;
+            font-size:1.5em;
+            padding-left:5px;
+            color:darkgrey;
+            text-shadow:0 0 2px black;
+        }
+        #sgo_newGameButton{
+            position:absolute;
+            right:40px;
+            top:5%;
+            width:100px;
+            height:70%;
+            font-size:1em;
+            text-align:center;
+            background-color:lightgrey;
+            border:2px outset grey;
+            border-radius:8px;
+            cursor:pointer;
+        }
+        #sgo_help{
+            position:absolute;
+            right:0;
+            top:0;
+            width:30px;
+            height:100%;
+            font-weight:bold;
+            font-size:1.5em;
+            text-align:center;
+            background-color:dodgerblue;
+            color:white;
+            border-radius:999px;
+            cursor:pointer;
+        }
+        #sgo_message{
+            position:absolute;
+            left:100px;
+            top:40px;
+            width:calc(100% - 200px - 10px - 20px);
+            height:40px;
+            padding:0 10px;
+            font-size:1em;
+            font-weight:bold;
+            text-align:center;
+            background-color:rgb(22, 48, 22);
+            color:rgb(48, 202, 48);
+            border:5px inset grey;
+            border-radius:999px;
+            animation: sgo_messageFlash 0.5s linear 0s 1 normal;
+        }@keyframes sgo_messageFlash{
+            from{background-color:rgb(123, 255, 123);}
+            to{background-color:rgb(22, 48, 22);}
+        }
+        #sgo_fastDiv{
+            position:absolute;
+            right:10px;
+            top:50px;
+        } 
+
+        #sgo_board{
+            position:absolute;
+            width:calc(50px * 10);
+            height:calc(50px * 10);
+            top:100px;
+            left:10px;
+            background-image:linear-gradient(forestgreen 0%,darkkhaki 50%,forestgreen 100%);
+            border:5px inset grey;
+            cursor:pointer;
+        }
+        .sgo_cell{
+            position:absolute;
+            width:48px;
+            height:48px;
+            border:1px solid darkolivegreen;
+        }
+        .sgo_lake{
+            position:absolute;
+            width:98px;
+            height:98px;
+            top:calc(50px * 4);
+            border:1px solid darkolivegreen;
+            background-image:radial-gradient(darkslategrey 10%,dimgrey 65%,darkkhaki 82%);
+        }#sgo_lakeLeft{
+            left:calc(50px * 2);
+        }#sgo_lakeRight{
+            left:calc(50px * 6);
+        }
+        .sgo_piece{
+            position:absolute;
+            width:40px;
+            height:40px;
+            margin: 5px 0px 0px 5px;
+            background-image:linear-gradient(darkgrey 0%,grey 100%);
+            border-radius: 99px 99px 0px 0px;
+            color:white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.7em;
+            box-shadow: 0px -3px 5px 0px black;
+        }
+        .sgo_pieceRed{
+            background-image:linear-gradient(firebrick 0%,maroon 100%);
+        }.sgo_pieceBlue{
+            background-image:linear-gradient(darkslategrey 0%,midnightblue 100%)
+        }
+        .sgo_piece2{
+            color:lightskyblue;
+        }.sgo_piece3{
+            color:violet;
+        }.sgo_pieceBomb{
+            color:red;
+        }.sgo_pieceFlag{
+            color:darkgrey;
+        }.sgo_pieceRed.sgo_secret{/* secret identity */
+            font-size:0.0em;
+        }
+
+        #sgo_selector{
+            position:absolute;
+            pointer-events: none;
+        }.sgo_selectorChoose{
+            width:42px;
+            height:42px;
+            border:4px dashed yellow;
+            box-shadow: 0px 0px 10px 0px black;
+            animation:sgo_selectorChoose 0.2s linear 0s infinite alternate;
+        }@keyframes sgo_selectorChoose{
+            0%{opacity:1;}
+            60%{opacity:1;}
+            61%{opacity:0;}
+            100%{opacity:0;}
+        }.sgo_selectorBattleRed,.sgo_selectorBattleBlue{
+            width:100px;
+            height:100px;
+            background-image:radial-gradient(rgba(0,0,0,0) 0%,white 100%);
+            box-shadow: 0px 0px 10px 0px black;
+            border-radius: 999px;
+            margin: -25px 0px 0px -25px;
+            animation:sgo_selectorBattle 0.2s linear 0s infinite alternate;
+        }.sgo_selectorBattleRed{
+            background-image:radial-gradient(rgba(0,0,0,0) 60%,red 61%);
+        }.sgo_selectorBattleBlue{
+            background-image:radial-gradient(rgba(0,0,0,0) 60%,deepskyblue 61%);
+        }@keyframes sgo_selectorBattle{
+            0%{opacity:1;}
+            60%{opacity:1;}
+            61%{opacity:0;}
+            100%{opacity:0;}
+        }
+
+        #sgo_startButton{
+            position:absolute;
+            width:150px;
+            height:30px;
+            right:25px;
+            top:230px;
+            font-size:1.2em;
+            color:grey;
+            text-align: center;
+            background-color:lightgrey;
+            border:6px double grey;
+            border-radius:99px;
+            box-shadow: 0px 0px 10px 0px black;
+            cursor:pointer;
+            animation:sgo_startButton 0.7s ease-out 0s infinite alternate;
+        }@keyframes sgo_startButton{
+            from{right:25px;}
+            to{right:35px;}
+        }
+        .sgo_layoutButton{
+            position:absolute;
+            width:200px;
+            height:25px;
+            left:35px;
+            color:black;
+            background-color:lightsteelblue;
+            border:6px double grey;
+            border-radius:99px;
+            box-shadow: 0px 0px 10px 0px black;
+            cursor:pointer;
+        }#sgo_layoutButton1{
+            top:130px;
+        }#sgo_layoutButton2{
+            top:170px;
+        }#sgo_layoutButton3{
+            top:210px;
+        }#sgo_layoutButton4{
+            top:250px;
+        }
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        "use strict";
+
+        const ICON_BOMB = "💣";
+        const ICON_FLAG = "🚩";
+
+        $(document).ready(function(){
+            Startup();
+            OnNewGame();
+		});
+        function Startup(){
+            let hhh = "<div id='sgo_header'>";
+            hhh += "<div id='sgo_title'>Kevin's Stratego</div>";
+            hhh += "<div id='sgo_newGameButton'>New Game</div>";
+            hhh += "<div id='sgo_help'>?</div>";
+            hhh += "</div>";
+
+            hhh += "<div id='sgo_message'>my message</div>";
+
+            hhh += "<div id='sgo_fastDiv'><span>Faster</span><input type='checkbox' id='sgo_fastCheckbox' checked='false'/></div>";
+
+            hhh += "<div id='sgo_board'>";
+            let tIdent;
+            let tClass;
+            let tStyle;
+            let tContent;
+            // board cells
+            for(let yyy=0;yyy<10;yyy++){
+                for(let xxx=0;xxx<10;xxx++){
+                    tIdent = "sgo_cell"+xxx+"_"+yyy;
+                    tClass = "sgo_cell";
+
+                    tStyle = "";
+                    tStyle += "left:"+(50*xxx)+"px; top:"+(50*yyy)+"px;";
+                    
+                    hhh += "<div class='"+tClass+"' style='"+tStyle+"' id='"+tIdent+"'></div>";
+                }
+            }
+            // lakes
+            tIdent = "sgo_lakeLeft";
+            tClass = "sgo_lake";
+            tStyle = "";
+            //tStyle = "left:"+(50*2)+"px; top:"+(50*4)+"px;";
+            hhh += "<div class='"+tClass+"' style='"+tStyle+"' id='"+tIdent+"'></div>";
+            tIdent = "sgo_lakeRight";
+            hhh += "<div class='"+tClass+"' style='"+tStyle+"' id='"+tIdent+"'></div>";
+            // pieces
+            for(let i=0;i<40;i++){
+                tIdent = "sgo_pieceRed"+i;
+                tClass = "sgo_piece sgo_pieceRed";
+                tContent = "A";
+                hhh += "<div class='"+tClass+"' id='"+tIdent+"'>"+tContent+"</div>";
+                tIdent = "sgo_pieceBlue"+i;
+                tClass = "sgo_piece sgo_pieceBlue";
+                hhh += "<div class='"+tClass+"' id='"+tIdent+"'>"+tContent+"</div>";
+            }
+            // selector
+            hhh += "<div id='sgo_selector'></div>";
+
+            hhh += "</div>";// close board
+
+            hhh += "<div id='sgo_startButton'>Start Game</div>";
+            hhh += "<div id='sgo_layoutButton1' class='sgo_layoutButton'></div>";
+            hhh += "<div id='sgo_layoutButton2' class='sgo_layoutButton'></div>";
+            hhh += "<div id='sgo_layoutButton3' class='sgo_layoutButton'></div>";
+            hhh += "<div id='sgo_layoutButton4' class='sgo_layoutButton'></div>";
+
+            $("#stratego").html(hhh);
+            $("#stratego").attr("oncontextmenu","return false;");// so right-click does not open a menu
+
+            $("#sgo_newGameButton").click(OnNewGame);
+            $("#sgo_help").click(Help);
+            document.getElementById("sgo_fastCheckbox").checked = false;
+            $("#sgo_startButton").click(OnStartGame);
+            $("#sgo_layoutButton1").click(ArrangeBluePiecesRandom).text("📐 Random");
+            $("#sgo_layoutButton2").click(ArrangeBluePieces_BombCenter).text("📐 Bomb Center");
+            $("#sgo_layoutButton3").click(ArrangeBluePieces_BombSides).text("📐 Bomb Sides");
+            $("#sgo_layoutButton4").click(ArrangeBluePieces_OpenLeft).text("📐 Open Left");
+
+            $(".sgo_cell").attr("onmousedown","OnClickCell(event,this)");
+            $(".sgo_piece").attr("onmousedown","OnClickPiece(event,this)");
+
+            RemoveLakeCells();
+            AssignRanksToPieces($(".sgo_pieceRed"));
+            AssignRanksToPieces($(".sgo_pieceBlue"));
+
+            function Help(){
+                let message="===========================\n"+
+                            "HOW TO PLAY\n\n"+
+
+                            "Find the enemy flag!\n"+
+                            "Bigger pieces kill smaller ones.\n\n"+
+
+                            "[bomb] cannot move.\n"+
+                            "[flag] cannot move.\n\n"+
+
+                            "[bomb] kills any attacker, except [3].\n"+
+                            "[1] can attack [10].\n"+
+                            "[2] can move far.\n"+
+                            "[3] kills [bomb].\n\n"+
+                            
+                            "==========================="
+                            ;
+                alert(message);
+            }
+            function RemoveLakeCells(){
+                $("#sgo_cell2_4").remove();
+                $("#sgo_cell2_5").remove();
+                $("#sgo_cell3_4").remove();
+                $("#sgo_cell3_5").remove();
+                $("#sgo_cell6_4").remove();
+                $("#sgo_cell6_5").remove();
+                $("#sgo_cell7_4").remove();
+                $("#sgo_cell7_5").remove();
+            }
+            function AssignRanksToPieces(elements){
+                if(elements.length != 40) console.log("error for rankings");
+
+                for(let i=0;i<40;i++) elements.eq(i).addClass("sgo_dormant").addClass("sgo_secret");
+
+                let tIndex=0;
+                for(let i=0;i< 1 ;i++){ elements.eq(tIndex).text("1").addClass("sgo_piece1"); tIndex++; }
+                for(let i=0;i< 8 ;i++){ elements.eq(tIndex).text("2").addClass("sgo_piece2"); tIndex++; }
+                for(let i=0;i< 5 ;i++){ elements.eq(tIndex).text("3").addClass("sgo_piece3"); tIndex++; }
+                for(let i=0;i< 4 ;i++){ elements.eq(tIndex).text("4").addClass("sgo_piece4"); tIndex++; }
+                for(let i=0;i< 4 ;i++){ elements.eq(tIndex).text("5").addClass("sgo_piece5"); tIndex++; }
+                for(let i=0;i< 4 ;i++){ elements.eq(tIndex).text("6").addClass("sgo_piece6"); tIndex++; }
+                for(let i=0;i< 3 ;i++){ elements.eq(tIndex).text("7").addClass("sgo_piece7"); tIndex++; }
+                for(let i=0;i< 2 ;i++){ elements.eq(tIndex).text("8").addClass("sgo_piece8"); tIndex++; }
+                for(let i=0;i< 1 ;i++){ elements.eq(tIndex).text("9").addClass("sgo_piece9"); tIndex++; }
+                for(let i=0;i< 1 ;i++){ elements.eq(tIndex).text("10").addClass("sgo_piece10"); tIndex++; }
+                for(let i=0;i< 6 ;i++){ elements.eq(tIndex).text(ICON_BOMB).addClass("sgo_pieceBomb"); tIndex++; }
+                for(let i=0;i< 1 ;i++){ elements.eq(tIndex).text(ICON_FLAG).addClass("sgo_pieceFlag"); tIndex++; }
+            }
+        }
+        
+        let selectedPiece = null;
+        let attackedPiece = null;
+        let prevBattleResult = "";
+
+        let gameState = "";
+        let gameTimer = null;
+        const moveSpeed = 2000;
+        const moveSpeedFast = 800;
+        function GetSpeed(){
+            return document.getElementById("sgo_fastCheckbox").checked ? moveSpeedFast : moveSpeed;
+        }
+
+        function OnNewGame(){
+            
+            clearTimeout(gameTimer);
+            gameTimer=null;
+            attackedPiece = null;
+            prevBattleResult = "";
+            if(selectedPiece!=null){
+                selectedPiece.stop(true,true);
+                selectedPiece=null;
+            }
+
+            Startup();
+            ArrangeRedPiecesRandom();
+            ArrangeBluePiecesRandom();
+            gameState = "arrange";
+            Message("Arrange your pieces!<br>Click pieces to swap them.");
+            SetSelectorMode(null);
+            $("#sgo_startButton").show();
+            $(".sgo_layoutButton").show();
+        }
+        function OnStartGame(){
+            gameState = "your turn";
+            Message("Your turn. Move a piece.");
+            SetSelectorMode(null);
+            $("#sgo_startButton").hide();
+            $(".sgo_layoutButton").hide();
+        }
+        function OnClickPiece(event,piece){
+            piece = $(piece);
+            if(gameTimer!=null) return;
+
+            if(gameState=="arrange"){
+                if(piece.hasClass("sgo_pieceBlue")){
+                    // select a piece to move
+                    if(selectedPiece==null){
+                        selectedPiece = piece;
+                        SetSelectorMode("choose");
+                        MoveElementToElement($("#sgo_selector"),piece);
+                    // deselect
+                    }else if(selectedPiece==piece){
+                        selectedPiece = null;
+                        SetSelectorMode(null);
+                    // swap and deselect
+                    }else{
+                        let tCell = GetCellAtPiece(selectedPiece);
+                        MoveElementToElement(selectedPiece,piece);
+                        MoveElementToElement(piece,tCell);
+                        selectedPiece = null;
+                        SetSelectorMode(null);
+                    }
+                }
+            }else if(gameState=="your turn"){
+                // selecting a blue piece
+                if(piece.hasClass("sgo_pieceBlue")){
+                    TrySelectBluePiece(piece);
+                // attacking a red piece
+                }else if(piece.hasClass("sgo_pieceRed")){
+                    if(selectedPiece != null){
+                        TryAttackRedPiece(piece);
+                    }
+                }
+            }
+        }
+        function OnClickCell(event,cell){
+            cell = $(cell);
+            if(gameTimer!=null) return;
+
+            if(gameState=="arrange"){
+                selectedPiece = null;
+                SetSelectorMode(null);
+            }else if(gameState=="your turn"){
+                // move selectedPiece to cell
+                if(selectedPiece != null){
+                    TryMoveBluePieceToCell(cell);
+                }
+            }
+        }
+        function TrySelectBluePiece(piece){
+            if(piece == null){
+                selectedPiece = null;
+            }else if(piece.text()==ICON_BOMB || piece.text()==ICON_FLAG){
+                selectedPiece = null;
+            }else{
+                selectedPiece = piece;
+                SetSelectorMode("choose");
+                MoveElementToElement($("#sgo_selector"),piece);
+            }
+        }
+        function TryAttackRedPiece(otherPiece){
+            if(MovePathIsValid(GetCellAtPiece(otherPiece)) == false) return;
+            
+            attackedPiece = otherPiece;
+            prevBattleResult = GetBattleResult(selectedPiece,otherPiece);
+
+            // ai data
+            selectedPiece.removeClass("sgo_dormant");
+            selectedPiece.removeClass("sgo_secret");
+
+            // message and selector
+            MoveElementToElement($("#sgo_selector"),otherPiece);
+            if(prevBattleResult=="win flag"){
+                Message("Found enemy flag! You win!");
+                SetSelectorMode("battleBlue");
+            }else if(prevBattleResult.includes("win")){
+                Message("Your ["+selectedPiece.text()+"] defeated enemy ["+(otherPiece.text()==ICON_BOMB?"bomb":otherPiece.text())+"].");
+                SetSelectorMode("battleBlue");
+            }else if(prevBattleResult.includes("lose")){
+                Message("Enemy ["+(otherPiece.text()==ICON_BOMB?"bomb":otherPiece.text())+"] defeated your ["+selectedPiece.text()+"].");
+                SetSelectorMode("battleRed");
+            }else if(prevBattleResult=="tie"){
+                Message("Both ["+selectedPiece.text()+"] pieces were defeated.");
+                SetSelectorMode("battleBlue");
+            }
+            
+            // animate towards
+            let timeForTimeout = GetSpeed()-(GetSpeed()/(GetDistance()+0.6));
+            AnimateElementToElement(selectedPiece,otherPiece);
+            selectedPiece.css("z-index",1);
+            otherPiece.css("z-index",0);
+            otherPiece.removeClass("sgo_secret");// show enemy temporarily
+            gameTimer = setTimeout(function(){
+                selectedPiece.stop(true,false);
+                gameTimer = setTimeout(function(){// delay
+                    BattleFollowup();
+                    TurnFollowup();
+                },GetSpeed())
+            },timeForTimeout);// stop early
+            
+            function GetDistance(){
+                let pieceCoords = GetCellCoords( GetCellAtPiece(selectedPiece) );
+                let destCoords = GetCellCoords( GetCellAtPiece(attackedPiece) );
+                let dad = GetDirectionAndDistanceBetweenCoords(pieceCoords,destCoords);
+                return dad.distance;
+            }
+        }
+        function TryMoveBluePieceToCell(cell){
+            if(GetPieceAtCell(cell) != null) return;
+            if(MovePathIsValid(cell) == false) return;
+
+            // ai data
+            selectedPiece.removeClass("sgo_dormant");
+            if(GetDistance()>1) selectedPiece.removeClass("sgo_secret");
+
+            AnimateElementToElement(selectedPiece,cell);
+            Message("You moved a ["+selectedPiece.text()+"].");
+            gameTimer = setTimeout(function(){
+                TurnFollowup();
+            },GetSpeed());
+            TrySelectBluePiece(null);
+
+            // selector
+            SetSelectorMode("choose");
+            MoveElementToElement($("#sgo_selector"),cell);
+
+            function GetDistance(){
+                let pieceCoords = GetCellCoords( GetCellAtPiece(selectedPiece) );
+                let destCoords = GetCellCoords( cell );
+                let dad = GetDirectionAndDistanceBetweenCoords(pieceCoords,destCoords);
+                return dad.distance;
+            }
+        }
+        function MovePathIsValid(dest){
+            let pieceCoords = GetCellCoords( GetCellAtPiece(selectedPiece) );
+            let destCoords = GetCellCoords(dest);
+            let dad = GetDirectionAndDistanceBetweenCoords(pieceCoords,destCoords);
+            
+            if(dad.distance==0) return false;
+            
+            // not a scout, must be 1
+            if(selectedPiece.text() != "2"){
+                return dad.distance==1;
+            }
+
+            // scout moving 1
+            if(dad.distance==1) return true;
+            // scout moving far
+            let tCell;
+            for(let i=1;i<dad.distance;i++){
+                if(dad.direction=="up") tCell = GetCell(pieceCoords.x,pieceCoords.y-i);
+                else if(dad.direction=="down") tCell = GetCell(pieceCoords.x,pieceCoords.y+i);
+                else if(dad.direction=="left") tCell = GetCell(pieceCoords.x-i,pieceCoords.y);
+                else if(dad.direction=="right") tCell = GetCell(pieceCoords.x+i,pieceCoords.y);
+
+                if(tCell == null) return false;
+                if(GetPieceAtCell(tCell) != null) return false;
+            }
+            return true;
+        }
+        function GetDirectionAndDistanceBetweenCoords(aaa,bbb){
+            let tDirection = "";
+            let tDistance;
+            if(aaa.x == bbb.x){
+                tDistance = aaa.y - bbb.y;
+                tDirection = (tDistance < 0) ? "down" : "up";
+                tDistance = Math.abs(tDistance);
+            }else if(aaa.y == bbb.y){
+                tDistance = aaa.x - bbb.x;
+                tDirection = (tDistance < 0) ? "right" : "left";
+                tDistance = Math.abs(tDistance);
+            }else{
+                tDistance = 0;
+                tDirection = "none";
+            }return {direction:tDirection,distance:tDistance};
+        }
+        function GetBattleResult(attacker,defender){
+            let aaa = attacker.text();
+            let ddd = defender.text();
+            if(ddd==ICON_FLAG){
+                return "win flag";
+            }else if(ddd==ICON_BOMB){
+                if(aaa=="3") return "win bomb";
+                else return "lose bomb";
+            }else if(aaa=="1" && ddd=="10"){
+                return "win spied";
+            }else{
+                aaa = parseInt(aaa);
+                ddd = parseInt(ddd);
+                if(aaa == ddd) return "tie";
+                else if(aaa > ddd) return "win";
+                else return "lose";
+            }
+        }
+        function BattleFollowup(){
+            if(prevBattleResult=="win flag"){
+
+                gameState = "end";
+                $(".sgo_pieceRed").removeClass("sgo_secret");
+            
+            }else{
+                if(prevBattleResult.includes("win")){
+                    MoveElementToElement(selectedPiece,attackedPiece);
+                    attackedPiece.remove();
+                }else if(prevBattleResult.includes("lose")){
+                    selectedPiece.remove();
+                }else if(prevBattleResult=="tie"){
+                    selectedPiece.remove();
+                    attackedPiece.remove();
+                }
+                // hide red again
+                if(selectedPiece!=null && selectedPiece.hasClass("sgo_pieceRed")) selectedPiece.addClass("sgo_secret");
+                if(attackedPiece!=null && attackedPiece.hasClass("sgo_pieceRed")) attackedPiece.addClass("sgo_secret");
+            }
+        }
+        function TurnFollowup(){
+            if(prevBattleResult=="win flag") return;
+
+            TrySelectBluePiece(null);
+            SetSelectorMode(null);
+
+            if(gameState=="your turn") gameState="enemy turn";
+            else gameState="your turn";
+
+            //CheckForBattleGlitch();//:::::::::::::::::::::::::::::: rare glitch
+            
+            if(gameState=="your turn"){
+                Message("Your turn. Move a piece.");
+                gameTimer = null;
+
+            }else if(gameState="enemy turn"){
+                Message("Enemy's turn. Please wait.");
+                gameTimer = setTimeout(function(){
+                    
+                    let entry = GetBestRedMove();
+                    if(entry==null){
+                        // you win, enemy cannot move
+                        Message("Enemy cannot move. You win!");
+                        gameState = "end";
+                        $(".sgo_pieceRed").removeClass("sgo_secret");
+
+                    }else if(entry.type=="move"){
+                        RedMove(entry)
+                    }else if(entry.type=="attack"){
+                        RedAttack(entry);
+                    }
+                
+                }, GetSpeed()==moveSpeedFast ? 100 : moveSpeedFast );
+            }
+        }
+        function RedMove(entry){
+            selectedPiece = entry.red;
+            
+            AnimateElementToElement(entry.red,entry.moveCell);
+            Message("Enemy moved a piece.");
+            gameTimer = setTimeout(function(){
+                TurnFollowup();
+            }, GetSpeed()==moveSpeedFast ? GetSpeed() : GetSpeed()*1.5 );
+
+            // selector
+            SetSelectorMode("choose");
+            MoveElementToElement($("#sgo_selector"),entry.moveCell);
+        }
+        function RedAttack(entry){
+            selectedPiece = entry.red;
+            attackedPiece = entry.blue;
+            prevBattleResult = GetBattleResult(selectedPiece,attackedPiece);
+
+            // ai data
+            attackedPiece.removeClass("sgo_secret");
+
+            // message and selector
+            MoveElementToElement($("#sgo_selector"),attackedPiece);
+            if(prevBattleResult=="win flag"){
+                Message("Enemy found your flag! You lose!");
+                SetSelectorMode("battleRed");
+            }else if(prevBattleResult.includes("win")){
+                Message("Enemy ["+selectedPiece.text()+"] defeated your ["+(attackedPiece.text()==ICON_BOMB?"bomb":attackedPiece.text())+"].");
+                SetSelectorMode("battleRed");
+            }else if(prevBattleResult.includes("lose")){
+                Message("Your ["+(attackedPiece.text()==ICON_BOMB?"bomb":attackedPiece.text())+"] defeated enemy ["+selectedPiece.text()+"].");
+                SetSelectorMode("battleBlue");
+            }else if(prevBattleResult=="tie"){
+                Message("Both ["+selectedPiece.text()+"] pieces were defeated.");
+                SetSelectorMode("battleRed");
+            }
+            
+            // animate towards
+            let timeToStopEarly = GetSpeed()-(GetSpeed()/(GetDistance()+0.6));
+            AnimateElementToElement(selectedPiece,attackedPiece);
+            selectedPiece.css("z-index",1);
+            attackedPiece.css("z-index",0);
+            selectedPiece.removeClass("sgo_secret");// show self temporarily
+            gameTimer = setTimeout(function(){
+                selectedPiece.stop(true,false);
+                gameTimer = setTimeout(function(){// delay
+                    BattleFollowup();
+                    TurnFollowup();
+                },GetSpeed())
+            },timeToStopEarly);// stop early
+
+            function GetDistance(){
+                let pieceCoords = GetCellCoords( GetCellAtPiece(selectedPiece) );
+                let destCoords = GetCellCoords( GetCellAtPiece(attackedPiece) );
+                let dad = GetDirectionAndDistanceBetweenCoords(pieceCoords,destCoords);
+                return dad.distance;
+            }
+        }
+        
+        function CheckForBattleGlitch(){
+            // check if any two pieces share same cell
+            // if so, resolve the battle discreetly
+            let reds = $(".sgo_pieceRed");
+            let blues = $(".sgo_pieceBlue");
+            
+            let redCoords = [];
+            let blueCoords = [];
+            for(let i=0;i<reds.length;i++){
+                redCoords[i] = GetCellCoords(GetCellAtPiece(reds.eq(i)));
+            }for(let i=0;i<blues.length;i++){
+                blueCoords[i] = GetCellCoords(GetCellAtPiece(blues.eq(i)));
+            }
+
+            for(let r=0;r<reds.length;r++){
+                let red = reds.eq(r);
+                for(let b=0;b<blues.length;b++){
+                    let blue = blues.eq(b);
+
+                    let rcoo = redCoords[r];
+                    let bcoo = blueCoords[b];
+                    if(rcoo.x != bcoo.x) continue;
+                    if(rcoo.y != bcoo.y) continue;
+
+                    // if your turn, means cpu just moved
+                    let attacker = (gameState=="your turn") ? red : blue;
+                    let defender = (gameState=="your turn") ? blue : red;
+                    let battleResult = GetBattleResult(attacker,defender);
+
+                    if(battleResult.includes("win")){
+                        defender.remove();
+                    }else if(battleResult.includes("lose")){
+                        attacker.remove();
+                    }else if(battleResult=="tie"){
+                        attacker.remove();
+                        defender.remove();
+                    }
+                    console.log("⚠️ Battle Glitch handled.");
+                    return;
+                }
+            }
+        }
+
+        //------- enemy moving
+        // attack knowns with larger
+        // attack dormants with 2 or 3
+        // attack non-dormants with largepieces
+        function GetBestRedMove(){
+            let entries = GetRedBattleReport();
+            let moves = entries.filter(function(o){return o.type=="move";});
+            let attacks = entries.filter(function(o){return o.type=="attack";});
+            let sublist;
+
+            //================= any GOOD attacks?
+            
+            // any known weaklings?
+            sublist = attacks.filter(function(o){return o.blueIsSecret==false && CanWin(o);});
+            if(sublist.length>0) console.log("(A----) Attack a known weakling.");
+            if(sublist.length>0) return RandomOne(sublist);
+
+            // any movers near our toughies?
+            sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+            sublist = sublist.filter(function(o){return o.blueIsDormant==false;});
+            sublist = sublist.filter(function(o){return o.red.text()=="8"||o.red.text()=="9"||o.red.text()=="10";});
+            if(sublist.length>0) console.log("(A----) Attack a mover with our 8-10.");
+            if(sublist.length>0) return RandomOne(sublist);
+
+            // any dormant ones to ping with our 2 or 3?
+            sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+            sublist = sublist.filter(function(o){return o.blueIsDormant;});
+            sublist = sublist.filter(function(o){return o.red.text()=="2"||o.red.text()=="3";});
+            if(sublist.length>0) console.log("(A----) Attack a dormant with our 2-3.");
+            if(sublist.length>0) return RandomOne(sublist);
+
+            //================ sometimes do a decent/risky attack
+            if(Math.random()<0.5){
+                // attack dormants with a 4 or 5 or 6
+                sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+                sublist = sublist.filter(function(o){return o.blueIsDormant;});
+                sublist = sublist.filter(function(o){return o.red.text()=="4"||o.red.text()=="5"||o.red.text()=="6";});
+                if(sublist.length>0) console.log("(-B---) Attack a dormant with our 4-6.");
+                if(sublist.length>0) return RandomOne(sublist);
+                
+                // sometimes attack movers with a 4+
+                sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+                sublist = sublist.filter(function(o){return o.blueIsDormant==false;});
+                sublist = sublist.filter(function(o){return o.red.text()!="1" && o.red.text()!="2" && o.red.text()!="3";});
+                if(sublist.length>0) console.log("(-B---) Attack a mover with our 4+.");
+                if(sublist.length>0) return RandomOne(sublist);
+
+                // risky, attack unknowns with 2-7
+                sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+                sublist = sublist.filter(function(o){return o.red.text()!="1" && o.red.text()!="8" && o.red.text()!="9" && o.red.text()!="10";});
+                if(sublist.length>0) console.log("(--C--) Risky attack with 2-7.");
+                if(sublist.length>0) return RandomOne(sublist);
+    
+                // risky, attack unknowns with 2-10
+                if(Math.random()<0.33){
+                    sublist = attacks.filter(function(o){return o.blueIsSecret;});// knowns are dangerous
+                    sublist = sublist.filter(function(o){return o.red.text()!="1";});
+                    if(sublist.length>0) console.log("(---D-) Risky attack.");
+                    if(sublist.length>0) return RandomOne(sublist);
+                }
+            }
+
+            // sometimes move down
+            if(Math.random()<0.5){
+                sublist = moves.filter(function(o){return o.moveDirection=="down";});
+                if(sublist.length>0) console.log("(-----) Move down.");
+                if(sublist.length>0) return RandomOne(sublist);
+            }
+
+            // move down or sideways
+            sublist = moves.filter(function(o){return o.moveDirection!="up";});
+            if(sublist.length>0) console.log("(-----) Move down or sideways.");
+            if(sublist.length>0) return RandomOne(sublist);
+            
+            // random
+            sublist = attacks.concat(moves);
+            if(sublist.length>0) console.log("(----F) Random action.");
+            if(sublist.length>0) return RandomOne(sublist);
+
+            // cannot move
+            return null;
+
+            function RandomOne(array){
+                return array[ Math.floor(Math.random()*array.length) ];
+            }
+            function CanWin(entry){
+                // win against KNOWN enemy?
+                let battleResult = GetBattleResult(entry.red,entry.blue);
+                return battleResult.includes("win");
+            }
+        }
+        let exampleEntry={
+            type:"move or attack",
+            red:$(),
+
+            moveCell:$(),
+            moveDirection:"",
+            moveDistance:0,
+            
+            blue:$(),
+            blueIsDormant:false,// blue piece has never moved
+            blueIsSecret:false// blue piece identity is unknown
+        };
+        function GetRedBattleReport(){
+            let pieces = $(".sgo_pieceRed");
+            let entries = [];
+            for(let i=0;i<pieces.length;i++){
+                let piece = pieces.eq(i);
+                if(piece.text()==ICON_BOMB || piece.text()==ICON_FLAG) continue;
+
+                //::::::::::::::::::::::::::::::::::::::TODO support for scout, far movement
+
+                DetermineEntry(piece,-1,0);// left
+                DetermineEntry(piece,1,0);// right
+                DetermineEntry(piece,0,-1);// up
+                DetermineEntry(piece,0,1);// down
+            }
+            return entries;
+
+            function DetermineEntry(piece,xxx,yyy){
+                let cell = GetCellAtPiece(piece);
+                let coords = GetCellCoords(cell);
+                let dest = LookForPieceOrCell(coords.x + xxx, coords.y + yyy);
+                if(dest==null);
+                else if(IsPiece(dest)){
+                    if(dest.hasClass("sgo_pieceRed")) return;// dont attack red pieces
+                    entries[entries.length] = {
+                        type: "attack",
+                        red: piece,
+                        blue: dest,
+                        blueIsDormant: dest.hasClass("sgo_dormant"),
+                        blueIsSecret: dest.hasClass("sgo_secret")
+                    };
+                }else{
+                    let dad = GetDirectionAndDistanceBetweenCoords(coords,GetCellCoords(dest));
+                    entries[entries.length] = {
+                        type: "move",
+                        red: piece,
+                        moveCell: dest,
+                        moveDirection: dad.direction,
+                        moveDistance: dad.distance//::::::::::::::::: distance doesnt store correctly?
+                    };
+                }
+            }
+            function LookForPieceOrCell(x,y){
+                let tCell = GetCell(x,y);
+                if(tCell==null) return null;
+                let tPiece = GetPieceAtCell(tCell);
+                if(tPiece==null) return tCell;
+                return tPiece;
+            }
+            function IsPiece(element){
+                return element.hasClass("sgo_piece");
+            }
+            function CanWin(attacker,defender){
+                // win against KNOWN enemy?
+                let battleResult = GetBattleResult(attacker,defender);
+                return battleResult.includes("win");
+            }
+        }
+        //============================================
+        
+        function GetCell(x,y){
+            let cell = $("#sgo_cell"+x+"_"+y);
+            return cell.length==0 ? null : cell;
+        }
+        function GetCellCoords(element){
+            let id = element.attr("id");
+            id = id.substr( "sgo_cell".length );
+            let xxx = parseInt( id.split("_")[0] );
+            let yyy = parseInt( id.split("_")[1] );
+            return {x:xxx,y:yyy};
+        }
+        function MoveElementToElement(aaa,bbb){
+            let xxx = bbb.css("left");
+            let yyy = bbb.css("top");
+            aaa.css("left",xxx).css("top",yyy);
+        }
+        function AnimateElementToElement(aaa,bbb){
+            let xxx = bbb.css("left");
+            let yyy = bbb.css("top");
+            aaa.animate({left:xxx,top:yyy},GetSpeed());
+        }
+        function GetPieceAtCell(cell){
+            let xxx = cell.css("left");
+            let yyy = cell.css("top");
+            let pieces = $(".sgo_piece");
+            for(let i=0;i<pieces.length;i++){
+                if(pieces.eq(i).css("left")==xxx && pieces.eq(i).css("top")==yyy) return pieces.eq(i);
+            }return null;
+        }
+        function GetCellAtPiece(piece){
+            let xxx = piece.css("left");
+            let yyy = piece.css("top");
+            let cells = $(".sgo_cell");
+            for(let i=0;i<cells.length;i++){
+                if(cells.eq(i).css("left")==xxx && cells.eq(i).css("top")==yyy) return cells.eq(i);
+            }return null;
+        }
+        function SetSelectorMode(mode){
+            let selector = $("#sgo_selector");
+            selector.removeClass("sgo_selectorChoose")
+                .removeClass("sgo_selectorBattleRed")
+                .removeClass("sgo_selectorBattleBlue");
+
+            if(mode==null) selector.hide();
+            else selector.show();
+            if(mode==null) ;
+            else if(mode=="choose") selector.addClass("sgo_selectorChoose");
+            else if(mode=="battleRed") selector.addClass("sgo_selectorBattleRed");
+            else if(mode=="battleBlue") selector.addClass("sgo_selectorBattleBlue");
+            else console.log("mode '"+mode+"' not recognized");
+        }
+        const messageAnim="sgo_messageFlash 0.5s linear 0s 1 normal";
+        function Message(m){
+            $("#sgo_message").html(m);
+            // reset animation
+            let e=document.getElementById("sgo_message");
+            e.style.animation="none";
+            e.offsetHeight;// trigger a "reflow"
+            e.style.animation=messageAnim;
+        }
+
+        function ArrangeRedPiecesRandom(){
+            // get top cells
+            let cells = $(".sgo_cell");
+            let cell;
+            for(let i=0;i<cells.length;i++){
+                cell = cells.eq(i);
+                if(GetCellCoords(cell).y >= 4){ cells = cells.not(cell); i--; }
+            }
+
+            let pieces = $(".sgo_pieceRed");
+            let r,x,y;
+            for(let i=0;i<pieces.length;i++){
+                r = Math.floor(Math.random()*cells.length);
+                cell = cells.eq(r);
+
+                MoveElementToElement(pieces.eq(i),cell);
+                cells = cells.not(cell);
+            }
+
+            // if flag on front row, swap it
+            let tFlag = $(".sgo_pieceFlag.sgo_pieceRed").eq(0);
+            if(GetCellCoords(GetCellAtPiece(tFlag)).y == 3){
+                while(true){// allowed to retry
+                    let tPiece = pieces.eq(Math.floor(Math.random()*pieces.length));
+                    let tCell = GetCellAtPiece(tPiece);
+                    if(GetCellCoords(tCell).y == 3) continue;
+                    MoveElementToElement(tPiece,tFlag);
+                    MoveElementToElement(tFlag,tCell);
+                    break;
+                }
+            }
+        }
+        function ArrangeBluePiecesRandom(){
+            // get bottom cells
+            let cells = $(".sgo_cell");
+            let cell;
+            for(let i=0;i<cells.length;i++){
+                cell = cells.eq(i);
+                if(GetCellCoords(cell).y < 6){ cells = cells.not(cell); i--; }
+            }
+
+            let pieces = $(".sgo_pieceBlue");
+            let r,x,y;
+            for(let i=0;i<pieces.length;i++){
+                r = Math.floor(Math.random()*cells.length);
+                cell = cells.eq(r);
+
+                MoveElementToElement(pieces.eq(i),cell);
+                cells = cells.not(cell);
+            }
+        }
+
+        function ArrangeBluePiecesWithLayout(layout){
+            // get bottom cells
+            let cells = $(".sgo_cell");
+            let cell;
+            for(let i=0;i<cells.length;i++){
+                cell = cells.eq(i);
+                if(GetCellCoords(cell).y < 6){ cells = cells.not(cell); i--; }
+            }
+
+            // do each digit of plan
+            let pieces = $(".sgo_pieceBlue");
+            let x,y;
+            for(let y=0;y<4;y++){
+                for(let x=0;x<10;x++){
+                    let tPiece = GetPieceViaDigit(layout[y][x]);
+                    let tCell = GetCell(x,y+6);
+                    MoveElementToElement(tPiece,tCell);
+                    pieces = pieces.not(tPiece);
+                }
+            }
+            function GetPieceViaDigit(s){
+                let clas = ".sgo_piece";
+                if(s=="B") clas+="Bomb";
+                else if(s=="F") clas+="Flag";
+                else if(s=="0") clas+="10";
+                else clas+=s;
+                return pieces.filter(clas).eq(0);
+            }
+        }
+        function ArrangeBluePieces_BombCenter(){
+            let layout = [
+                "8294B4B028",
+                "323B4B4323",
+                "5256BFB623",
+                "5256717627"
+            ]; ArrangeBluePiecesWithLayout(layout);
+        }
+        function ArrangeBluePieces_BombSides(){
+            let layout = [
+                "B4B0889B4B",
+                "4B712337B4",
+                "5566233665",
+                "2222223F75"
+            ]; ArrangeBluePiecesWithLayout(layout);
+        }
+        function ArrangeBluePieces_OpenLeft(){
+            let layout = [
+                "38107B66B7",
+                "3283B5665B",
+                "322222225B",
+                "39744445BF"
+            ]; ArrangeBluePiecesWithLayout(layout);
+        }
+
+    </script>
+
+    <style>
+        body{
+            background-color:rgb(78, 56, 87);
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div id="stratego"></div>
+    </center>
+</body>
+</html>
