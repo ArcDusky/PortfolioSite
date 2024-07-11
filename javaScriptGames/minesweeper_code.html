@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Kevin's Minefield</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Kevin's Minefield&lt;/title&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         #minesweeper{
             position:relative;
             background-color:lightgrey;
@@ -196,11 +232,11 @@
         #ms_auto_speed{
             width:70%;
             margin-left:5px;
-        }
-    </style>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         const ICON_TIMER = "⌚";
@@ -218,59 +254,59 @@
             StartNewGame_step2(0);
 		});
         function Startup(){
-            let hhh = "<div id='ms_header' onmousedown='StartNewGame(event)'>";
-            hhh += "<span id='ms_title'></span><br>";
-            hhh += "<span id='ms_subtitle'></span>";
-            hhh += "</div>";
+            let hhh = "&lt;div id='ms_header' onmousedown='StartNewGame(event)'&gt;";
+            hhh += "&lt;span id='ms_title'&gt;&lt;/span&gt;&lt;br&gt;";
+            hhh += "&lt;span id='ms_subtitle'&gt;&lt;/span&gt;";
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='ms_gameBoard'>";
+            hhh += "&lt;div id='ms_gameBoard'&gt;";
             let style, pos;
-            for(let yyy=0;yyy<16;yyy++){
-                for(let xxx=0;xxx<16;xxx++){
+            for(let yyy=0;yyy&lt;16;yyy++){
+                for(let xxx=0;xxx&lt;16;xxx++){
                     pos = "left:"+6.25*xxx+"%; top:"+6.25*yyy+"%;";
 
                     style = "style='"+pos+"'";
-                    hhh += "<div class='ms_cell' "+style+" id='ms_cell"+xxx+"_"+yyy+"'></div>";
-                    hhh += "<div class='ms_overlay ms_overlay_hidden' "+style+" id='ms_overlay"+xxx+"_"+yyy+"' onmousedown='CellClick(this,event)'></div>";
+                    hhh += "&lt;div class='ms_cell' "+style+" id='ms_cell"+xxx+"_"+yyy+"'&gt;&lt;/div&gt;";
+                    hhh += "&lt;div class='ms_overlay ms_overlay_hidden' "+style+" id='ms_overlay"+xxx+"_"+yyy+"' onmousedown='CellClick(this,event)'&gt;&lt;/div&gt;";
                 }
             }
-            hhh += "<div id='ms_autoplayCursor'></div>";// autoplay cursor
-            hhh += "</div>";
+            hhh += "&lt;div id='ms_autoplayCursor'&gt;&lt;/div&gt;";/* autoplay cursor */
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='ms_flagStore'>";
+            hhh += "&lt;div id='ms_flagStore'&gt;";
             let iii=0;
             let flagCols=5;
             let flagRows=Math.ceil(bombMax/flagCols);
             let flagw=100.0/flagCols;
             let flagh=Math.min(100.0/flagRows,6.25);
-            for(let yyy=0;yyy<flagRows;yyy++){
-                for(let xxx=0;xxx<flagCols;xxx++){
+            for(let yyy=0;yyy&lt;flagRows;yyy++){
+                for(let xxx=0;xxx&lt;flagCols;xxx++){
                     pos = "style='left:"+flagw*xxx+"%;top:"+flagh*yyy+"%;";
                     pos += "width:"+flagw+"%;height:"+flagh+"%;'"
-                    hhh += "<div id='ms_f"+iii+"' class='ms_f' "+pos+"></div>";
+                    hhh += "&lt;div id='ms_f"+iii+"' class='ms_f' "+pos+"&gt;&lt;/div&gt;";
                     iii++;
                 }
             }
-            hhh += "</div>";
+            hhh += "&lt;/div&gt;";
 
-            hhh+="<div id='ms_diffButtons'>";
-            hhh+="<div id='ms_diffButton1' class='ms_diffButton' style='top:0%;' onmousedown='ClickDiffButton(this,event)'></div>";
-            hhh+="<div id='ms_diffButton2' class='ms_diffButton' style='top:33%' onmousedown='ClickDiffButton(this,event)'></div>";
-            hhh+="<div id='ms_diffButton3' class='ms_diffButton' style='top:66%' onmousedown='ClickDiffButton(this,event)'></div>";
-            hhh+="</div>";
+            hhh+="&lt;div id='ms_diffButtons'&gt;";
+            hhh+="&lt;div id='ms_diffButton1' class='ms_diffButton' style='top:0%;' onmousedown='ClickDiffButton(this,event)'&gt;&lt;/div&gt;";
+            hhh+="&lt;div id='ms_diffButton2' class='ms_diffButton' style='top:33%' onmousedown='ClickDiffButton(this,event)'&gt;&lt;/div&gt;";
+            hhh+="&lt;div id='ms_diffButton3' class='ms_diffButton' style='top:66%' onmousedown='ClickDiffButton(this,event)'&gt;&lt;/div&gt;";
+            hhh+="&lt;/div&gt;";
 
-            // hidden input keyboard detection
-            hhh +="<input id='ms_hiddenInput' type='text' style='width:0;height:0;opacity:0;'>";
+            /* hidden input keyboard detection */
+            hhh +="&lt;input id='ms_hiddenInput' type='text' style='width:0;height:0;opacity:0;'&gt;";
 
             hhh+=GetAutoplayerHtml();
 
             $("#minesweeper").html(hhh);
-            $("#minesweeper").attr("oncontextmenu","return false;");// so right-click does not open a menu
+            $("#minesweeper").attr("oncontextmenu","return false;");/* so right-click does not open a menu */
             $("#ms_title").text("Kevin's Minefield");
             $("#ms_subtitle").text("Click here to play");
             ShowDiffButtons();
 
-            // hidden input keyboard detection
+            /* hidden input keyboard detection */
             $("#minesweeper").attr("onclick","EnterFocusFromClick()");
             $("#ms_hiddenInput").attr("onkeydown","KeyDown(event)");
             $("#ms_hiddenInput").attr("onkeyup","KeyUp(event)");
@@ -286,7 +322,7 @@
             SetupAutoplayerHtml();
         }
 
-        let keys=[];//keyboard
+        let keys=[];/* keyboard */
         let keyboardTimer;
 
         function EnterFocusFromClick(){
@@ -303,7 +339,7 @@
         function ExitFocus(){
             $("#minesweeper").removeClass("ms_helpCursor");
 
-            for(let x=0;x<keys.length;x++){// set all keys to false
+            for(let x=0;x&lt;keys.length;x++){/* set all keys to false */
                 keys[x]=false;
             }
         }
@@ -320,7 +356,7 @@
         function GetKeyId(sss){
             switch(sss){
                 case "z":return 0;
-                default:return 8;//dump
+                default:return 8;/* dump */
             }
         }
         function GetKey(sss){
@@ -330,7 +366,7 @@
             keys[GetKeyId(sss)]=bbb;
         }
 
-        //#################################
+        /* ################################# */
 
         function ClickDiffButton(element,event){
             let vvv = parseInt($(element).text().substr(0,2));
@@ -368,32 +404,32 @@
             StartNewGame_step2(event.button);
             usedRobot=false;
 
-            SetAutoSetting(GetAutoSetting());// force autoplayer to reset
+            SetAutoSetting(GetAutoSetting());/* force autoplayer to reset */
         }
         function StartNewGame_step2(clickType){
             let iii,xxx,yyy;
-            //reset board
+            /* reset board */
             controls=true;
-            for(xxx=0;xxx<16;xxx++){
-                for(yyy=0;yyy<16;yyy++){
+            for(xxx=0;xxx&lt;16;xxx++){
+                for(yyy=0;yyy&lt;16;yyy++){
                     GetCell(xxx,yyy).text("");
                     GetCell(xxx,yyy).attr("class","ms_cell");
                     GetOverlay(xxx,yyy).text("");
                     GetOverlay(xxx,yyy).attr("class","ms_overlay");
 
-                    if(clickType>1){
+                    if(clickType&gt;1){
                         GetOverlay(xxx,yyy).addClass("ms_overlay_hidden");
                     }
                 }
             }
-            for(xxx=0;xxx<bombMax;xxx++){
+            for(xxx=0;xxx&lt;bombMax;xxx++){
                 $("#ms_f"+xxx).text("");
             }
-            for(xxx=0;xxx<bombCount;xxx++){
+            for(xxx=0;xxx&lt;bombCount;xxx++){
                 $("#ms_f"+xxx).text(ICON_FLAG);
             }
-            //spread mines
-            for(iii=0;iii<bombCount;iii++){
+            /* spread mines */
+            for(iii=0;iii&lt;bombCount;iii++){
                 xxx=Math.floor(Math.random()*16);
                 yyy=Math.floor(Math.random()*16);
 
@@ -403,13 +439,13 @@
                     GetCell(xxx,yyy).text(ICON_BOMB);
                     GetCell(xxx,yyy).attr("class","ms_cell ms_bomb");
                     
-                    //increase the value of neighbors
+                    /* increase the value of neighbors */
                     TryIncrease(xxx-1,yyy-1);
                     TryIncrease(xxx  ,yyy-1);
                     TryIncrease(xxx+1,yyy-1);
                     
                     TryIncrease(xxx-1,yyy);
-                    //TryIncrease(xxx  ,yyy);
+                    /* TryIncrease(xxx  ,yyy); */
                     TryIncrease(xxx+1,yyy);
 
                     TryIncrease(xxx-1,yyy+1);
@@ -417,7 +453,7 @@
                     TryIncrease(xxx+1,yyy+1);
                 }
             }
-            //reset timer stuff
+            /* reset timer stuff */
             clearInterval(gameTimer);
             gameTimer=null;
             gameTimerInt=-1;
@@ -429,8 +465,8 @@
             CalculateHardness();
 
             function TryIncrease(xxx,yyy){
-                if(xxx<0 || xxx>15)return;
-                if(yyy<0 || yyy>15)return;
+                if(xxx&lt;0 || xxx&gt;15)return;
+                if(yyy&lt;0 || yyy&gt;15)return;
                 let value=GetCell(xxx,yyy).text();
                 if(value==ICON_BOMB)return;
 
@@ -455,13 +491,13 @@
         }
         function CellClick_step2(element,clickType){
             if(gameTimer==null){
-                // ensure first click isnt a bomb
+                /* ensure first click isnt a bomb */
                 let sss = $(element).attr("id").substring(10);
                 let cell = $("#ms_cell"+sss);
                 while(cell.text()==ICON_BOMB){
                     StartNewGame_step2(clickType);
                 }
-                // start the timer
+                /* start the timer */
                 gameTimer=setInterval(ShowGameTimer,1000);
             }
 
@@ -491,12 +527,12 @@
             }
             function LookForWin(){
                 let left=$(".ms_overlay").not(".ms_overlay_hidden").length;
-                if(left>bombCount)return;
+                if(left&gt;bombCount)return;
                 
                 controls=false;
                 clearInterval(gameTimer);
                 let message=ICON_TROPHY+"&nbsp;YOU WIN" + (usedRobot ? "*" : "");
-                $("#ms_subtitle").append("<br><span class='ms_winText'>"+message+"</span>");
+                $("#ms_subtitle").append("&lt;br&gt;&lt;span class='ms_winText'&gt;"+message+"&lt;/span&gt;");
                 $(".ms_cell").addClass("ms_cell_win");
                 $("#minesweeper").addClass("ms_outline_win");
             }
@@ -517,7 +553,7 @@
                 TryOpen(xxx+1,yyy-1);
 
                 TryOpen(xxx-1,yyy);
-                //TryOpen(xxx  ,yyy);
+                /* TryOpen(xxx  ,yyy); */
                 TryOpen(xxx+1,yyy);
 
                 TryOpen(xxx-1,yyy+1);
@@ -530,7 +566,7 @@
                 ShowBombs();
                 ShowRedZones();
                 clearInterval(gameTimer);
-                $("#ms_subtitle").append("<br><span class='ms_loseText'>You lose.</span>");
+                $("#ms_subtitle").append("&lt;br&gt;&lt;span class='ms_loseText'&gt;You lose.&lt;/span&gt;");
                 $("#minesweeper").addClass("ms_outline_lose");
 
                 CheckAutoRestart();
@@ -543,8 +579,8 @@
                 $("#ms_f"+(iii-1)).text(ICON_FLAG);
             }
             function TryOpen(xxx,yyy){
-                if(xxx<0 || xxx>15)return;
-                if(yyy<0 || yyy>15)return;
+                if(xxx&lt;0 || xxx&gt;15)return;
+                if(yyy&lt;0 || yyy&gt;15)return;
                 CellLeftClick(GetOverlay(xxx,yyy));
             }
             function LookForErrorFlags(){
@@ -576,7 +612,7 @@
             gameTimerInt++;
             let min=Math.floor(gameTimerInt/60);
             let sec=gameTimerInt-(min*60);
-            if(sec<10)sec="0"+sec;
+            if(sec&lt;10)sec="0"+sec;
             $("#ms_subtitle").text(ICON_TIMER+min+":"+sec);
         }
         
@@ -585,7 +621,7 @@
         let autoplayAnimating=false;
         let autoplayTimer;
         let autoplayRestartTimer;
-        let usedRobot=false;// did you use the robot during this game?
+        let usedRobot=false;/* did you use the robot during this game? */
 
         function Autoplay(allowGuessing){
             if(autoplayAnimating)return;
@@ -610,7 +646,7 @@
                 case "guess": cursor.css("background-color","red");break;
             }
             if(GetAutoSetting()=="off"){
-                speed={move:500,sit:500};// single move
+                speed={move:500,sit:500};/* single move */
             }else{
                 switch(GetAutoSpeed()){
                     case "slow": speed={move:500,sit:1500};break;
@@ -671,13 +707,13 @@
 
             let elements=$(".ms_overlay_hidden");
             let element;
-            for(let x=0;x<elements.length;x++){
+            for(let x=0;x&lt;elements.length;x++){
                 element=elements.eq(x);
 
-                // ignore ones that are "done"
+                /* ignore ones that are "done" */
                 if(element.hasClass("ms_autodone"))continue;
                 
-                // mark zeroes as "done"
+                /* mark zeroes as "done" */
                 value=parseInt(GetCellInstead(element).text());if(isNaN(value))value=0;
                 if(value==0){
                     element.addClass("ms_autodone");
@@ -693,21 +729,21 @@
                     element.addClass("ms_autodone");
                     continue;
                 }
-                // CHECK: obvious flags
-                // all workable cells are bombs.
+                /* CHECK: obvious flags */
+                /* all workable cells are bombs. */
                 if(workable.length==value-flagged.length){
                     return {cell:workable.first(),clickType:1,actionType:"easy"};
                 }
 
-                // CHECK: obvious safes
-                // all workable cells are safe.
+                /* CHECK: obvious safes */
+                /* all workable cells are safe. */
                 if(value==flagged.length){
                     return {cell:workable.first(),clickType:0,actionType:"easy"};
                 }
 
                 if(advancedMove!=null)continue;
 
-                // CHECK: advanced
+                /* CHECK: advanced */
                 if(value-flagged.length==1){
                     let advancedResult;
                     advancedResult=AdvancedCheckNeighbor(ccc.x,ccc.y-1);
@@ -722,15 +758,15 @@
             }
             if(advancedMove!=null)return advancedMove;
 
-            // ####################### educated guessing
+            /* ####################### educated guessing */
             if(allowGuessing==false)return null;
             let currentChance=0;
             let chances=new Array(256);
             let id=0;
 
-            // calculate chances
+            /* calculate chances */
             elements=$(".ms_overlay_hidden");
-            for(let x=0;x<elements.length;x++){
+            for(let x=0;x&lt;elements.length;x++){
                 element=elements.eq(x);
                 if(element.hasClass("ms_autodone"))continue;
 
@@ -740,8 +776,8 @@
                 value=parseInt(GetCellInstead(element).text());if(isNaN(value))value=0;
                 flagged=neighbors.filter(".ms_cell_flagged");
                 currentChance=1.0-((value-flagged.length)/workable.length);
-                //for each workable, put the chance in slot only if it's lower
-                for(let w=0;w<workable.length;w++){
+                /* for each workable, put the chance in slot only if it's lower */
+                for(let w=0;w&lt;workable.length;w++){
                     element=workable.eq(w);
                     ccc=GetCoords(element);
                     id=(ccc.y*16)+ccc.x;
@@ -750,17 +786,17 @@
                     }else chances[id]=Math.min(chances[id],currentChance);
                 }
             }
-            //find the best option
+            /* find the best option */
             let bestValue=0.0;
             let bestElement;
             let randomizingCondition=false;
             let y=0;
-            for(let i=0;i<chances.length;i++){
+            for(let i=0;i&lt;chances.length;i++){
                 if(!chances[i])continue;
 
-                randomizingCondition=Math.random()<0.5 ? true : false;
-                if((randomizingCondition==true  && chances[i]>bestValue)
-                || (randomizingCondition==false && chances[i]>=bestValue)){
+                randomizingCondition=Math.random()&lt;0.5 ? true : false;
+                if((randomizingCondition==true  && chances[i]&gt;bestValue)
+                || (randomizingCondition==false && chances[i]&gt;=bestValue)){
                     bestValue=chances[i];
                     y=Math.floor(i/16);
                     bestElement=GetOverlay(i-(y*16),y);
@@ -770,35 +806,35 @@
             let tryRandomZero=false;
             let bestValueFlaggedZero=0;
 
-            if($(".ms_cell_flagged").length<3){
-                if(bestValue < 0.74){
+            if($(".ms_cell_flagged").length&lt;3){
+                if(bestValue &lt; 0.74){
                     tryRandomZero=true;
                 }
             }else{
-                if(bestValue < 0.74){
-                    // find a zero (value:0.0) with nearby flags
+                if(bestValue &lt; 0.74){
+                    /* find a zero (value:0.0) with nearby flags */
                     elements=$(".ms_overlay").not(".ms_overlay_hidden").not(".ms_cell_flagged");
-                    for(let i=0;i<elements.length;i++){
+                    for(let i=0;i&lt;elements.length;i++){
                         element=elements.eq(i);
                         ccc=GetCoords(element);
                         id=(ccc.y*16)+ccc.x;
-                        if(!chances[id]){// if chance is zero
+                        if(!chances[id]){/* if chance is zero */
                             neighbors=GetNeighbors(ccc.x,ccc.y);
                             flagged=neighbors.filter(".ms_cell_flagged");
-                            /*if(flagged.length>bestValueFlaggedZero){
+                            /*if(flagged.length&gt;bestValueFlaggedZero){
                                 bestValueFlaggedZero=flagged.length;
                                 bestElement=element;
-                            }//*/
-                            if(flagged.length>0){// pick one with nearby flags, at random
-                                if(bestValueFlaggedZero==0 || Math.random()>=0.5){
+                            }*/
+                            if(flagged.length&gt;0){/* pick one with nearby flags, at random */
+                                if(bestValueFlaggedZero==0 || Math.random()&gt;=0.5){
                                     bestValueFlaggedZero=flagged.length;
                                     bestElement=element;
                                 }
                             }
                         }
                     }
-                    if(bestValueFlaggedZero==0){// if there are no flaggedZeroes
-                        if(bestValue < 0.66){
+                    if(bestValueFlaggedZero==0){/* if there are no flaggedZeroes */
+                        if(bestValue &lt; 0.66){
                             tryRandomZero=true;
                         }
                     }
@@ -807,7 +843,7 @@
             if(tryRandomZero){
                 let zeroArray=new Array();
                 elements=$(".ms_overlay").not(".ms_overlay_hidden").not(".ms_cell_flagged");
-                for(let i=0;i<elements.length;i++){
+                for(let i=0;i&lt;elements.length;i++){
                     element=elements.eq(i);
                     ccc=GetCoords(element);
                     id=(ccc.y*16)+ccc.x;
@@ -815,7 +851,7 @@
                         zeroArray[zeroArray.length]=element;
                     }
                 }
-                if(zeroArray.length>0){
+                if(zeroArray.length&gt;0){
                     bestElement=zeroArray[Math.floor(Math.random()*zeroArray.length)];
                 }
             }
@@ -855,7 +891,7 @@
             }
             function AdvancedCheckNeighbor(xxx,yyy){
                 let child=GetOverlay(xxx,yyy);
-                if(child.length==0)return null;// could be out of bounds
+                if(child.length==0)return null;/* could be out of bounds */
                 if(child.hasClass("ms_overlay_hidden")==false)return null;
 
                 let childNeigh=GetNeighbors(xxx,yyy);
@@ -865,7 +901,7 @@
                 let childFlags=childNeigh.filter(".ms_cell_flagged");
                 let workableStrict=workable.not(childNeigh);
 
-                if(childWorkableStrict.length>0
+                if(childWorkableStrict.length&gt;0
                 && childWorkableStrict.length == childValue-childFlags.length-1){
                     return {cell:childWorkableStrict.first(),clickType:1,actionType:"advanced"};
                 }
@@ -879,19 +915,19 @@
         }
         function GetAutoplayerHtml(){
             let html=""+
-            "<div id='ms_autoplayer'>"+
-                "<fieldset><legend>Robo-Player</legend>"+
-                    "<div><button id='ms_auto_moveButton'>Make a move</button></div>"+
-                    "<div><span>Automatic:</span><input type='checkbox' id='ms_auto_setting' checked='false'/></div>"+
-                    "<div><span>Allow guessing:</span><input type='checkbox' id='ms_auto_guessing' checked='true'/></div>"+
-                    "<div><span>Speed:</span><select id='ms_auto_speed'>"+
-                        "<option value='slow'>slow</option>"+
-                        "<option value='medium'>medium</option>"+
-                        "<option value='fast'>fast</option>"+
-                        "<option value='super'>super</option>"+
-                    "</select></div>"+
-                "</fieldset>"+
-            "</div>";
+            "&lt;div id='ms_autoplayer'&gt;"+
+                "&lt;fieldset&gt;&lt;legend&gt;Robo-Player&lt;/legend&gt;"+
+                    "&lt;div&gt;&lt;button id='ms_auto_moveButton'&gt;Make a move&lt;/button&gt;&lt;/div&gt;"+
+                    "&lt;div&gt;&lt;span&gt;Automatic:&lt;/span&gt;&lt;input type='checkbox' id='ms_auto_setting' checked='false'/&gt;&lt;/div&gt;"+
+                    "&lt;div&gt;&lt;span&gt;Allow guessing:&lt;/span&gt;&lt;input type='checkbox' id='ms_auto_guessing' checked='true'/&gt;&lt;/div&gt;"+
+                    "&lt;div&gt;&lt;span&gt;Speed:&lt;/span&gt;&lt;select id='ms_auto_speed'&gt;"+
+                        "&lt;option value='slow'&gt;slow&lt;/option&gt;"+
+                        "&lt;option value='medium'&gt;medium&lt;/option&gt;"+
+                        "&lt;option value='fast'&gt;fast&lt;/option&gt;"+
+                        "&lt;option value='super'&gt;super&lt;/option&gt;"+
+                    "&lt;/select&gt;&lt;/div&gt;"+
+                "&lt;/fieldset&gt;"+
+            "&lt;/div&gt;";
             return html;
         }
         function SetupAutoplayerHtml(){
@@ -970,8 +1006,8 @@
             let eachCardinal=1;
             let eachDiagonal=0;
 
-            for(let y=0;y<16;y++){
-                for(let x=0;x<16;x++){
+            for(let y=0;y&lt;16;y++){
+                for(let x=0;x&lt;16;x++){
                     if(IsBomb(x,y)==false)continue;
 
                     if(IsBomb(x-1,y-1))hardness+=eachDiagonal;
@@ -995,23 +1031,27 @@
                 let vvv=ccc.text();
                 return vvv==ICON_BOMB;
             }
-        }
-    </script>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
 
-    <style>
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{
             background-color:rgb(78, 56, 87);
-        }
-    </style>
-</head>
-<body>
-    <div id="minesweeper"></div>
-    <div id="hardness" style="color:white;margin-top:100px;text-align:center"></div>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="minesweeper"&gt;&lt;/div&gt;
+    &lt;div id="hardness" style="color:white;margin-top:100px;text-align:center"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-    <center>
-        <a href="minesweeper_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

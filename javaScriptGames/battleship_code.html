@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Kevin's Battleship</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Kevin's Battleship&lt;/title&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         #battleship{
             position:relative;
             background-color:lightgrey;
@@ -272,12 +308,11 @@
             top:130px;
         }#bs_modeMenu_option4{
             top:180px;
-        }
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
 
-    </style>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         $(document).ready(function(){
@@ -285,81 +320,81 @@
             StartNewGame(1);
 		});
         function Startup(){
-            let hhh = "<div id='bs_header'>";
-            hhh += "<div id='bs_title'>Kevin's Battleship</div>";
-            hhh += "<div id='bs_newGameButton'>New Game</div>";
-            hhh += "<div id='bs_help'>?</div>";
-            hhh += "</div>";
+            let hhh = "&lt;div id='bs_header'&gt;";
+            hhh += "&lt;div id='bs_title'&gt;Kevin's Battleship&lt;/div&gt;";
+            hhh += "&lt;div id='bs_newGameButton'&gt;New Game&lt;/div&gt;";
+            hhh += "&lt;div id='bs_help'&gt;?&lt;/div&gt;";
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='bs_message'>Place your ships</div>";
+            hhh += "&lt;div id='bs_message'&gt;Place your ships&lt;/div&gt;";
 
-            hhh += "<div id='bs_fastDiv'><span>Faster</span><input type='checkbox' id='bs_fastCheckbox' checked='false'/></div>"
+            hhh += "&lt;div id='bs_fastDiv'&gt;&lt;span&gt;Faster&lt;/span&gt;&lt;input type='checkbox' id='bs_fastCheckbox' checked='false'/&gt;&lt;/div&gt;"
 
-            hhh += "<div id='bs_leftBoard'>";
+            hhh += "&lt;div id='bs_leftBoard'&gt;";
             let style;
-            for(let yyy=0;yyy<10;yyy++){// left background cells
-                for(let xxx=0;xxx<10;xxx++){
+            for(let yyy=0;yyy&lt;10;yyy++){/* left background cells */
+                for(let xxx=0;xxx&lt;10;xxx++){
                     style = "";
                     style += "left:"+(30*xxx)+"px; top:"+(30*yyy)+"px;";
                     style += "animation-delay:"+(-100+(xxx*0.33+yyy)*1.5)+"s;";
-                    hhh += "<div class='bs_bgCell' style='"+style+"'' id='bs_bgCell"+xxx+"_"+yyy+"'></div>";
+                    hhh += "&lt;div class='bs_bgCell' style='"+style+"'' id='bs_bgCell"+xxx+"_"+yyy+"'&gt;&lt;/div&gt;";
                 }
-            }hhh += "<div id='bs_cpu_ship1' class='bs_cpu_ship bs_ship1'></div>";
-            hhh += "<div id='bs_cpu_ship2' class='bs_cpu_ship bs_ship2'></div>";
-            hhh += "<div id='bs_cpu_ship3' class='bs_cpu_ship bs_ship3'></div>";
-            hhh += "<div id='bs_cpu_ship4' class='bs_cpu_ship bs_ship4'></div>";
-            hhh += "<div id='bs_cpu_ship5' class='bs_cpu_ship bs_ship5'></div>";
-            for(let yyy=0;yyy<10;yyy++){// left foreground cells
-                for(let xxx=0;xxx<10;xxx++){
+            }hhh += "&lt;div id='bs_cpu_ship1' class='bs_cpu_ship bs_ship1'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_cpu_ship2' class='bs_cpu_ship bs_ship2'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_cpu_ship3' class='bs_cpu_ship bs_ship3'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_cpu_ship4' class='bs_cpu_ship bs_ship4'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_cpu_ship5' class='bs_cpu_ship bs_ship5'&gt;&lt;/div&gt;";
+            for(let yyy=0;yyy&lt;10;yyy++){/* left foreground cells */
+                for(let xxx=0;xxx&lt;10;xxx++){
                     style = "";
                     style += "left:"+(30*xxx)+"px; top:"+(30*yyy)+"px;";
-                    hhh += "<div class='bs_leftCell' style='"+style+"'' id='bs_leftCell"+xxx+"_"+yyy+"'></div>";
+                    hhh += "&lt;div class='bs_leftCell' style='"+style+"'' id='bs_leftCell"+xxx+"_"+yyy+"'&gt;&lt;/div&gt;";
                 }
             }
-            hhh += "<div id='bs_leftExplosionHolder'></div>";
-            hhh += "</div>";
+            hhh += "&lt;div id='bs_leftExplosionHolder'&gt;&lt;/div&gt;";
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='bs_rightBoard'>";
-            for(let yyy=0;yyy<10;yyy++){// right background cells
-                for(let xxx=0;xxx<10;xxx++){
+            hhh += "&lt;div id='bs_rightBoard'&gt;";
+            for(let yyy=0;yyy&lt;10;yyy++){/* right background cells */
+                for(let xxx=0;xxx&lt;10;xxx++){
                     style = "";
                     style += "left:"+(30*xxx)+"px; top:"+(30*yyy)+"px;";
                     style += "animation-delay:"+(-100+(xxx*0.33+yyy)*1.5)+"s;";
-                    hhh += "<div class='bs_bgCell' style='"+style+"'' id='bs_bgCell"+xxx+"_"+yyy+"'></div>";
+                    hhh += "&lt;div class='bs_bgCell' style='"+style+"'' id='bs_bgCell"+xxx+"_"+yyy+"'&gt;&lt;/div&gt;";
                 }
-            }hhh += "<div id='bs_you_ship1' class='bs_you_ship bs_ship1 bs_unplacedShip'></div>";
-            hhh += "<div id='bs_you_ship2' class='bs_you_ship bs_ship2 bs_unplacedShip'></div>";
-            hhh += "<div id='bs_you_ship3' class='bs_you_ship bs_ship3 bs_unplacedShip'></div>";
-            hhh += "<div id='bs_you_ship4' class='bs_you_ship bs_ship4 bs_unplacedShip'></div>";
-            hhh += "<div id='bs_you_ship5' class='bs_you_ship bs_ship5 bs_unplacedShip'></div>";
-            for(let yyy=0;yyy<10;yyy++){// right foreground cells
-                for(let xxx=0;xxx<10;xxx++){
+            }hhh += "&lt;div id='bs_you_ship1' class='bs_you_ship bs_ship1 bs_unplacedShip'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_you_ship2' class='bs_you_ship bs_ship2 bs_unplacedShip'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_you_ship3' class='bs_you_ship bs_ship3 bs_unplacedShip'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_you_ship4' class='bs_you_ship bs_ship4 bs_unplacedShip'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_you_ship5' class='bs_you_ship bs_ship5 bs_unplacedShip'&gt;&lt;/div&gt;";
+            for(let yyy=0;yyy&lt;10;yyy++){/* right foreground cells */
+                for(let xxx=0;xxx&lt;10;xxx++){
                     style = "";
                     style += "left:"+(30*xxx)+"px; top:"+(30*yyy)+"px;";
-                    hhh += "<div class='bs_rightCell' style='"+style+"'' id='bs_rightCell"+xxx+"_"+yyy+"'></div>";
+                    hhh += "&lt;div class='bs_rightCell' style='"+style+"'' id='bs_rightCell"+xxx+"_"+yyy+"'&gt;&lt;/div&gt;";
                 }
             }
-            hhh += "<div id='bs_rightExplosionHolder'></div>";
-            hhh += "</div>";
+            hhh += "&lt;div id='bs_rightExplosionHolder'&gt;&lt;/div&gt;";
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='bs_placingMenu'>";
-            hhh += "<div id='bs_placingMenu_ship1' class='bs_placingMenu_ship bs_ship1'></div>";
-            hhh += "<div id='bs_placingMenu_ship2' class='bs_placingMenu_ship bs_ship2'></div>";
-            hhh += "<div id='bs_placingMenu_ship3' class='bs_placingMenu_ship bs_ship3'></div>";
-            hhh += "<div id='bs_placingMenu_ship4' class='bs_placingMenu_ship bs_ship4'></div>";
-            hhh += "<div id='bs_placingMenu_ship5' class='bs_placingMenu_ship bs_ship5'></div>";
-            hhh += "<div id='bs_placingMenu_rotate'>Rotate<br><span id='bs_placingMenu_rotateSymbol'>🔄</span></div>";
-            hhh += "</div>";
+            hhh += "&lt;div id='bs_placingMenu'&gt;";
+            hhh += "&lt;div id='bs_placingMenu_ship1' class='bs_placingMenu_ship bs_ship1'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_placingMenu_ship2' class='bs_placingMenu_ship bs_ship2'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_placingMenu_ship3' class='bs_placingMenu_ship bs_ship3'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_placingMenu_ship4' class='bs_placingMenu_ship bs_ship4'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_placingMenu_ship5' class='bs_placingMenu_ship bs_ship5'&gt;&lt;/div&gt;";
+            hhh += "&lt;div id='bs_placingMenu_rotate'&gt;Rotate&lt;br&gt;&lt;span id='bs_placingMenu_rotateSymbol'&gt;🔄&lt;/span&gt;&lt;/div&gt;";
+            hhh += "&lt;/div&gt;";
 
-            hhh += "<div id='bs_modeMenu'>";
-            hhh += "<div id='bs_modeMenu_option1' class='bs_modeMenu_option'>Normal</div>";
-            hhh += "<div id='bs_modeMenu_option2' class='bs_modeMenu_option'>☠️Salvo (up to 5 shots)</div>";
-            hhh += "<div id='bs_modeMenu_option3' class='bs_modeMenu_option'>🏝️Land</div>";// ⛰️🌴
-            hhh += "<div id='bs_modeMenu_option4' class='bs_modeMenu_option'>🏝️Land and ☠️Salvo</div>";
-            hhh += "</div>";
+            hhh += "&lt;div id='bs_modeMenu'&gt;";
+            hhh += "&lt;div id='bs_modeMenu_option1' class='bs_modeMenu_option'&gt;Normal&lt;/div&gt;";
+            hhh += "&lt;div id='bs_modeMenu_option2' class='bs_modeMenu_option'&gt;☠️Salvo (up to 5 shots)&lt;/div&gt;";
+            hhh += "&lt;div id='bs_modeMenu_option3' class='bs_modeMenu_option'&gt;🏝️Land&lt;/div&gt;";
+            hhh += "&lt;div id='bs_modeMenu_option4' class='bs_modeMenu_option'&gt;🏝️Land and ☠️Salvo&lt;/div&gt;";
+            hhh += "&lt;/div&gt;";
 
             $("#battleship").html(hhh);
-            $("#battleship").attr("oncontextmenu","return false;");// so right-click does not open a menu
+            $("#battleship").attr("oncontextmenu","return false;");/* so right-click does not open a menu */
 
             $("#bs_newGameButton").click(NewGameButton);
             $("#bs_help").click(Help);
@@ -397,8 +432,8 @@
 
             while(true){
                 pos.x+=2;
-                if(pos.x>9){pos.x-=9+2;pos.y++;}
-                if(pos.y>9)break;
+                if(pos.x&gt;9){pos.x-=9+2;pos.y++;}
+                if(pos.y&gt;9)break;
                 GetRightCell(pos.x,pos.y).addClass("bs_isDiagonal");
             }
         }
@@ -436,7 +471,7 @@
         }
         function StartNewGame(mode){
             $("#bs_modeMenu").hide();
-            // reset everything
+            /* reset everything */
             $(".bs_rightCell").add(".bs_leftCell")
                 .removeClass("bs_has_ship")
                 .removeClass("bs_has_ship1")
@@ -461,27 +496,27 @@
             gameMode=mode;
             youSalvo=5;
             cpuSalvo=5;
-            // 1 normal
-            // 2 salvo
-            // 3 islands normal
-            // 4 islands salvo
-            if(gameMode==3 || gameMode==4){// islands
+            /* 1 normal */
+            /* 2 salvo */
+            /* 3 islands normal */
+            /* 4 islands salvo */
+            if(gameMode==3 || gameMode==4){/* islands */
                 MakeLand();
             }
         }
         function MakeLand(){
-            for(let i=0;i<30;i++){
+            for(let i=0;i&lt;30;i++){
                 while(true){
                     let pos;
                     let cell;
-                    if(Math.random()<0.2){// random
+                    if(Math.random()&lt;0.2){/* random */
                         pos = {
                             x: Math.floor(Math.random()*10),
                             y: Math.floor(Math.random()*10)
                         };
                         cell = GetLeftCell(pos.x,pos.y);
                         if(cell.hasClass("bs_has_land"))continue;
-                    }else{// append to current land
+                    }else{/* append to current land */
                         let lands = $("#bs_leftBoard").children(".bs_has_land");
                         if(lands.length==0)continue;
                         let randomLand = lands.eq(Math.floor(Math.random()*lands.length));
@@ -490,7 +525,7 @@
                         if(neighs.length==0)continue;
                         cell = neighs.eq(Math.floor(Math.random()*neighs.length));
                     }
-                    // apply one land
+                    /* apply one land */
                     cell.addClass("bs_has_land");
                     pos = GetCoords(cell);GetRightCell(pos.x,pos.y).addClass("bs_has_land");
                     break;
@@ -500,15 +535,15 @@
         function GetLeftNeighbors_Perpendicular(cell){
             let neighs = $();
             let c = GetCoords(cell);
-            if(c.x-1 < 0){}else neighs = neighs.add(GetLeftCell(c.x-1,c.y));
-            if(c.x+1 > 9){}else neighs = neighs.add(GetLeftCell(c.x+1,c.y));
-            if(c.y-1 < 0){}else neighs = neighs.add(GetLeftCell(c.x,c.y-1));
-            if(c.y+1 > 9){}else neighs = neighs.add(GetLeftCell(c.x,c.y+1));
+            if(c.x-1 &lt; 0){}else neighs = neighs.add(GetLeftCell(c.x-1,c.y));
+            if(c.x+1 &gt; 9){}else neighs = neighs.add(GetLeftCell(c.x+1,c.y));
+            if(c.y-1 &lt; 0){}else neighs = neighs.add(GetLeftCell(c.x,c.y-1));
+            if(c.y+1 &gt; 9){}else neighs = neighs.add(GetLeftCell(c.x,c.y+1));
             return neighs;
         }
 
         function HoverRightCell(){
-            if(gameStep == 1){// placing your ships
+            if(gameStep == 1){/* placing your ships */
                 let xs = $(this).css("left");
                 let ys = $(this).css("top");
                 $(".bs_heldShip").css("left",xs);
@@ -516,10 +551,10 @@
             }
         }
         function ClickPlaceMenuShip(element){
-            // initiate switch ship
+            /* initiate switch ship */
             let id = $(element).attr("id");
             let shipDigit = id[id.length-1];
-            // unselect current held ship
+            /* unselect current held ship */
             $(".bs_heldShip").removeClass("bs_heldShip");
             HoldShip(shipDigit);
         }
@@ -529,13 +564,13 @@
                 .removeClass("bs_placedShip")
                 .addClass("bs_unplacedShip")
                 .addClass("bs_heldShip");
-            // un-dim one on menu
+            /* un-dim one on menu */
             $("#bs_placingMenu_ship"+shipSelected).removeClass("bs_placingMenu_placedShip");
-            // remove from board
+            /* remove from board */
             $(".bs_has_ship"+shipSelected)
                 .removeClass("bs_has_ship")
                 .removeClass("bs_has_ship"+shipSelected);
-            // message
+            /* message */
             Message("Place your "+shipNames[id]);
             
         }
@@ -544,10 +579,10 @@
         
         function Message(m){
             $("#bs_message").html(m);
-            // reset animation
+            /* reset animation */
             let e=document.getElementById("bs_message");
             e.style.animation="none";
-            e.offsetHeight;// trigger a "reflow"
+            e.offsetHeight;/* trigger a "reflow" */
             e.style.animation=messageAnim;
         }
         function BoardBlocks(left,right){
@@ -572,23 +607,23 @@
                 .removeClass("bs_heldShip")
                 .removeClass("bs_unplacedShip")
                 .addClass("bs_placedShip");
-            // dim one on menu
+            /* dim one on menu */
             $("#bs_placingMenu_ship"+shipSelected).addClass("bs_placingMenu_placedShip");
-            // cycle to next ship
+            /* cycle to next ship */
             if($("#bs_you_ship1").hasClass("bs_placedShip")==false)HoldShip(1);
             else if($("#bs_you_ship2").hasClass("bs_placedShip")==false)HoldShip(2);
             else if($("#bs_you_ship3").hasClass("bs_placedShip")==false)HoldShip(3);
             else if($("#bs_you_ship4").hasClass("bs_placedShip")==false)HoldShip(4);
             else if($("#bs_you_ship5").hasClass("bs_placedShip")==false)HoldShip(5);
             else{
-                // finished placing ships
+                /* finished placing ships */
                 $("#bs_placingMenu").hide();
                 CpuPlaceShips();
                 YourTurn();
             }
         }
         function ClickRightCell(event,cell){
-            if(gameStep == 1){ // placing ships
+            if(gameStep == 1){ /* placing ships */
                 if(event.button == 2){
                     RotateShip();
                 }else if(event.button == 0){
@@ -610,19 +645,19 @@
             }else{
                 xmax=shipLength;
             }
-            // check if able to place
-            for(let x=0;x<xmax;x++){
-                for(let y=0;y<ymax;y++){
-                    if(pos.x+x > 9)return false;
-                    if(pos.y-y < 0)return false;
+            /* check if able to place */
+            for(let x=0;x&lt;xmax;x++){
+                for(let y=0;y&lt;ymax;y++){
+                    if(pos.x+x &gt; 9)return false;
+                    if(pos.y-y &lt; 0)return false;
                     let otherCell = GetRightCell(pos.x+x,pos.y-y);
                     if(otherCell.hasClass("bs_has_ship"))return false;
                     if(otherCell.hasClass("bs_has_land"))return false;
                 }
             }
-            // able to place, go ahead
-            for(let x=0;x<xmax;x++){
-                for(let y=0;y<ymax;y++){
+            /* able to place, go ahead */
+            for(let x=0;x&lt;xmax;x++){
+                for(let y=0;y&lt;ymax;y++){
                     GetRightCell(pos.x+x,pos.y-y)
                         .addClass("bs_has_ship")
                         .addClass("bs_has_ship"+shipSelected);
@@ -647,7 +682,7 @@
         let timer_turnDelay;
 
         function ClickLeftCell(cell){
-            if(gameStep==2){// shooting enemy
+            if(gameStep==2){/* shooting enemy */
                 if($(cell).hasClass("bs_has_peg")==false && $(cell).hasClass("bs_has_land")==false){
                     
                     if($(cell).hasClass("bs_has_ship")==true){
@@ -655,7 +690,7 @@
                         Message(GetHitMessage("You",cell));
                         Explosion(cell);
                         if(IsAllShipsDestroyed(true)==true){
-                            // you win
+                            /* you win */
                             gameStep=4;
                             timer_turnDelay=setTimeout(YouWin,Speed(3000,2000));
                             return;
@@ -664,13 +699,13 @@
                         $(cell).addClass("bs_has_peg").addClass("bs_has_white");
                         Message(GetMissMessage("You",cell));
                         WaterExplosion(cell);
-                        //$("#bs_leftExplosionHolder").hide();
+                        /*$("#bs_leftExplosionHolder").hide(); */
                     }
                     ammo--;
                     if(gameMode==2 || gameMode==4){
-                        Message($("#bs_message").text()+".<br>"+ammo+" shots left.");
+                        Message($("#bs_message").text()+".&lt;br&gt;"+ammo+" shots left.");
                     }
-                    if(ammo<=0){
+                    if(ammo&lt;=0){
                         gameStep=3;
                         timer_turnDelay=setTimeout(CpuTurn,Speed(3000,2000));
                         BoardBlocks(true,true);
@@ -683,7 +718,7 @@
             gameStep=4;
             let yourShots = $("#bs_leftBoard").children(".bs_has_peg").length;
             let cpuShots = $("#bs_rightBoard").children(".bs_has_peg").length;
-            Message("You win!<br>Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
+            Message("You win!&lt;br&gt;Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
             BoardBlocks(true,true);
             BoardBorders(false,false);
             ShowShips(true,true);
@@ -693,7 +728,7 @@
             gameStep=4;
             let yourShots = $("#bs_leftBoard").children(".bs_has_peg").length;
             let cpuShots = $("#bs_rightBoard").children(".bs_has_peg").length;
-            Message("You lose!<br>Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
+            Message("You lose!&lt;br&gt;Shots fired (You "+yourShots+") (CPU "+cpuShots+")");
             BoardBlocks(true,true);
             BoardBorders(false,false);
             ShowShips(true,true);
@@ -709,7 +744,7 @@
             
             let hitOrSunk = IsShipAlive(playerName=="You",shipId) ? "HIT" : "SUNK";
             if(hitOrSunk == "SUNK"){
-                playerName=="You" ? cpuSalvo-- : youSalvo--;// reduce salvo
+                playerName=="You" ? cpuSalvo-- : youSalvo--;/* reduce salvo */
             }
             let shipName = shipNames[shipId];
             let pos = GetCoords(cell);
@@ -726,7 +761,7 @@
         function IsShipAlive(checkLeft,shipId){
             let board = checkLeft ? $("#bs_leftBoard") : $("#bs_rightBoard");
             let remains = board.children(".bs_has_ship"+shipId).not(".bs_has_peg").length;
-            return remains>0;
+            return remains&gt;0;
         }
         function IsAllShipsDestroyed(checkLeft){
             let board = checkLeft ? $("#bs_leftBoard") : $("#bs_rightBoard");
@@ -739,9 +774,9 @@
             BoardBlocks(false,true);
             BoardBorders(true,false);
             ShowShips(false,true);
-            if(gameMode==2 || gameMode==4){//salvo
+            if(gameMode==2 || gameMode==4){/*salvo */
                 ammo=youSalvo;
-                Message("Shoot the enemy.<br>"+ammo+" shots left.");
+                Message("Shoot the enemy.&lt;br&gt;"+ammo+" shots left.");
             }else{
                 ammo=1;
                 Message("Shoot the enemy.");
@@ -762,17 +797,17 @@
             let rrr=0.0;
             let xxx=0.0;
             let yyy=0.0;
-            for(let i=0;i<30;i++){
+            for(let i=0;i&lt;30;i++){
                 angle+=72.0;
                 angle+=(Math.random()*15.0)-7.5;
                 rrr=angle*Math.PI/180.0;
                 xxx=Math.sin(rrr)*dist;
                 yyy=Math.cos(rrr)*dist;
 
-                //xxx=shipX+xxx;
-                //yyy=shipY+yyy;
+                /*xxx=shipX+xxx; */
+                /*yyy=shipY+yyy; */
 
-                xxx-=5;// for the initial explosion size
+                xxx-=5;/* for the initial explosion size */
                 yyy-=5;
 
                 style="left:"+xxx+"px;bottom:"+yyy+"px;";
@@ -780,9 +815,9 @@
                 style+="animation-delay:"+((i/30)*0.5)+"s;";
 
                 if(isWater){
-                    html+="<div class='bs_waterExplosion' style='"+style+"'></div>";
+                    html+="&lt;div class='bs_waterExplosion' style='"+style+"'&gt;&lt;/div&gt;";
                 }else{
-                    html+="<div class='bs_explosion' style='"+style+"'></div>";
+                    html+="&lt;div class='bs_explosion' style='"+style+"'&gt;&lt;/div&gt;";
                 }
 
                 size-=(300-40)/30;
@@ -799,7 +834,7 @@
             holder.html(html);
         }
 
-        // #################################################
+        /* ################################################# */
 
         function CpuPlaceShips(){
             while(true){if(Cpu_TryPlaceShip(1)==true)break;}
@@ -819,26 +854,26 @@
             let shipLength = shipLengths[id];
             let xmax = 1;
             let ymax = 1;
-            if(Math.random()>0.5){// decide rotate
+            if(Math.random()&gt;0.5){/* decide rotate */
                 ymax=shipLength;
                 $("#bs_cpu_ship"+id).addClass("bs_shipRotated");
             }else{
                 xmax=shipLength;
                 $("#bs_cpu_ship"+id).removeClass("bs_shipRotated");
             }
-            // check if able to place
-            for(let x=0;x<xmax;x++){
-                for(let y=0;y<ymax;y++){
-                    if(pos.x+x > 9)return false;
-                    if(pos.y-y < 0)return false;
+            /* check if able to place */
+            for(let x=0;x&lt;xmax;x++){
+                for(let y=0;y&lt;ymax;y++){
+                    if(pos.x+x &gt; 9)return false;
+                    if(pos.y-y &lt; 0)return false;
                     let otherCell = GetLeftCell(pos.x+x,pos.y-y);
                     if(otherCell.hasClass("bs_has_ship"))return false;
                     if(otherCell.hasClass("bs_has_land"))return false;
                 }
             }
-            // able to place, go ahead
-            for(let x=0;x<xmax;x++){
-                for(let y=0;y<ymax;y++){
+            /* able to place, go ahead */
+            for(let x=0;x&lt;xmax;x++){
+                for(let y=0;y&lt;ymax;y++){
                     GetLeftCell(pos.x+x,pos.y-y)
                         .addClass("bs_has_ship")
                         .addClass("bs_has_ship"+id);
@@ -852,7 +887,7 @@
             BoardBorders(false,true);
             ShowShips(false,false);
             Message("Please wait...");
-            if(gameMode==2 || gameMode==4){//salvo
+            if(gameMode==2 || gameMode==4){/*salvo */
                 ammo=cpuSalvo;
             }else{
                 ammo=1;
@@ -884,7 +919,7 @@
                 Message(GetHitMessage("CPU",cell));
                 Explosion(cell);
                 if(IsAllShipsDestroyed(false)==true){
-                    // you lose
+                    /* you lose */
                     gameStep=4;
                     timer_turnDelay=setTimeout(YouLose,Speed(3000,2000));
                     return;
@@ -896,9 +931,9 @@
             }
             ammo--;
             if(gameMode==2 || gameMode==4){
-                Message($("#bs_message").text()+".<br>"+ammo+" shots left.");
+                Message($("#bs_message").text()+".&lt;br&gt;"+ammo+" shots left.");
             }
-            if(ammo<=0){
+            if(ammo&lt;=0){
                 gameStep=0;
                 timer_turnDelay=setTimeout(YourTurn,Speed(2500,1000));
             }else{
@@ -909,24 +944,24 @@
             return document.getElementById("bs_fastCheckbox").checked ? fast : normal;
         }
 
-        //----------------------------------------
+        /*---------------------------------------- */
 
         function Cpu_ShootSmart(){
-            // unfinished ships? followup on them
-            for(let ship=1;ship<shipLengths.length;ship++){
+            /* unfinished ships? followup on them */
+            for(let ship=1;ship&lt;shipLengths.length;ship++){
                 let redPegs = $("#bs_rightBoard").children(".bs_has_ship"+ship).filter(".bs_has_red");
-                if(redPegs.length>0 && redPegs.length<shipLengths[ship]){
-                    //Cpu_ShootRandom();
+                if(redPegs.length&gt;0 && redPegs.length&lt;shipLengths[ship]){
+                    /*Cpu_ShootRandom(); */
                     Cpu_Followup(ship,redPegs);
                     return;
                 }
             }
 
-            // hunt remaining ships
-            for(let ship=1;ship<shipLengths.length;ship++){
+            /* hunt remaining ships */
+            for(let ship=1;ship&lt;shipLengths.length;ship++){
                 let redPegs = $("#bs_rightBoard").children(".bs_has_ship"+ship).filter(".bs_has_red");
                 if(redPegs.length==0){
-                    //Cpu_ShootRandom();
+                    /*Cpu_ShootRandom(); */
                     Cpu_Hunt(ship);
                     return;
                 }
@@ -945,17 +980,17 @@
                 Cpu_ActuallyShoot(cell);
                 return;
 
-                // dont guess direction where boat cannot fit?
+                /* dont guess direction where boat cannot fit? */
 
             }else{
                 if(GetCoords(redPegs.eq(0)).x == GetCoords(redPegs.eq(1)).x){
-                    // is vertical
-                    // shoot from top to bottom
+                    /* is vertical */
+                    /* shoot from top to bottom */
                     cell = TopMostCell(redPegs);
                     while(true){
                         cell = GetNeighbor(cell,0,1);
                         if(cell == null || cell.hasClass("bs_has_land") || cell.hasClass("bs_has_white")){
-                            // other direction
+                            /* other direction */
                             cell = TopMostCell(redPegs);
                             cell = GetNeighbor(cell,0,-1);
                             Cpu_ActuallyShoot(cell);
@@ -968,13 +1003,13 @@
                         }
                     }
                 }else{
-                    // is horizontal
-                    // shoot from left to right
+                    /* is horizontal */
+                    /* shoot from left to right */
                     cell = LeftMostCell(redPegs);
                     while(true){
                         cell = GetNeighbor(cell,1,0);
                         if(cell == null || cell.hasClass("bs_has_land") || cell.hasClass("bs_has_white")){
-                            // other direction
+                            /* other direction */
                             cell = LeftMostCell(redPegs);
                             cell = GetNeighbor(cell,-1,0);
                             Cpu_ActuallyShoot(cell);
@@ -990,36 +1025,36 @@
             }
         }
         function Cpu_Hunt(ship){
-            // look for all possible horizontal positions
-            //     add +1 score to all cells involved
-            // then look for all possible vertical positions
-            //     add +1 score to all cells involved
-            // higher score cells are better guesses
+            /* look for all possible horizontal positions */
+            /*     add +1 score to all cells involved */
+            /* then look for all possible vertical positions */
+            /*     add +1 score to all cells involved */
+            /* higher score cells are better guesses */
 
             let cellScores = NewCellScoresArray(10*10);
 
-            // score each cell
+            /* score each cell */
             let x;
             let y;
-            for(x=0;x<10;x++){
-                for(y=0;y<10;y++){
+            for(x=0;x&lt;10;x++){
+                for(y=0;y&lt;10;y++){
                     ScoreAreaIfShipFits_Horizontal(shipLengths[ship],x,y);
                     ScoreAreaIfShipFits_Vertical(shipLengths[ship],x,y);
                 }
             }
-            // find best scores
+            /* find best scores */
             let maxScore = GetMaxScore(cellScores);
             let cell;
             let cells = $();
-            for(x=0;x<cellScores.length;x++){
+            for(x=0;x&lt;cellScores.length;x++){
                 if(cellScores[x]==maxScore){
                     let pos = ScoreIndexToCoords(x);
                     cells = cells.add(GetRightCell(pos.x,pos.y));
                 }
             }
-            // prioritize diagonals
+            /* prioritize diagonals */
             let diagCells = cells.filter(".bs_isDiagonal");
-            if(diagCells.length>0){
+            if(diagCells.length&gt;0){
                 cell = diagCells.eq(Math.floor(Math.random()*diagCells.length));
                 Cpu_ActuallyShoot(cell);
                 return;
@@ -1033,14 +1068,14 @@
             
             function NewCellScoresArray(size){
                 let a = new Array(size);
-                for(let i=0;i<a.length;i++){
+                for(let i=0;i&lt;a.length;i++){
                     a[i]=0;
                 }return a;
             }
             function GetMaxScore(a){
                 let max = -999;
-                for(let i=0;i<a.length;i++){
-                    if(a[i]>max)max=a[i];
+                for(let i=0;i&lt;a.length;i++){
+                    if(a[i]&gt;max)max=a[i];
                 }return max;
             }
             function CoordsToScoreIndex(x,y){
@@ -1053,27 +1088,27 @@
             }
             function ScoreAreaIfShipFits_Horizontal(shipLength,ox,oy){
                 let x;
-                for(x=0;x<shipLength;x++){
-                    if(ox + x > 9)return;
+                for(x=0;x&lt;shipLength;x++){
+                    if(ox + x &gt; 9)return;
                     let cell = GetRightCell(ox + x, oy);
                     if(cell.hasClass("bs_has_land") || cell.hasClass("bs_has_peg")){
                         return;
                     }
                 }
-                for(x=0;x<shipLength;x++){
+                for(x=0;x&lt;shipLength;x++){
                     cellScores[CoordsToScoreIndex(ox+x,oy)]++;
                 }
             }
             function ScoreAreaIfShipFits_Vertical(shipLength,ox,oy){
                 let y;
-                for(y=0;y<shipLength;y++){
-                    if(oy + y > 9)return;
+                for(y=0;y&lt;shipLength;y++){
+                    if(oy + y &gt; 9)return;
                     let cell = GetRightCell(ox, oy + y);
                     if(cell.hasClass("bs_has_land") || cell.hasClass("bs_has_peg")){
                         return;
                     }
                 }
-                for(y=0;y<shipLength;y++){
+                for(y=0;y&lt;shipLength;y++){
                     cellScores[CoordsToScoreIndex(ox,oy+y)]++;
                 }
             }
@@ -1081,24 +1116,24 @@
         function GetRightNeighbors_Perpendicular(cell){
             let neighs = $();
             let c = GetCoords(cell);
-            if(c.x-1 < 0){}else neighs = neighs.add(GetRightCell(c.x-1,c.y));
-            if(c.x+1 > 9){}else neighs = neighs.add(GetRightCell(c.x+1,c.y));
-            if(c.y-1 < 0){}else neighs = neighs.add(GetRightCell(c.x,c.y-1));
-            if(c.y+1 > 9){}else neighs = neighs.add(GetRightCell(c.x,c.y+1));
+            if(c.x-1 &lt; 0){}else neighs = neighs.add(GetRightCell(c.x-1,c.y));
+            if(c.x+1 &gt; 9){}else neighs = neighs.add(GetRightCell(c.x+1,c.y));
+            if(c.y-1 &lt; 0){}else neighs = neighs.add(GetRightCell(c.x,c.y-1));
+            if(c.y+1 &gt; 9){}else neighs = neighs.add(GetRightCell(c.x,c.y+1));
             return neighs;
         }
         function GetNeighbor(cell,xoffset,yoffset){
             let pos = GetCoords(cell);
-            if(pos.x+xoffset <0 || pos.x+xoffset >9)return null;
-            if(pos.y+yoffset <0 || pos.y+yoffset >9)return null;
+            if(pos.x+xoffset &lt;0 || pos.x+xoffset &gt;9)return null;
+            if(pos.y+yoffset &lt;0 || pos.y+yoffset &gt;9)return null;
             return GetRightCell(pos.x+xoffset,pos.y+yoffset);
         }
         function TopMostCell(cells){
             let minId = -1;
             let minValue = 999;
-            for(let i=0;i<cells.length;i++){
+            for(let i=0;i&lt;cells.length;i++){
                 let pos = GetCoords(cells.eq(i));
-                if(pos.y < minValue){
+                if(pos.y &lt; minValue){
                     minValue = pos.y;
                     minId = i;
                 }
@@ -1107,30 +1142,35 @@
         function LeftMostCell(cells){
             let minId = -1;
             let minValue = 999;
-            for(let i=0;i<cells.length;i++){
+            for(let i=0;i&lt;cells.length;i++){
                 let pos = GetCoords(cells.eq(i));
-                if(pos.x < minValue){
+                if(pos.x &lt; minValue){
                     minValue = pos.x;
                     minId = i;
                 }
             }return cells.eq(minId);
-        }
+        }</div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
 
-    </script>
-
-    <style>
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{
             background-color:rgb(78, 56, 87);
-        }
-    </style>
-</head>
-<body>
-    <center>
-        <div id="battleship"></div>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;center&gt;
+        &lt;div id="battleship"&gt;&lt;/div&gt;
+    &lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-        <a href="battleship_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

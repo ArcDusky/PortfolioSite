@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Kevin's Pig Dice</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Kevin's Pig Dice&lt;/title&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{background-color:darkslategrey;}
         #pig{
             position:relative;
@@ -135,11 +171,11 @@
         @keyframes pig_blinking_red{
             from{background-color:crimson;}
             to  {background-color:rgba(0,0,0,0.01);}
-        }
-    </style>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         $(document).ready(function(){
@@ -148,21 +184,21 @@
         function Startup(){
             let html="";
 
-            html+="<div id='pig_die'>";
-                for(let x=0;x<7;x++){
-                    html+="<div class='pig_dieDot'></div>";
+            html+="&lt;div id='pig_die'&gt;";
+                for(let x=0;x&lt;7;x++){
+                    html+="&lt;div class='pig_dieDot'&gt;&lt;/div&gt;";
                 }
-            html+="</div>";
+            html+="&lt;/div&gt;";
 
-            html+="<div id='pig_title'>Kevin's Pig Dice</div>";
-            html+="<div id='pig_howToPlay'>?</div>";
-            html+="<div id='pig_youScore'>Your score: <span id='pig_youScoreText'>0</span></div>";
-            html+="<div id='pig_cpuScore'>CPU score: <span id='pig_cpuScoreText'>0</span></div>";
-            html+="<div id='pig_gameMessage'></div>";
+            html+="&lt;div id='pig_title'&gt;Kevin's Pig Dice&lt;/div&gt;";
+            html+="&lt;div id='pig_howToPlay'&gt;?&lt;/div&gt;";
+            html+="&lt;div id='pig_youScore'&gt;Your score: &lt;span id='pig_youScoreText'&gt;0&lt;/span&gt;&lt;/div&gt;";
+            html+="&lt;div id='pig_cpuScore'&gt;CPU score: &lt;span id='pig_cpuScoreText'&gt;0&lt;/span&gt;&lt;/div&gt;";
+            html+="&lt;div id='pig_gameMessage'&gt;&lt;/div&gt;";
 
-            html+="<div id='pig_gatherScore'>Gathered:<br><span id='pig_gatherScoreText'>0</span></div>";
-            html+="<div id='pig_rollButton'>Roll</div>";
-            html+="<div id='pig_holdButton'>Hold</div>";
+            html+="&lt;div id='pig_gatherScore'&gt;Gathered:&lt;br&gt;&lt;span id='pig_gatherScoreText'&gt;0&lt;/span&gt;&lt;/div&gt;";
+            html+="&lt;div id='pig_rollButton'&gt;Roll&lt;/div&gt;";
+            html+="&lt;div id='pig_holdButton'&gt;Hold&lt;/div&gt;";
 
             $("#pig").html(html);
             $("#pig_howToPlay").click(function(){
@@ -190,23 +226,23 @@
         }
         function DieRolling(){
             SetDieRandom();
-            // move around
+            /* move around */
             const moveSpeed=40;
             const moveBounds=20;
             const rotateSpeed=30;
             let leftPos=parseInt($("#pig_die").css("left"));
             leftPos+=(Math.random()*moveSpeed*2)-moveSpeed;
-            if(leftPos<dieStartPosLeft-moveBounds)leftPos=dieStartPosLeft-moveBounds;
-            else if(leftPos>dieStartPosLeft+moveBounds)leftPos=dieStartPosLeft+moveBounds;
+            if(leftPos&lt;dieStartPosLeft-moveBounds)leftPos=dieStartPosLeft-moveBounds;
+            else if(leftPos&gt;dieStartPosLeft+moveBounds)leftPos=dieStartPosLeft+moveBounds;
             $("#pig_die").css("left",leftPos);
             let topPos=parseInt($("#pig_die").css("top"));
             topPos+=(Math.random()*moveSpeed*2)-moveSpeed;
-            if(topPos<dieStartPosTop-moveBounds)topPos=dieStartPosTop-moveBounds;
-            else if(topPos>dieStartPosTop+moveBounds)topPos=dieStartPosTop+moveBounds;
+            if(topPos&lt;dieStartPosTop-moveBounds)topPos=dieStartPosTop-moveBounds;
+            else if(topPos&gt;dieStartPosTop+moveBounds)topPos=dieStartPosTop+moveBounds;
             $("#pig_die").css("top",topPos);
-            // spin around
+            /* spin around */
             dieRot+=(Math.random()*rotateSpeed*2)-rotateSpeed;
-            $("#pig_die").css("transform","rotate("+dieRot+"deg)");//*/
+            $("#pig_die").css("transform","rotate("+dieRot+"deg)");
         }
         function SetDieRandom(){
             SetDie(GetRandomDieValue());
@@ -221,9 +257,9 @@
             thisDot=$(".pig_dieDot:nth-of-type(2)");
             n==6 ? thisDot.show() : thisDot.hide();
             thisDot=$(".pig_dieDot:nth-of-type(3)");
-            n>=4 ? thisDot.show() : thisDot.hide();
+            n&gt;=4 ? thisDot.show() : thisDot.hide();
             thisDot=$(".pig_dieDot:nth-of-type(4)");
-            n>=4 ? thisDot.show() : thisDot.hide();
+            n&gt;=4 ? thisDot.show() : thisDot.hide();
             thisDot=$(".pig_dieDot:nth-of-type(5)");
             n==6 ? thisDot.show() : thisDot.hide();
             thisDot=$(".pig_dieDot:nth-of-type(6)");
@@ -284,7 +320,7 @@
         let gameState="end";
 
         function Roll(){
-            if(gameState=="end"){// new game
+            if(gameState=="end"){/* new game */
                 SetScore("you",0);
                 SetScore("cpu",0);
                 SetScore("gather",0);
@@ -314,8 +350,8 @@
 
             if(gameState=="you"){
                 if(dieValue==1){
-                    if(GetScore("gather")==0)SetMessage("You rolled a 1!<br>Oh no! Your turn is over.");
-                    else SetMessage("You rolled a 1!<br>Oh no! The "+GetScore("gather")+" was lost.");
+                    if(GetScore("gather")==0)SetMessage("You rolled a 1!&lt;br&gt;Oh no! Your turn is over.");
+                    else SetMessage("You rolled a 1!&lt;br&gt;Oh no! The "+GetScore("gather")+" was lost.");
 
                     SetScore("gather",0);
                     BlinkScores(false,false,"red");
@@ -326,10 +362,10 @@
                         BlinkScores(false,false,false);
                         timer_turnDelay=setTimeout(Roll,turnDelay);
                     },turnDelay);
-                }else{//die is not a 1
+                }else{/* die is not a 1 */
 
                     let totalScore=GetScore("you")+GetScore("gather")+dieValue;
-                    if(totalScore>=100){// win
+                    if(totalScore&gt;=100){/* win */
                         SetMessage("YOU WIN!");
                         $("#pig_gameMessage").addClass("pig_winMessage");
                         $("#pig_rollButton").text("Play again");
@@ -347,10 +383,10 @@
                         ShowButtons(true,true);
                     }
                 }
-            }else{// cpu
+            }else{/* cpu */
                 if(dieValue==1){
-                    if(GetScore("gather")==0)SetMessage("CPU rolled a 1!<br>Their turn is over.");
-                    else SetMessage("CPU rolled a 1!<br>The "+GetScore("gather")+" was lost.");
+                    if(GetScore("gather")==0)SetMessage("CPU rolled a 1!&lt;br&gt;Their turn is over.");
+                    else SetMessage("CPU rolled a 1!&lt;br&gt;The "+GetScore("gather")+" was lost.");
                     
                     SetScore("gather",0);
                     BlinkScores(false,false,"red");
@@ -361,11 +397,11 @@
                         BlinkScores(false,false,false);
                         ShowButtons(true,false);
                     },turnDelay);
-                }else{// die not a 1
+                }else{/* die not a 1 */
 
                     let totalScore=GetScore("cpu")+GetScore("gather")+dieValue;
-                    if(totalScore>=100){// win
-                        SetMessage("CPU won!<br>Oh no! You lose.");
+                    if(totalScore&gt;=100){/* win */
+                        SetMessage("CPU won!&lt;br&gt;Oh no! You lose.");
                         $("#pig_gameMessage").addClass("pig_loseMessage");
                         $("#pig_rollButton").text("Play again");
                         ShowButtons(true,false);
@@ -380,7 +416,7 @@
                         SetScore("gather",GetScore("gather")+dieValue);
                         BlinkScores(false,false,"green");
 
-                        if(GetScore("gather")>=15){
+                        if(GetScore("gather")&gt;=15){
                             timer_turnDelay=setTimeout(Hold,turnDelay);
                         }else{
                             timer_turnDelay=setTimeout(Roll,turnDelay);
@@ -392,7 +428,7 @@
         function Hold(){
             if(gameState=="you"){
                 ShowButtons(false,false);
-                SetMessage("You hold.<br>You scored the "+GetScore("gather")+"!");
+                SetMessage("You hold.&lt;br&gt;You scored the "+GetScore("gather")+"!");
                 SetScore("you",GetScore("you")+GetScore("gather"));
                 SetScore("gather",0);
                 BlinkScores("green",false,false);
@@ -403,8 +439,8 @@
                     BlinkScores(false,false,false);
                     timer_turnDelay=setTimeout(Roll,turnDelay);
                 },turnDelay);
-            }else{//cpu
-                SetMessage("CPU holds.<br>They scored the "+GetScore("gather")+".");
+            }else{/* cpu */
+                SetMessage("CPU holds.&lt;br&gt;They scored the "+GetScore("gather")+".");
                 SetScore("cpu",GetScore("cpu")+GetScore("gather"));
                 SetScore("gather",0);
                 BlinkScores(false,"green",false);
@@ -416,16 +452,20 @@
                     ShowButtons(true,false);
                 },turnDelay);
             }
-        }
-    </script>
-</head>
-<body>
-    <div id="pig"></div>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="pig"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-    <center>
-        <a href="pig_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

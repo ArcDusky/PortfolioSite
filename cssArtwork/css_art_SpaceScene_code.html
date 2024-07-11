@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Kevin's Space Scene</title>
+<head>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
 
-        <style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
+    <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Kevin's Space Scene&lt;/title&gt;
+
+        &lt;style&gt;<div class="w3-code cssHigh">
             body{
                 background-color:grey;
             }
@@ -83,7 +114,7 @@
                 background-image:radial-gradient(at 90% 10%,hsla(250,100%,50%,.2),#FF000000 70%);
             }
 
-            div.space>div.sun{
+            div.space&gt;div.sun{
                 position:absolute;
                 width:2%;
                 height:2%;
@@ -93,7 +124,7 @@
                 top:5%;
                 box-shadow:0 0 3em 1em hsl(50,100%,60%);
             }
-            div.space>div.planet1{
+            div.space&gt;div.planet1{
                 position:absolute;
                 width:20%;
                 height:20%;
@@ -103,7 +134,7 @@
                 top:40%;
                 box-shadow:0 -0.5em 2em 0 rosybrown;
             }
-            div.space>div.planet1>div.ddd{
+            div.space&gt;div.planet1&gt;div.ddd{
                 position:absolute;
                 width:100%;
                 height:100%;
@@ -111,7 +142,7 @@
                 border-radius:50%;
                 transform:rotate(70deg);
             }
-            div.space>div.planet2{
+            div.space&gt;div.planet2{
                 position:absolute;
                 width:5%;
                 height:5%;
@@ -121,7 +152,7 @@
                 top:10%;
                 box-shadow:-0.3em -0.1em 1.5em 0 powderblue;
             }
-            div.space>div.planet2>div.ddd{
+            div.space&gt;div.planet2&gt;div.ddd{
                 position:absolute;
                 width:100%;
                 height:100%;
@@ -129,7 +160,7 @@
                 border-radius:50%;
                 transform:rotate(-40deg);
             }
-            div.space>div.planet3{
+            div.space&gt;div.planet3{
                 position:absolute;
                 width:3%;
                 height:3%;
@@ -140,7 +171,7 @@
                 box-shadow:-0.2em 0 1em 0.1em palegoldenrod;
                 transform:rotate(10deg);
             }
-            div.space>div.planet3>div.ddd{
+            div.space&gt;div.planet3&gt;div.ddd{
                 position:absolute;
                 width:200%;
                 height:30%;
@@ -154,7 +185,7 @@
                 border-right-width:0.5em;
                 border-right-color:hsl(60,20%,35%);
             }
-            div.space>div.planet4{
+            div.space&gt;div.planet4{
                 position:absolute;
                 width:50%;
                 height:50%;
@@ -166,7 +197,7 @@
                 transform:rotate(60deg);
                 --landEdging:hsla(0,0%,0%,0.15);
             }
-            div.space>div.planet4>div.nnn{
+            div.space&gt;div.planet4&gt;div.nnn{
                 position:absolute;
                 border:0.3em dotted var(--landEdging);
                 border-radius:50% 10%;
@@ -236,7 +267,7 @@
                 transform:rotate(-10deg);
             }
 
-            div.space>div.planet4>div.ddd{
+            div.space&gt;div.planet4&gt;div.ddd{
                 position:absolute;
                 width:100%;
                 height:100%;
@@ -245,7 +276,7 @@
                 transform:rotate(-60deg);
             }
 
-            div.space>div.ship{
+            div.space&gt;div.ship{
                 position:absolute;
                 width:10%;
                 height:10%;
@@ -404,86 +435,92 @@
                 top:20%;
                 left:10%;
                 border-top:0.1em solid var(--edging);
-            }
-        </style>
-    </head>
-    <body>
-        <center>
-            <h2>Space Scene</h2>
+            }</div>
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;center&gt;
+            &lt;h2&gt;Space Scene&lt;/h2&gt;
             
-            <div class="space">
+            &lt;div class="space"&gt;
         
-            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+            &lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;
 
-            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+            &lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;
 
-            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+            &lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;
 
-            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+            &lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;
 
-            <div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div><div class="starcluster"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+            &lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="starcluster"&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;div class="star"&gt;&lt;/div&gt;&lt;/div&gt;
 
-            <div class="spacefade1"></div>
-            <div class="spacefade2"></div>
+            &lt;div class="spacefade1"&gt;&lt;/div&gt;
+            &lt;div class="spacefade2"&gt;&lt;/div&gt;
 
-            <div class="sun"></div>
-            <div class="planet1">
-                <div class="ddd"></div>
-            </div>
-            <div class="planet2">
-                <div class="ddd"></div>
-            </div>
-            <div class="planet3">
-                <div class="ddd"></div>
-                <div class="rrr"></div>
-            </div>
-            <div class="planet4">
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
+            &lt;div class="sun"&gt;&lt;/div&gt;
+            &lt;div class="planet1"&gt;
+                &lt;div class="ddd"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="planet2"&gt;
+                &lt;div class="ddd"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="planet3"&gt;
+                &lt;div class="ddd"&gt;&lt;/div&gt;
+                &lt;div class="rrr"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="planet4"&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
 
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
-                <div class="nnn"></div>
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
 
-                <div class="nnn"></div>
-                <div class="nnn"></div>
+                &lt;div class="nnn"&gt;&lt;/div&gt;
+                &lt;div class="nnn"&gt;&lt;/div&gt;
 
-                <div class="ddd"></div>
-            </div>
+                &lt;div class="ddd"&gt;&lt;/div&gt;
+            &lt;/div&gt;
 
-            <div class="ship">
-                <div class="ppp"></div>
+            &lt;div class="ship"&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
 
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
 
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-                <div class="ppp"></div>
-            </div>
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+                &lt;div class="ppp"&gt;&lt;/div&gt;
+            &lt;/div&gt;
 
-        </div>
-
-        <a href="css_art_SpaceScene_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:darkblue;">
-            🧾 Click here to see source-code.
-        </a>
+        &lt;/div&gt;
             
-        </center>
+        &lt;/center&gt;
         
-    </body>
+    &lt;/body&gt;
+&lt;/html&gt;
+
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
+</body>
 </html>

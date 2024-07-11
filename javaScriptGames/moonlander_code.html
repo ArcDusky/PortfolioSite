@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Kevin's Moonlander</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Kevin's Moonlander&lt;/title&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{background-color:darkslategrey;}
         #moonlander{
             position:relative;
@@ -191,10 +227,10 @@
         @keyframes ml_trail{
             from{opacity:0;}
             to{opacity:1;}
-        }
-    </style>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
 
-    <style>
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         #ml_ship{
             position:absolute;
             width:20px;
@@ -272,11 +308,11 @@
             height:100%;
             left:0%;
             transform:scaleX(-100%);
-        }
-    </style>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         const blastAnimation = "ml_blast 1s ease-out 0s 1 normal";
@@ -293,35 +329,35 @@
         function Startup(){
             let html="";
             
-            html+="<div id='ml_nonpauseScreen' style='position:absolute;width:100%;height:100%;'>";
-                html+="<div id='ml_trailHolder'></div>";
-                html+="<div id='ml_winFlag'><div id='ml_winFlag_cloth'>☼</div></div>";
-                html+="<div id='ml_explosionHolder'></div>";
-                html+="<div id='ml_level'></div>";
-                html+="<div id='ml_ship'>"+GetShipHtml()+"</div>";
+            html+="&lt;div id='ml_nonpauseScreen' style='position:absolute;width:100%;height:100%;'&gt;";
+                html+="&lt;div id='ml_trailHolder'&gt;&lt;/div&gt;";
+                html+="&lt;div id='ml_winFlag'&gt;&lt;div id='ml_winFlag_cloth'&gt;☼&lt;/div&gt;&lt;/div&gt;";
+                html+="&lt;div id='ml_explosionHolder'&gt;&lt;/div&gt;";
+                html+="&lt;div id='ml_level'&gt;&lt;/div&gt;";
+                html+="&lt;div id='ml_ship'&gt;"+GetShipHtml()+"&lt;/div&gt;";
 
-                html+="<div class='ml_uiBlock' id='ml_titleBar'></div>";
-                html+="<div class='ml_uiBlock' id='ml_titleArea'>Kevin's Moonlander</div>";
-                html+="<div class='ml_uiBlock' id='ml_howToPlay'>?</div>";
-                html+="<div class='ml_uiBlock' id='ml_timeArea'></div>";
-                html+="<div class='ml_uiBlock' id='ml_fuelArea'></div>";
+                html+="&lt;div class='ml_uiBlock' id='ml_titleBar'&gt;&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock' id='ml_titleArea'&gt;Kevin's Moonlander&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock' id='ml_howToPlay'&gt;?&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock' id='ml_timeArea'&gt;&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock' id='ml_fuelArea'&gt;&lt;/div&gt;";
 
-                let www=700/7;//level button width
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*0)+"px;'>Level 1</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*1)+"px;'>Level 2</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*2)+"px;'>Level 3</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*3)+"px;'>Level 4</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*4)+"px;'>Level 5</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*5)+"px;'>Level 6</div>";
-                html+="<div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*6)+"px;'>Level 7</div>";
+                let www=700/7;/* level button width */
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*0)+"px;'&gt;Level 1&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*1)+"px;'&gt;Level 2&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*2)+"px;'&gt;Level 3&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*3)+"px;'&gt;Level 4&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*4)+"px;'&gt;Level 5&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*5)+"px;'&gt;Level 6&lt;/div&gt;";
+                html+="&lt;div class='ml_uiBlock ml_levelButton' style='width:"+www+"px;left:"+(www*6)+"px;'&gt;Level 7&lt;/div&gt;";
 
-                html+="<input id='ml_hiddenInput' type='text' style='width:0;height:0;opacity:0;'></input>";
-            html+="</div>";
-            html+="<div id='ml_pauseScreen'>PAUSED<br>Click here to unpause</div>";
+                html+="&lt;input id='ml_hiddenInput' type='text' style='width:0;height:0;opacity:0;'&gt;&lt;/input&gt;";
+            html+="&lt;/div&gt;";
+            html+="&lt;div id='ml_pauseScreen'&gt;PAUSED&lt;br&gt;Click here to unpause&lt;/div&gt;";
 
             $("#moonlander").html(html);
 
-            // hidden input keyboard detection
+            /* hidden input keyboard detection */
             $("#moonlander").click(EnterFocus);
             $("#ml_hiddenInput").attr("onkeydown","KeyDown(event)");
             $("#ml_hiddenInput").attr("onkeyup","KeyUp(event)");
@@ -348,46 +384,46 @@
 
             function GetShipHtml(){
                 return ''+
-                '<div id="ml_ship_middle1"></div>'+
-                '<div id="ml_ship_middle2"></div>'+
-                '<div>'+
-                    '<div class="ml_ship_wingBack"></div>'+
-                    '<div class="ml_ship_wingSlant"></div>'+
-                    '<div class="ml_ship_wingBottomTip"></div>'+
-                    '<div class="ml_ship_wingColumn1"></div>'+
-                '</div>'+
-                '<div id="ml_ship_rightWing">'+
-                    '<div class="ml_ship_wingBack"></div>'+
-                    '<div class="ml_ship_wingSlant"></div>'+
-                    '<div class="ml_ship_wingBottomTip"></div>'+
-                    '<div class="ml_ship_wingColumn1"></div>'+
-                '</div>'+
-                '<div id="ml_ship_hitbox"></div>';
+                '&lt;div id="ml_ship_middle1"&gt;&lt;/div&gt;'+
+                '&lt;div id="ml_ship_middle2"&gt;&lt;/div&gt;'+
+                '&lt;div&gt;'+
+                    '&lt;div class="ml_ship_wingBack"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingSlant"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingBottomTip"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingColumn1"&gt;&lt;/div&gt;'+
+                '&lt;/div&gt;'+
+                '&lt;div id="ml_ship_rightWing"&gt;'+
+                    '&lt;div class="ml_ship_wingBack"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingSlant"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingBottomTip"&gt;&lt;/div&gt;'+
+                    '&lt;div class="ml_ship_wingColumn1"&gt;&lt;/div&gt;'+
+                '&lt;/div&gt;'+
+                '&lt;div id="ml_ship_hitbox"&gt;&lt;/div&gt;';
             }
         }
         function EnterFocus(){
             $("#ml_hiddenInput").focus();
             $("#ml_pauseScreen").hide();
 
-            if(frameTimer==null){// start framerate
+            if(frameTimer==null){/* start framerate */
                 frameTimer=setInterval(Frame,1000/30);
             }
-            if(gameTimerInt!=0 && !gameover){// if clock was running, resume it
+            if(gameTimerInt!=0 && !gameover){/* if clock was running, resume it */
                 StartGameTimer();
             }
         }
         function ExitFocus(){
             $("#ml_pauseScreen").show();
-            clearInterval(frameTimer);// stop framerate
+            clearInterval(frameTimer);/* stop framerate */
             frameTimer=null;
 
-            if(gameTimer){// if clock was running, stop it
+            if(gameTimer){/* if clock was running, stop it */
                 StopGameTimer();
-                gameTimerInt+=0.5;//punish
+                gameTimerInt+=0.5;/* punish */
                 ShowGameTimer();
             }
 
-            for(let x=0;x<keys.length;x++){// set all keys to false
+            for(let x=0;x&lt;keys.length;x++){/* set all keys to false */
                 keys[x]=false;
             }
         }
@@ -411,9 +447,9 @@
                 case "ArrowDown":return 5;
                 case "ArrowLeft":return 6;
                 case "ArrowRight":return 7;
-                case "r":return 8;// for restarting
-                case "b":return 9;// for toggling rock bumps
-                default:return 10;//dump
+                case "r":return 8;/* for restarting */
+                case "b":return 9;/* for toggling rock bumps */
+                default:return 10;/* dump */
             }
         }
         function GetKey(sss){
@@ -467,7 +503,7 @@
         function ShowGameTimer(){
             let min=Math.floor(gameTimerInt/60);
             let sec=Math.floor(gameTimerInt-(min*60));
-            if(sec<10)sec="0"+sec;
+            if(sec&lt;10)sec="0"+sec;
             $("#ml_timeArea").text("⌚ "+min+":"+sec);
         }
         function StartGameTimer(){
@@ -492,10 +528,10 @@
         function MakeTrail(){
             let html="";
             let style="left:"+(shipX-1)+"px;bottom:"+(shipY-1)+"px;";
-            html+="<div class='ml_trail' style='"+style+"'></div>";
+            html+="&lt;div class='ml_trail' style='"+style+"'&gt;&lt;/div&gt;";
             $("#ml_trailHolder").append(html);
         }
-        function Frame(){// 30 frames per second
+        function Frame(){/* 30 frames per second */
             let nowR=GetKey("r");
             if(nowR && !prevR){
                 LoadLevel(chosenLevel);
@@ -518,16 +554,16 @@
             
             if(inputX!=0){
                 shipAngle+=inputX*shipSteer;
-                if(shipAngle<=-180)shipAngle+=360;// angle wrapping
-                else if(shipAngle>=180)shipAngle-=360;
+                if(shipAngle&lt;=-180)shipAngle+=360;/* angle wrapping */
+                else if(shipAngle&gt;=180)shipAngle-=360;
             }if(inputY!=0){
                 let rrr=shipAngle*Math.PI/180.0;
                 shipVelocityX+=Math.sin(rrr)*shipPower;
                 shipVelocityY+=Math.cos(rrr)*shipPower;
                 shipFuel-=0.1;
-                if(shipFuel<0)shipFuel=0;
+                if(shipFuel&lt;0)shipFuel=0;
                 ShowFuel();
-                //MakeBlast(); // moved it further down
+                /* MakeBlast(); moved it further down */
                 if(!gameTimer){
                     StartGameTimer();
                 }
@@ -538,11 +574,11 @@
 
             if(inputY!=0)MakeBlast();
 
-            if(shipX<0)CrashAndLose();
-            else if(shipX>700)CrashAndLose();
+            if(shipX&lt;0)CrashAndLose();
+            else if(shipX&gt;700)CrashAndLose();
             if(gameover)return;
-            if(shipY<0)CrashAndLose();
-            else if(shipY>440)CrashAndLose();
+            if(shipY&lt;0)CrashAndLose();
+            else if(shipY&gt;440)CrashAndLose();
             if(gameover)return;
 
             let ship=$("#ml_ship");
@@ -557,29 +593,29 @@
             function MakeBlast(){
                 let eee=document.getElementById("ml_blast_"+blastCounter);
                 if(eee){
-                    //restart blast animation
+                    /* restart blast animation */
                     eee.style.animation="none";
-                    eee.offsetHeight;// trigger a "reflow"
+                    eee.offsetHeight;/* trigger a "reflow" */
                     eee.style.animation=blastAnimation;
                 }else{
-                    let html="<div id='ml_blastHolder_"+blastCounter+"' class='ml_blastHolder'>";
-                    html+="<div id='ml_blast_"+blastCounter+"' class='ml_blast'></div>";
-                    html+="</div>"
+                    let html="&lt;div id='ml_blastHolder_"+blastCounter+"' class='ml_blastHolder'&gt;";
+                    html+="&lt;div id='ml_blast_"+blastCounter+"' class='ml_blast'&gt;&lt;/div&gt;";
+                    html+="&lt;/div&gt;"
                     $("#ml_explosionHolder").append(html);
                 }
                 let style="transform:rotate("+shipAngle+"deg);left:"+shipX+"px;bottom:"+shipY+"px;";
                 $("#ml_blastHolder_"+blastCounter).attr("style",style);
 
                 blastCounter++;
-                if(blastCounter>40)blastCounter=0;
+                if(blastCounter&gt;40)blastCounter=0;
             }
             function RockDetection(){
                 let rock;
                 let dist=0.0;
-                for(let i=0;i<rocks.length;i++){
+                for(let i=0;i&lt;rocks.length;i++){
                     rock = rocks[i];
                     dist = GetDistance(shipX,shipY,rock.x,rock.y);
-                    if(dist<rock.radius){
+                    if(dist&lt;rock.radius){
                         CrashAndLose();
                         break;
                     }
@@ -587,17 +623,17 @@
             }
             function PlatformDetection(){
                 let plat;
-                for(let i=0;i<platforms.length;i++){
+                for(let i=0;i&lt;platforms.length;i++){
                     plat=platforms[i];
-                    //touching correctly
-                    if(shipX>plat.leftPost && shipX<plat.rightPost
-                    && shipY>plat.y && shipY<plat.topCollide
-                    && Math.abs(shipAngle)<35){
-                        if(shipVelocityY<0){//going down
+                    /* touching correctly */
+                    if(shipX&gt;plat.leftPost && shipX&lt;plat.rightPost
+                    && shipY&gt;plat.y && shipY&lt;plat.topCollide
+                    && Math.abs(shipAngle)&lt;35){
+                        if(shipVelocityY&lt;0){/* going down */
                             let mag = Math.sqrt(shipVelocityX*shipVelocityX+shipVelocityY*shipVelocityY);
-                            if(mag>3){// too fast
+                            if(mag&gt;3){/* too fast */
                                 CrashAndLose();
-                            }else{// gentle
+                            }else{/* gentle */
                                 shipVelocityX=0;
                                 shipVelocityY=0;
                                 shipAngle=0;
@@ -609,9 +645,9 @@
                                 }
                             }
                         }
-                    // touching incorrectly
-                    }else if(shipX>plat.leftCollide && shipX<plat.rightCollide
-                    && shipY>plat.bottomCollide && shipY<plat.topCollide){
+                    /* touching incorrectly */
+                    }else if(shipX&gt;plat.leftCollide && shipX&lt;plat.rightCollide
+                    && shipY&gt;plat.bottomCollide && shipY&lt;plat.topCollide){
                         CrashAndLose();
                     }
                 }
@@ -632,7 +668,7 @@
                 let rrr=0.0;
                 let xxx=0.0;
                 let yyy=0.0;
-                for(let i=0;i<30;i++){
+                for(let i=0;i&lt;30;i++){
                     angle+=72.0;
                     angle+=(Math.random()*15.0)-7.5;
                     rrr=angle*Math.PI/180.0;
@@ -642,14 +678,14 @@
                     xxx=shipX+xxx;
                     yyy=shipY+yyy;
 
-                    xxx-=5;// for the initial explosion size
+                    xxx-=5;/* for the initial explosion size */
                     yyy-=5;
 
                     style="left:"+xxx+"px;bottom:"+yyy+"px;";
                     style+="transform:scale("+size+"%,"+size+"%);";
                     style+="animation-delay:"+((i/30)*0.5)+"s;";
 
-                    html+="<div class='ml_explosion' style='"+style+"'></div>";
+                    html+="&lt;div class='ml_explosion' style='"+style+"'&gt;&lt;/div&gt;";
 
                     size-=(300-40)/30;
                     dist+=(    70/30);
@@ -691,12 +727,12 @@
                 rocks[rocks.length]={
                     x:x,
                     y:y,
-                    radius:radius + 10 // plus for ship's hitbox
+                    radius:radius + 10 /* plus for ship's hitbox */
                 };
                 let xxx=x-radius;
                 let yyy=y-radius;
-                let ident="";//rocks.length;
-                let html="<div class='ml_rock' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+(radius*2)+"px;height:"+(radius*2)+"px;'>"+ident+"</div>";
+                let ident="";/* rocks.length; */
+                let html="&lt;div class='ml_rock' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+(radius*2)+"px;height:"+(radius*2)+"px;'&gt;"+ident+"&lt;/div&gt;";
                 return html;
             }
             function MakePlatform(x,y,width){
@@ -704,7 +740,7 @@
                     x:x,
                     y:y,
                     width:width,
-                    leftPost:x-(width/2)+7,// plus for ship's hitbox
+                    leftPost:x-(width/2)+7,/* plus for ship's hitbox */
                     rightPost:x+(width/2)-7,
                     leftCollide:x-(width/2)-10,
                     rightCollide:x+(width/2)+10,
@@ -712,8 +748,8 @@
                     bottomCollide:y-20-10
                 };
                 let xxx=x-(width/2);
-                let yyy=y-20;// height offset
-                let html="<div class='ml_platform' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+width+"px;'></div>";
+                let yyy=y-20;/* height offset */
+                let html="&lt;div class='ml_platform' style='left:"+xxx+"px;bottom:"+yyy+"px;width:"+width+"px;'&gt;&lt;/div&gt;";
                 return html;
             }
             function PlaceWinFlag(){
@@ -854,7 +890,7 @@
                     html+=MakeRock(285,105,22);
                     html+=MakeRock(205,140,24);
                     html+=MakeRock(160,215,27);
-                    html+=MakeRock(90,235,20);//(85,235,26);// 9
+                    html+=MakeRock(90,235,20);/*(85,235,26); 9 */
                     html+=MakeRock(30,290,27);
                     html+=MakeRock(35,175,24);
                     html+=MakeRock(120,145,19);
@@ -862,61 +898,65 @@
                     html+=MakeRock(360,195,24);
                     html+=MakeRock(295,255,24);
                     html+=MakeRock(150,345,30);
-                    html+=MakeRock(320,360,17);//(320,360,27);// 17
-                    html+=MakeRock(225,300,22);//(220,300,18);// 18
+                    html+=MakeRock(320,360,17);/*(320,360,27); 17 */
+                    html+=MakeRock(225,300,22);/*(220,300,18); 18 */
                     html+=MakeRock(360,265,20);
                     html+=MakeRock(425,160,21);
                     html+=MakeRock(415,220,12);
-                    html+=MakeRock(470,100,22);//(470,110,22);// 22
+                    html+=MakeRock(470,100,22);/*(470,110,22); 22 */
                     html+=MakeRock(445,400,21);
-                    html+=MakeRock(500,365,15);//(500,365,21);// 24
+                    html+=MakeRock(500,365,15);/*(500,365,21); 24 */
                     html+=MakeRock(465,305,21);
                     html+=MakeRock(535,305,21);
                     html+=MakeRock(575,235,24);
-                    html+=MakeRock(615,180,27);//(630,180,37);// 28
-                    html+=MakeRock(515,210,10);//(495,210,10);// 29
-                    html+=MakeRock(435,60,9);//(415,65,9);// 30
+                    html+=MakeRock(615,180,27);/*(630,180,37); 28 */
+                    html+=MakeRock(515,210,10);/*(495,210,10); 29 */
+                    html+=MakeRock(435,60,9);/*(415,65,9); 30 */
                     html+=MakeRock(560,110,10);
                     html+=MakeRock(595,390,10);
-                    html+=MakeRock(105,375,10);//(80,380,10);// 33
+                    html+=MakeRock(105,375,10);/*(80,380,10); 33 */
                     html+=MakePlatform(55,35,40);
                     shipX=55;
                     shipY=35+10;
                     shipFuel=24;
-                    html+=MakePlatform(665,355,60);//(665,355,40);
+                    html+=MakePlatform(665,355,60);/*(665,355,40);*/
                 }else alert("could not load level "+levelNumber);
                 return html;
             }
         }
         /*
-        mx = x - 200; // 200,200 is the other point
+        mx = x - 200; -- 200,200 is the other point
         my = y - 200;
         dist = Math.sqrt(mx * mx + my * my);
         angle = Math.atan2( my, mx ) * 180 / Math.PI;
         output.horizontal.innerHTML = Math.abs(mx);
         output.vertical.innerHTML = Math.abs(my);
-        output.length.innerHTML = ((dist*100)>>0)/100;
-        output.angle.innerHTML = ((angle*100)>>0)/100;
+        output.length.innerHTML = ((dist*100)&gt;&gt;0)/100;
+        output.angle.innerHTML = ((angle*100)&gt;&gt;0)/100;
         -------------------------------------
         x1 = x + cos(ang) * distance;
         y1 = y + sin(ang) * distance;
-        // 0 is right, 90 is up
-        // if you swap the cos and sin, 0 is up, 90 is right
+        0 is right, 90 is up
+        if you swap the cos and sin, 0 is up, 90 is right
         --------------------------------------
         var angleRadians = Math.atan2(p2.y - p1.y, p2.x - p1.x);
         var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
 
         transform: rotate(20deg);
-        //*/
-    </script>
-</head>
-<body>
-    <div id="moonlander"></div>
+        */</div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="moonlander"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-    <center>
-        <a href="moonlander_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

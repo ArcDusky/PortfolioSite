@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <title>Kevin's Blackjack</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;title&gt;Kevin's Blackjack&lt;/title&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{
             background-color:darkgreen;
         }
@@ -120,7 +156,7 @@
             width:999px;/* was 405 */
             height:123px;
         }
-        .bl_zoneSquish > *{
+        .bl_zoneSquish &gt; *{
             margin-right:-40px;
             box-shadow:-3px 0 7px black;
         }
@@ -216,7 +252,7 @@
             font-size:1.2em;
             color:rgba(0,0,0,0.5);
         }
-        #bl_message > *{
+        #bl_message &gt; *{
             text-shadow:0 0 3px black,0 0 3px black;
             animation:bl_textEffect 0.5s ease-in-out 0s infinite alternate;
         }@keyframes bl_textEffect{
@@ -231,16 +267,16 @@
         }
         .bl_textNatural{
             color:yellow;
-        }
-    </style>
-    <script>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         function $(id){
             return document.getElementById(id);
         }
 
-        //=================== Initialization ====================
+        /* =================== Initialization ==================== */
 
         const CARD_BACK="gray_back";
         const CARD_DELAY=1000*0.75;
@@ -261,31 +297,31 @@
             blackjack=$("blackjack");
             let html="";
 
-            html+="<div id='bl_chipBox'></div>";
-            html+="<div id='bl_chipLabel'></div>";
+            html+="&lt;div id='bl_chipBox'&gt;&lt;/div&gt;";
+            html+="&lt;div id='bl_chipLabel'&gt;&lt;/div&gt;";
 
-            html+="<div id='bl_dealerScore' class='bl_score'></div>";
-            html+="<div id='bl_playerScore' class='bl_score'></div>";
-            html+="<div id='bl_dealerZone' class='bl_zone'></div>";
-            html+="<div id='bl_playerZone' class='bl_zone'></div>";
+            html+="&lt;div id='bl_dealerScore' class='bl_score'&gt;&lt;/div&gt;";
+            html+="&lt;div id='bl_playerScore' class='bl_score'&gt;&lt;/div&gt;";
+            html+="&lt;div id='bl_dealerZone' class='bl_zone'&gt;&lt;/div&gt;";
+            html+="&lt;div id='bl_playerZone' class='bl_zone'&gt;&lt;/div&gt;";
             
-            html+="<div id='bl_shoeBox'>       <div id='bl_shoe'></div>       </div>";
+            html+="&lt;div id='bl_shoeBox'&gt;       &lt;div id='bl_shoe'&gt;&lt;/div&gt;       &lt;/div&gt;";
 
-            html+="<div id='bl_standButton' class='bl_button'>Stand</div>";
-            html+="<div id='bl_hitButton' class='bl_button'>Hit</div>";
-            html+="<div id='bl_startButton' class='bl_button'></div>";
+            html+="&lt;div id='bl_standButton' class='bl_button'&gt;Stand&lt;/div&gt;";
+            html+="&lt;div id='bl_hitButton' class='bl_button'&gt;Hit&lt;/div&gt;";
+            html+="&lt;div id='bl_startButton' class='bl_button'&gt;&lt;/div&gt;";
 
-            html+="<div id='bl_message'></div>";
+            html+="&lt;div id='bl_message'&gt;&lt;/div&gt;";
 
-            html+="<div id='bl_title'>Kevin's Blackjack</div>";
-            html+="<div id='bl_helpButton'>?</div>";
+            html+="&lt;div id='bl_title'&gt;Kevin's Blackjack&lt;/div&gt;";
+            html+="&lt;div id='bl_helpButton'&gt;?&lt;/div&gt;";
 
-            // hidden input keyboard detection
-            html +="<input id='bl_hiddenInput' type='text' style='width:0;height:0;opacity:0;'>";
+            /* hidden input keyboard detection */
+            html +="&lt;input id='bl_hiddenInput' type='text' style='width:0;height:0;opacity:0;'&gt;";
 
             blackjack.innerHTML=html;
 
-            // hidden input keyboard detection
+            /* hidden input keyboard detection */
             blackjack.onclick=EnterFocus;
             $("bl_hiddenInput").setAttribute("onkeypress","OnKeyPress(event)");
 
@@ -297,7 +333,7 @@
             $("bl_hitButton").onclick=HitButton;
 
             show($("bl_startButton"),true);
-            $("bl_startButton").innerText="New game";
+            $("bl_startButton").innerText= "New game";
             $("bl_startButton").onclick=StartButton;
 
             $("bl_helpButton").onclick=function(){
@@ -327,14 +363,14 @@
             let html="";
             let style="";
             let x,y;
-            for(x=0;x<3;x++){
-                for(y=0;y<33;y++){
+            for(x=0;x&lt;3;x++){
+                for(y=0;y&lt;33;y++){
                     jitter=Math.floor(Math.random()*4)-2;
                     rotate=Math.floor(Math.random()*360);
                     style="right:"+((x*55)+jitter)+"px;top:"+(y*8)+"px;";
                     style+="transform:rotate("+rotate+"deg);";
                     style+="visibility:hidden;";
-                    html+="<div class='bl_chip' style='"+style+"'></div>";
+                    html+="&lt;div class='bl_chip' style='"+style+"'&gt;&lt;/div&gt;";
                 }
             }
             $("bl_chipBox").innerHTML=html;
@@ -343,14 +379,14 @@
         function CreateDeck(){
             let suits=["C","D","H","S"];
             let pips=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
-            for(let s=0;s<suits.length;s++){
-                for(let p=0;p<pips.length;p++){
+            for(let s=0;s&lt;suits.length;s++){
+                for(let p=0;p&lt;pips.length;p++){
                     deck.push(pips[p]+suits[s]);
                 }
             }
         }
 
-        //=================== Keyboard detection ====================
+        /* =================== Keyboard detection ==================== */
 
         function EnterFocus(){
             $("bl_hiddenInput").focus();
@@ -371,7 +407,7 @@
             }
         }
 
-        //=================== Utilities ====================
+        /* =================== Utilities ==================== */
 
         function show(element,visible){
             element.style.visibility=(visible)?"visible":"hidden";
@@ -392,7 +428,7 @@
         }
         function ResetShoe(){
             shoe=[];
-            let tempShoe=[].concat(deck,deck,deck,deck);// four decks of cards
+            let tempShoe=[].concat(deck,deck,deck,deck);/* four decks of cards */
             shoeHeightStep=100/tempShoe.length;
 
             let randomIndex;
@@ -404,13 +440,13 @@
             $("bl_shoe").style.borderLeftWidth=(shoe.length*shoeHeightStep)+"px";
         }
         function ResetChips(){
-            playerChips=15;// starting chips
+            playerChips=15;/* starting chips */
             $("bl_chipLabel").innerText=playerChips+" chips";
             let x=0;
-            for(x=0;x<playerChips;x++){
+            for(x=0;x&lt;playerChips;x++){
                 show(chips[x],true);
             }
-            for(x=playerChips;x<chips.length;x++){
+            for(x=playerChips;x&lt;chips.length;x++){
                 show(chips[x],false);
             }
         }
@@ -456,7 +492,7 @@
             let card=document.createElement("div");
             parent.appendChild(card);
             card.className="bl_card";
-            card.style.backgroundImage="url('cards/"+name+".png')";
+            card.style.backgroundImage= "url('cards/"+name+".png')";
             return card;
         }
         function GiveChip(){
@@ -464,9 +500,9 @@
             blackjack.appendChild(chip);
             chip.className+=" bl_chip";
             chip.className+= " bl_chipToPlayer";
-            setTimeout(function(){// give chip @ 98, target 98
+            setTimeout(function(){/* give chip @ 98, target 98 */
                 blackjack.removeChild(chip);
-                if(playerChips<0 || playerChips>98);
+                if(playerChips&lt;0 || playerChips&gt;98);
                 else show(chips[playerChips],true);
                 playerChips++;
                 $("bl_chipLabel").innerText=playerChips+" chips";
@@ -477,7 +513,7 @@
             blackjack.appendChild(chip);
             chip.className+=" bl_chip";
             chip.className+= " bl_chipToDealer";
-            if(playerChips<1 || playerChips>99);
+            if(playerChips&lt;1 || playerChips&gt;99);
             else show(chips[playerChips-1],false);
             playerChips--;
             $("bl_chipLabel").innerText=playerChips+" chips";
@@ -485,7 +521,7 @@
                 blackjack.removeChild(chip);
             },1500);
 
-            // if you have 99, just do the animation
+            /* if you have 99, just do the animation */
         }
         function FlipDealerCardTwo(){
             let card=dealerCards[1].element;
@@ -507,20 +543,20 @@
             let value=0;
             let variants=[];
             variants[0]=0;
-            for(i=0;i<h.length;i++){
+            for(i=0;i&lt;h.length;i++){
                 value=GetCardValue(h[i]);
                 if(value==11){
-                    for(v=0;v<variants.length;v++)variants[v]+=1;
+                    for(v=0;v&lt;variants.length;v++)variants[v]+=1;
                     variants[variants.length]=variants[0]-1 + 11;
                 }else{
-                    for(v=0;v<variants.length;v++)variants[v]+=value;
+                    for(v=0;v&lt;variants.length;v++)variants[v]+=value;
                 }
             }
             let bestValue=-1;
-            for(i=0;i<variants.length;i++){
+            for(i=0;i&lt;variants.length;i++){
                 value=variants[i];
-                if(value>21)continue;
-                if(value>bestValue)bestValue=value;
+                if(value&gt;21)continue;
+                if(value&gt;bestValue)bestValue=value;
             }
             if(bestValue==-1)return variants[0];
             return bestValue;
@@ -529,7 +565,7 @@
             $("bl_message").innerHTML=s;
         }
 
-        //=================== Gameplay ====================
+        /* =================== Gameplay ==================== */
 
         let dealerCards=[];
         let playerCards=[];
@@ -537,7 +573,7 @@
 
         function StartButton(){
             if(playerChips==0){
-                // start a new game
+                /* start a new game */
                 show($("bl_shoe"),true);
                 $("bl_startButton").innerText="Continue";
                 ResetChips();
@@ -571,14 +607,14 @@
         }
         function PlayerTurnCheck(){
             let playerHandValue=parseInt($("bl_playerScore").innerText);
-            if(playerHandValue>21){// bust
-                Message("<span class='bl_textBad'>Bust</span>");
+            if(playerHandValue&gt;21){/* bust */
+                Message("&lt;span class='bl_textBad'&gt;Bust&lt;/span&gt;");
                 DelayToDealerTurn();
             }else if(playerHandValue==21){
-                if(playerCards.length==2){// natural
-                    Message("<span class='bl_textNatural'>Natural</span>");
-                }else{// 21
-                    Message("<span class='bl_textGood'>You got 21</span>");
+                if(playerCards.length==2){/* natural */
+                    Message("&lt;span class='bl_textNatural'&gt;Natural&lt;/span&gt;");
+                }else{/* 21 */
+                    Message("&lt;span class='bl_textGood'&gt;You got 21&lt;/span&gt;");
                 }
                 DelayToDealerTurn();
             }else{
@@ -614,45 +650,45 @@
 
             let dealerHandValue=parseInt($("bl_dealerScore").innerText);
             let playerHandValue=parseInt($("bl_playerScore").innerText);
-            if(playerHandValue>21){
+            if(playerHandValue&gt;21){
                 Lose();
             }else if(playerHandValue==21 && playerCards.length==2){
                 if(dealerHandValue==21 && dealerCards.length==2){
                     Standoff();
                 }else Win();
-            }else if(dealerHandValue<17){
+            }else if(dealerHandValue&lt;17){
                 CardToDealer();setTimeout(DealerTurnCheck,CARD_DELAY+1000*0.5);
-            }else if(dealerHandValue>21){
+            }else if(dealerHandValue&gt;21){
                 Win();
             }else{
-                if(dealerHandValue>playerHandValue){
+                if(dealerHandValue&gt;playerHandValue){
                     Lose();
-                }else if(dealerHandValue<playerHandValue){
+                }else if(dealerHandValue&lt;playerHandValue){
                     Win();
                 }else Standoff();
             }
         }
         function Lose(){
-            Message("<span class='bl_textBad'>You lose</span>");
-            setTimeout(function(){//delay
+            Message("&lt;span class='bl_textBad'&gt;You lose&lt;/span&gt;");
+            setTimeout(function(){/* delay */
                 
                 TakeChip();setTimeout(function(){
                     if(playerChips==0){
-                        Message("<span class='bl_textBad'>Game over</span>");
-                        $("bl_startButton").innerText="New game";
+                        Message("&lt;span class='bl_textBad'&gt;Game over&lt;/span&gt;");
+                        $("bl_startButton").innerText= "New game";
                     }
                     show($("bl_startButton"),true);
                 },CHIP_DELAY);
             },1000*1);
         }
         function Win(){
-            Message("<span class='bl_textGood'>You WIN</span>");
-            setTimeout(function(){//delay
+            Message("&lt;span class='bl_textGood'&gt;You WIN&lt;/span&gt;");
+            setTimeout(function(){/* delay */
                 
                 GiveChip();
                 let playerHandValue=parseInt($("bl_playerScore").innerText);
                 if(playerHandValue==21 && playerCards.length==2){
-                    setTimeout(GiveChip,1000*0.5);// natural pays extra chip
+                    setTimeout(GiveChip,1000*0.5);/* natural pays extra chip */
                 }
                 setTimeout(function(){
                     show($("bl_startButton"),true);
@@ -662,17 +698,22 @@
         function Standoff(){
             Message("Standoff...");
             show($("bl_startButton"),true);
-        }
-        
-    </script>
-</head>
-<body>
-    <center>
-        <div id="blackjack"></div>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;center&gt;
+        &lt;div id="blackjack"&gt;&lt;/div&gt;
+    &lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-        <a href="blackjack_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

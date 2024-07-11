@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Kevin's Adventure</title>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
+    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
     <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+        .jsregexpcolor{
+            color:green !important;
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Kevin's Adventure&lt;/title&gt;
+
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"&gt;
+
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         #adventure{
             position:relative;
             width:calc(54px * 12 + 70px);
@@ -75,7 +111,7 @@
             background-color:black;
             color:white;
         }
-        #adv_inventory > .spacer{height:70px;}
+        #adv_inventory &gt; .spacer{height:70px;}
         .adv_slot{
             margin-top:3px;
             margin-left:auto;margin-right:auto;
@@ -83,11 +119,11 @@
             height:54px;
             border:1px solid rgb(64,64,64);
         }
-        .adv_slot > img{
+        .adv_slot &gt; img{
             width:54px;
             height:54px;
         }
-        .adv_slot > span{
+        .adv_slot &gt; span{
             display:block;
             width:95%;
             text-align:right;
@@ -220,9 +256,9 @@
 
         .flipx{/* apply to img */
             transform:scaleX(-1);
-		}
-    </style>
-    <script>
+        }</div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
+    &lt;script&gt;</div><div class="w3-code jsHigh">
         "use strict";
 
         const SPRITES={
@@ -330,7 +366,7 @@
             CANDLESE:"sprites/levels/L3_WallDeco44.png"
         };
 
-        let keys=[];//keyboard
+        let keys=[];/*keyboard */
         let adventure;
         let layer0;
         let layer1;
@@ -345,26 +381,26 @@
             adventure=$("#adventure");
 
             let html="";
-            html+="<div id='adv_layer0'></div>";
-            html+="<div id='adv_layer1'></div>";
-            html+="<div id='adv_layer2'></div>";
+            html+="&lt;div id='adv_layer0'&gt;&lt;/div&gt;";
+            html+="&lt;div id='adv_layer1'&gt;&lt;/div&gt;";
+            html+="&lt;div id='adv_layer2'&gt;&lt;/div&gt;";
 
-            html+="<div id='adv_title'>Kevin's Adventure</div>";
-            html+="<div id='adv_healthBar'></div>";
-            html+="<div id='adv_howToPlay'>?</div>";
-            html+="<div id='adv_inventory'>";
-                html+="<div class='spacer'></div>";
-                for(let x=0;x<6;x++){
-                    html+="<div class='adv_slot'></div>";
+            html+="&lt;div id='adv_title'&gt;Kevin's Adventure&lt;/div&gt;";
+            html+="&lt;div id='adv_healthBar'&gt;&lt;/div&gt;";
+            html+="&lt;div id='adv_howToPlay'&gt;?&lt;/div&gt;";
+            html+="&lt;div id='adv_inventory'&gt;";
+                html+="&lt;div class='spacer'&gt;&lt;/div&gt;";
+                for(let x=0;x&lt;6;x++){
+                    html+="&lt;div class='adv_slot'&gt;&lt;/div&gt;";
                 }
-            html+="</div>";
+            html+="&lt;/div&gt;";
 
-            html+="<div id='adv_message'></div>";
-            html+="<input id='adv_hiddenInput' type='text' style='width:0;height:0;opacity:0;'></input>";
-            html+="<div id='adv_pauseScreen'><div class='spacer'></div>Click here to play</div>";
+            html+="&lt;div id='adv_message'&gt;&lt;/div&gt;";
+            html+="&lt;input id='adv_hiddenInput' type='text' style='width:0;height:0;opacity:0;'&gt;&lt;/input&gt;";
+            html+="&lt;div id='adv_pauseScreen'&gt;&lt;div class='spacer'&gt;&lt;/div&gt;Click here to play&lt;/div&gt;";
             adventure.html(html);
 
-            // hidden input keyboard detection
+            /* hidden input keyboard detection */
             adventure.click(EnterFocus);
             $("#adv_hiddenInput").attr("onkeydown","KeyDown(event)");
             $("#adv_hiddenInput").attr("onkeyup","KeyUp(event)");
@@ -398,7 +434,7 @@
         function ExitFocus(){
             $("#adv_pauseScreen").show();
 
-            for(let x=0;x<keys.length;x++){// set all keys to false
+            for(let x=0;x&lt;keys.length;x++){/* set all keys to false */
                 keys[x]=false;
             }
         }
@@ -422,7 +458,7 @@
                 case "ArrowDown":return 5;
                 case "ArrowLeft":return 6;
                 case "ArrowRight":return 7;
-                default:return 8;//dump
+                default:return 8;/*dump */
             }
         }
         function GetKey(sss){
@@ -449,7 +485,7 @@
             return power;
         }
 
-        //#################################
+        /*################################# */
 
         const cellSize=54;
         let objs=[];
@@ -471,11 +507,11 @@
         let mapData=[];
 
         function NewDiv(parent){
-            parent.append("<div></div>");
+            parent.append("&lt;div&gt;&lt;/div&gt;");
             return parent.children().last();
         }
         function NewImg(parent){
-            parent.append("<img>");
+            parent.append("&lt;img&gt;");
             return parent.children().last();
         }
         function SetSize(element,x,y){
@@ -536,7 +572,7 @@
             if(showHits)DrawHit(element,o);
         }
         function DrawHit(element,obj){
-            if(element.filter("img").length!=0){//its an img
+            if(element.filter("img").length!=0){/*its an img */
                 if(!obj.hit)obj.hit=NewDiv(element.parent());
                 SetPosition(obj.hit,obj.x+obj.hitLeft,obj.y+obj.hitTop);
             }else{
@@ -570,9 +606,9 @@
                     po.x+=AlongRangleX(rangle)*po.moveSpeed;
                     po.y+=AlongRangleY(rangle)*po.moveSpeed;
 
-                    if(inputX<0){
+                    if(inputX&lt;0){
                         po.img.addClass("flipx");
-                    }else if(inputX>0){
+                    }else if(inputX&gt;0){
                         po.img.removeClass("flipx");
                     }
 
@@ -601,22 +637,22 @@
                     }
                 });
 
-                if(po.x<mapLeft){
+                if(po.x&lt;mapLeft){
                     if(portalLeft){
                         po.x+=mapWidth;
                         LoadMap(portalLeft);
                     }else po.x=mapLeft;
-                }else if(po.x>mapRight){
+                }else if(po.x&gt;mapRight){
                     if(portalRight){
                         po.x-=mapWidth;
                         LoadMap(portalRight);
                     }else po.x=mapRight;
-                }if(po.y<mapTop){
+                }if(po.y&lt;mapTop){
                     if(portalTop){
                         po.y+=mapHeight;
                         LoadMap(portalTop);
                     }else po.y=mapTop;
-                }else if(po.y>mapBottom){
+                }else if(po.y&gt;mapBottom){
                     if(portalBottom){
                         po.y-=mapHeight;
                         LoadMap(portalBottom);
@@ -634,7 +670,7 @@
             o.xbowTimer=setInterval(function(){
                 if(o.deathTimer)return;
 
-                //pick the closest enemy to fire at
+                /*pick the closest enemy to fire at */
                 let enemyObject;
                 let enemyDist=999.0;
                 let too;
@@ -642,7 +678,7 @@
                 $(".adv_enemy").each(function(){
                     too=GetObj($(this));
                     tdd=GetDistance(o.x,o.y,too.x,too.y);
-                    if(tdd<enemyDist){
+                    if(tdd&lt;enemyDist){
                         enemyObject=too;
                         enemyDist=tdd;
                     }
@@ -683,8 +719,8 @@
                             DisableProjectile(pro,proObj);
                         }
                     });
-                    if(proObj.x<mapLeft || proObj.x>mapRight
-                    || proObj.y<mapTop || proObj.y>mapBottom){
+                    if(proObj.x&lt;mapLeft || proObj.x&gt;mapRight
+                    || proObj.y&lt;mapTop || proObj.y&gt;mapBottom){
                         DisableProjectile(pro,proObj);
                     }
                     SetPosition(pro,proObj.x,proObj.y);
@@ -694,7 +730,7 @@
                 function GetRecycleProjectile(){
                     if(!o.projectiles)o.projectiles=[];
                     let pro;
-                    for(let i=0;i<o.projectiles.length;i++){
+                    for(let i=0;i&lt;o.projectiles.length;i++){
                         pro=o.projectiles[i];
                         if(pro.css("display")=="none")return pro;
                     }return null;
@@ -710,43 +746,43 @@
             let b=GetObj(otherElement);
             if(a.hitCircle){
                 if(b.hitCircle){
-                    // circle vs circle
+                    /* circle vs circle */
                     let dist=GetDistance(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity)-a.hitRadius-b.hitRadius;
-                    if(dist<0){
+                    if(dist&lt;0){
                         let rrr=GetRangle(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity);
-                        return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};//PushAway
+                        return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};/*PushAway */
                     }
                 }else{
-                    // circle vs box
+                    /* circle vs box */
                     let dist=GetDistance(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity)-a.hitRadius-b.hitRadius;
-                    if(dist<0){
-                        if(a.x+a.hitx > b.x+b.hitLeft && a.x+a.hitx < b.x+b.hitRight){//a is within b's X range
-                            if(a.y+a.hity < b.y+b.hity){//a is above
+                    if(dist&lt;0){
+                        if(a.x+a.hitx &gt; b.x+b.hitLeft && a.x+a.hitx &lt; b.x+b.hitRight){/*a is within b's X range */
+                            if(a.y+a.hity &lt; b.y+b.hity){/*a is above */
                                 dist=(a.y+a.hitBottom)-(b.y+b.hitTop);
-                                if(dist > 0)return {obj:b,x:0,y:-1,dist:Math.abs(dist)};//PushUp
-                            }else{//a is below
+                                if(dist &gt; 0)return {obj:b,x:0,y:-1,dist:Math.abs(dist)};/*PushUp */
+                            }else{/*a is below */
                                 dist=(a.y+a.hitTop)-(b.y+b.hitBottom);
-                                if(dist < 0)return {obj:b,x:0,y:1,dist:Math.abs(dist)};//PushDown
+                                if(dist &lt; 0)return {obj:b,x:0,y:1,dist:Math.abs(dist)};/*PushDown */
                             }
-                        }else if(a.y+a.hity > b.y+b.hitTop && a.y+a.hity < b.y+b.hitBottom){//a is within b's Y range
-                            if(a.x+a.hitx < b.x+b.hitx){//a is left
+                        }else if(a.y+a.hity &gt; b.y+b.hitTop && a.y+a.hity &lt; b.y+b.hitBottom){/*a is within b's Y range */
+                            if(a.x+a.hitx &lt; b.x+b.hitx){/*a is left */
                                 dist=(a.x+a.hitRight)-(b.x+b.hitLeft);
-                                if(dist > 0)return {obj:b,x:-1,y:0,dist:Math.abs(dist)};//PushLeft
-                            }else{//a is right
+                                if(dist &gt; 0)return {obj:b,x:-1,y:0,dist:Math.abs(dist)};/*PushLeft */
+                            }else{/*a is right */
                                 dist=(a.x+a.hitLeft)-(b.x+b.hitRight);
-                                if(dist < 0)return {obj:b,x:1,y:0,dist:Math.abs(dist)};//PushRight
+                                if(dist &lt; 0)return {obj:b,x:1,y:0,dist:Math.abs(dist)};/*PushRight */
                             }
                         }else{
                             let rrr=GetRangle(a.x+a.hitx,a.y+a.hity,b.x+b.hitx,b.y+b.hity);
-                            return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};//PushAway
+                            return {obj:b,x:AlongRangleX(rrr),y:AlongRangleY(rrr),dist:dist};/*PushAway */
                         }
                     }
                 }
             }else{
                 if(b.hitCircle){
-                    // box vs circle, not needed
+                    /* box vs circle, not needed */
                 }else{
-                    // box vs box, not needed
+                    /* box vs box, not needed */
                 }
             }
             return null;
@@ -760,24 +796,24 @@
         }
         function SetHealth(value){
             let html="";
-            for(let x=1;x<=5;x++){
-                if(value>=x){
-                    html+="<span class='material-icons adv_heartRed'>favorite</span>";
-                }else html+="<span class='material-icons adv_heartDark'>favorite</span>";
+            for(let x=1;x&lt;=5;x++){
+                if(value&gt;=x){
+                    html+="&lt;span class='material-icons adv_heartRed'&gt;favorite&lt;/span&gt;";
+                }else html+="&lt;span class='material-icons adv_heartDark'&gt;favorite&lt;/span&gt;";
             }
             let bar=$("#adv_healthBar");
             bar.html(html);
-            if(value<3)bar.addClass("adv_healthLow");
+            if(value&lt;3)bar.addClass("adv_healthLow");
             else bar.removeClass("adv_healthLow");
             GetObj(player).health=value;
         }
         function TryHurtPlayer(value){
-            if(value<=0)return;
+            if(value&lt;=0)return;
             let po=GetObj(player);
             if(po.deathTimer)return;
             if(po.flashTimer)return;
             po.health-=value;
-            if(po.health<0)po.health=0;
+            if(po.health&lt;0)po.health=0;
             SetHealth(po.health);
             if(po.health==0){
                 player.hide();
@@ -791,7 +827,7 @@
                     SetPosition(player,po.x,po.y);
                     player.show();
                     po.deathTimer=null;
-                },1000*4);//death
+                },1000*4);/*death */
             }else{
                 player.addClass("adv_flashing");
                 po.flashTimer=setTimeout(function(){
@@ -821,7 +857,7 @@
         function ShowMessage(sss){
             let mess=$("#adv_message");
             let po=GetObj(player);
-            if(po.y+cellSize/2 < cellSize*5){
+            if(po.y+cellSize/2 &lt; cellSize*5){
                 mess.css("top","330px");
             }else{
                 mess.css("top","60px");
@@ -843,8 +879,8 @@
             },1000*2);
         }
         function MapDataReset(){
-            //reset all potions
-            for(let i=1;i<mapData.length;i++){
+            /*reset all potions */
+            for(let i=1;i&lt;mapData.length;i++){
                 if(!mapData[i])continue;
                 if(mapData[i]["POTION"])mapData[i]["POTION"]=false;
             }
@@ -857,16 +893,16 @@
             let currentFire=0;
             let fires=new Array();
 
-            // clear, but make player obj persist
+            /* clear, but make player obj persist */
             let playerObj=GetObj(player);
             ClearObjsTimers();
             objs=[];
             objs[GetAdvid(player)]=playerObj;
             advidNext=objs.length;
-            playerObj.projectiles=[];// reset xbow arrows
+            playerObj.projectiles=[];/* reset xbow arrows */
 
             layer0.html("");
-            //layer1.html("");
+            /*layer1.html(""); */
             layer2.html("");
             SetPortals(null,null,null,null);
             Load();
@@ -898,8 +934,8 @@
                 }
             }
             function QuickBuildFull(p){
-                for(let y=0;y<8;y++){
-                    for(let x=0;x<12;x++){
+                for(let y=0;y&lt;8;y++){
+                    for(let x=0;x&lt;12;x++){
                         Build(p,x,y);
                     }
                 }
@@ -907,12 +943,12 @@
             function QuickBuild(data){
                 let i=0;
                 let x,y,n,p;
-                for(y=0;y<8;y++){
-                    for(x=0;x<12;x++){
+                for(y=0;y&lt;8;y++){
+                    for(x=0;x&lt;12;x++){
 
-                        for(n=1;n<=2;n++){//n is number of characters to view emojis (some are 1, some are 2)
+                        for(n=1;n&lt;=2;n++){/*n is number of characters to view emojis (some are 1, some are 2) */
                             p="none";
-                            switch(data.map.substr(i,n)){//🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                            switch(data.map.substr(i,n)){/*🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕ */
                                 case "🔴":p=data.red;if(p)Build(p,x,y);break;
                                 case "🟠":p=data.orange;if(p)Build(p,x,y);break;
                                 case "🟡":p=data.yellow;if(p)Build(p,x,y);break;
@@ -924,7 +960,7 @@
                                 case "🟤":p=data.brown;if(p)Build(p,x,y);break;
                                 case "⭕":p=data.circle;if(p)Build(p,x,y);break;
                             }
-                            if(p!="none"){//found one
+                            if(p!="none"){/*found one */
                                 i+=n;
                                 break;
                             }
@@ -971,8 +1007,8 @@
                                     DisableProjectile(pro,proObj);
                                 }
                             });
-                            if(proObj.x<mapLeft || proObj.x>mapRight
-                            || proObj.y<mapTop || proObj.y>mapBottom){
+                            if(proObj.x&lt;mapLeft || proObj.x&gt;mapRight
+                            || proObj.y&lt;mapTop || proObj.y&gt;mapBottom){
                                 DisableProjectile(pro,proObj);
                             }
                             SetPosition(pro,proObj.x,proObj.y);
@@ -983,7 +1019,7 @@
                     function GetRecycleProjectile(){
                         if(!o.projectiles)o.projectiles=[];
                         let pro;
-                        for(let i=0;i<o.projectiles.length;i++){
+                        for(let i=0;i&lt;o.projectiles.length;i++){
                             pro=o.projectiles[i];
                             if(pro.css("display")=="none")return pro;
                         }return null;
@@ -999,7 +1035,7 @@
                     else if(o.flashTimer)return;
 
                     o.health-=value;
-                    if( (value==0.5 && o.health>-1) || o.health>0){
+                    if( (value==0.5 && o.health&gt;-1) || o.health&gt;0){
                         element.addClass("adv_flashing");
                         clearTimeout(o.flashTimer);
                         o.flashTimer=setTimeout(function(){
@@ -1023,13 +1059,13 @@
                 function GetStandardPlayerTouch(){
                     return function(){
                         if(playerObj.SWORD){
-                            if(o.health<=0){
+                            if(o.health&lt;=0){
                                 TryHurtEnemy(1);
                                 Build("BONES8",o.x/cellSize,o.y/cellSize);
                                 return;
                             }
                             TryHurtEnemy(1);
-                            if(o.health<=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
+                            if(o.health&lt;=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
                         }
                         KnockbackPlayer();
                         TryHurtPlayer( playerObj.ARMOR ? o.attack-1 : o.attack);
@@ -1038,7 +1074,7 @@
                 function GetStandardGoodBulletTouch(){
                     return function(){
                         TryHurtEnemy(0.5);
-                        if(o.health<=-1){
+                        if(o.health&lt;=-1){
                             Build("BONES8",o.x/cellSize,o.y/cellSize);
                         }
                     };
@@ -1070,9 +1106,9 @@
                         element.addClass("adv_pit");
                         SetHitbox(element,54/2,54/2-5,54/2-6);
                         break;
-                    case "TREE1"://one tree, no hitbox
+                    case "TREE1":/*one tree, no hitbox */
                         element=Img(layer0);break;
-                    case "TREE2"://four trees
+                    case "TREE2":/*four trees */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitbox(element,54/2,54/2,54/2);break;
@@ -1137,56 +1173,56 @@
                     case "REDCAVEFLOOR":
                     case "HECKFLOOR":
                         element=Img(layer0);break;
-                    case "GREYROCK1"://large city skyline
+                    case "GREYROCK1":/*large city skyline */
                     case "BROWNROCK1":
                     case "REDROCK1":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2-5,54/2-5);break;
-                    case "GREYROCK2"://large boulder
+                    case "GREYROCK2":/*large boulder */
                     case "BROWNROCK2":
                     case "REDROCK2":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-10);break;
-                    case "GREYROCK3"://large cone mountain
+                    case "GREYROCK3":/*large cone mountain */
                     case "BROWNROCK3":
                     case "REDROCK3":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+5,54/2-10);break;
-                    case "GREYROCK4"://medium boulder
+                    case "GREYROCK4":/*medium boulder */
                     case "BROWNROCK4":
                     case "REDROCK4":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-15);break;
-                    case "GREYROCK5"://stalagtites
+                    case "GREYROCK5":/*stalagtites */
                     case "BROWNROCK5":
                     case "REDROCK5":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-10);break;
-                    case "GREYROCK6"://large round rocks
+                    case "GREYROCK6":/*large round rocks */
                     case "BROWNROCK6":
                     case "REDROCK6":
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+5,54/2-10);break;
-                    case "REDROCK7"://large volcano
+                    case "REDROCK7":/*large volcano */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+5,54/2-10);break;
-                    case "BENCHSE"://facing bottom-right
-                    case "BENCHSW"://facing bottom-left
+                    case "BENCHSE":/*facing bottom-right */
+                    case "BENCHSW":/*facing bottom-left */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-10);break;
-                    case "BENCHNE"://facing top-right
+                    case "BENCHNE":/*facing top-right */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2-5,54/2+5,54/2-10);break;
-                    case "BENCHNW"://facing top-left
+                    case "BENCHNW":/*facing top-left */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2+5,54/2+5,54/2-10);break;
@@ -1194,15 +1230,15 @@
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+5,54/2-12);break;
-                    case "JUNK1"://medium with barrel
+                    case "JUNK1":/*medium with barrel */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+3,54/2-10);break;
-                    case "JUNK2"://large with crates
+                    case "JUNK2":/*large with crates */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-5);break;
-                    case "JUNK3"://medium with sack
+                    case "JUNK3":/*medium with sack */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+3,54/2-13);break;
@@ -1210,38 +1246,38 @@
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2+3,54/2-3,54/2-7);break;
-                    case "BONES1"://skeleton
-                    case "BONES2"://skeleton smaller
-                    case "BONES6"://skeleton on wall facing bottom-right
-                    case "BONES7"://skeleton on wall facing bottom-left
-                    case "BONES8"://small pieces
+                    case "BONES1":/*skeleton */
+                    case "BONES2":/*skeleton smaller */
+                    case "BONES6":/*skeleton on wall facing bottom-right */
+                    case "BONES7":/*skeleton on wall facing bottom-left */
+                    case "BONES8":/*small pieces */
                         element=Img(layer0);break;
-                    case "BONES3"://medium pile of skulls
+                    case "BONES3":/*medium pile of skulls */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2+5,54/2-15);break;
-                    case "BONES4"://large skull/tusk ornament
+                    case "BONES4":/*large skull/tusk ornament */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2-3,54/2-3,54/2-7);break;
-                    case "BONES5"://large tower of bones
+                    case "BONES5":/*large tower of bones */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2-1,54/2-1,54/2-9);break;
-                    case "TABLE1"://backslash
-                    case "TABLE2"://forwardslash
+                    case "TABLE1":/*backslash */
+                    case "TABLE2":/*forwardslash */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,54/2-7);break;
-                    case "TORCH"://torch
+                    case "TORCH":/*torch */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2-13,54/2-15);break;
-                    case "CANDLESW"://rack facing bottom-left
+                    case "CANDLESW":/*rack facing bottom-left */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2-8,54/2+5,54/2-13);break;
-                    case "CANDLESE"://rack facing bottom-right
+                    case "CANDLESE":/*rack facing bottom-right */
                         element=Img(layer0);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2+8,54/2+5,54/2-13);break;
@@ -1262,13 +1298,13 @@
                         }else{
                             mapData[id]["fireComplete"]=false;
                             o.onPlayerTouch=function(){
-                                if(o.onFrame)return;// touch timer
+                                if(o.onFrame)return;/* touch timer */
                                 if(o.img.attr("src")==SPRITES.FIREON)return;
 
                                 if(o.fireId == currentFire){
                                     currentFire++;
                                     o.img.attr("src",SPRITES.FIREON);
-                                    if(currentFire>=fires.length){
+                                    if(currentFire&gt;=fires.length){
                                         mapData[id]["fireComplete"]=true;
                                         mapData[id]["fireFunction"]();
                                         o.onPlayerTouch=null;
@@ -1278,7 +1314,7 @@
                                     },500);
                                 }else{
                                     currentFire=0;
-                                    for(let i=0;i<fires.length;i++){
+                                    for(let i=0;i&lt;fires.length;i++){
                                         GetObj(fires[i]).img.attr("src",SPRITES.FIREOFF);
                                     }
                                     o.img.attr("src",SPRITES.FIREON);
@@ -1293,7 +1329,7 @@
                             };
                         }
                         break;
-                    //::::::::::::::::::::::::::::::::::::::::::
+                    /*:::::::::::::::::::::::::::::::::::::::::: */
                     case "COINS":
                     case "POTION":
                     case "SWORD":
@@ -1318,7 +1354,7 @@
                             if(p=="COINS"){
                                 let slot=slots.eq(1-1);
                                 if(slot.html().length==0){
-                                    slot.html("<img src='"+SPRITES[p]+"'><span></span>");
+                                    slot.html("&lt;img src='"+SPRITES[p]+"'&gt;&lt;span&gt;&lt;/span&gt;");
                                 }
                                 let span=slot.children().filter("span");
                                 let spanValue=parseInt(span.text());
@@ -1330,36 +1366,36 @@
                             }else if(p=="SWORD"){
                                 playerObj.img.attr("src",SPRITES.PLAYER2);
                                 ShowMessage("You got a sword!");
-                                slots.eq(2-1).html("<img src='"+SPRITES[p]+"'>");
+                                slots.eq(2-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                             }else if(p=="ARMOR"){
                                 playerObj.img.attr("src",SPRITES.PLAYER3);
                                 ShowMessage("You got armor!");
-                                slots.eq(3-1).html("<img src='"+SPRITES[p]+"'>");
+                                slots.eq(3-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                             }else if(p=="XBOW"){
                                 playerObj.img.attr("src",SPRITES.PLAYER4);
                                 ShowMessage("You got a crossbow!");
-                                slots.eq(2-1).html("<img src='"+SPRITES[p]+"'>");
+                                slots.eq(2-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                                 playerObj["SWORD"]=false;
                                 ActivateXbow();
                             }else if(p=="KEY"){
                                 ShowMessage("You got the castle key!");
-                                slots.eq(4-1).html("<img src='"+SPRITES[p]+"'>");
+                                slots.eq(4-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                             }else if(p=="STAR"){
                                 ShowMessage("You got a magic star from the boss!");
                                 
                                 if(slots.eq(4-1).html().length==0){
-                                    slots.eq(4-1).html("<img src='"+SPRITES[p]+"'>");
+                                    slots.eq(4-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                                 }else if(slots.eq(5-1).html().length==0){
-                                    slots.eq(5-1).html("<img src='"+SPRITES[p]+"'>");
+                                    slots.eq(5-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                                 }else if(slots.eq(6-1).html().length==0){
-                                    slots.eq(6-1).html("<img src='"+SPRITES[p]+"'>");
+                                    slots.eq(6-1).html("&lt;img src='"+SPRITES[p]+"'&gt;");
                                 }
                             }
                             element.remove();
                             mapData[id][p]=true;
                             playerObj[p]=true;
                         };break;
-                    //::::::::::::::::::::::::::::::::::::::::::
+                    /*:::::::::::::::::::::::::::::::::::::::::: */
                     case "JESTER":
                     case "PERSONFARMER":
                     case "PERSONLUMBERJACK":
@@ -1372,21 +1408,21 @@
                         o=GetObj(element);
                         o.message="";
                         o.messagePrefix="";
-                        if(p=="JESTER")o.messagePrefix="<span>Jester</span><br>";
-                        else if(p=="PERSONFARMER")o.messagePrefix="<span>Farmer</span><br>";
-                        else if(p=="PERSONLUMBERJACK")o.messagePrefix="<span>Lumberjack</span><br>";
-                        else if(p=="PERSONRANGERMAN")o.messagePrefix="<span>Hunter</span><br>";
-                        else if(p=="PERSONRANGERWOMAN")o.messagePrefix="<span>Mother</span><br>";
-                        else if(p=="PERSONCHILD")o.messagePrefix="<span>Child</span><br>";
+                        if(p=="JESTER")o.messagePrefix= "&lt;span&gt;Jester&lt;/span&gt;&lt;br&gt;";
+                        else if(p=="PERSONFARMER")o.messagePrefix= "&lt;span&gt;Farmer&lt;/span&gt;&lt;br&gt;";
+                        else if(p=="PERSONLUMBERJACK")o.messagePrefix= "&lt;span&gt;Lumberjack&lt;/span&gt;&lt;br&gt;";
+                        else if(p=="PERSONRANGERMAN")o.messagePrefix= "&lt;span&gt;Hunter&lt;/span&gt;&lt;br&gt;";
+                        else if(p=="PERSONRANGERWOMAN")o.messagePrefix= "&lt;span&gt;Mother&lt;/span&gt;&lt;br&gt;";
+                        else if(p=="PERSONCHILD")o.messagePrefix= "&lt;span&gt;Child&lt;/span&gt;&lt;br&gt;";
                         o.onPlayerTouch=function(){
                             if(o.message=="")return;
                             KnockbackPlayer();
                             ShowMessage(o.messagePrefix + o.message);
                         };break;
-                    //::::::::::::::::::::::::::::::::::::::::::
+                    /*:::::::::::::::::::::::::::::::::::::::::: */
                     case "SKELETON":
                     case "YETI":
-                    case "GHOST"://moveSpeed, points=[0,0  1,1  2,2]
+                    case "GHOST":/*moveSpeed, points=[0,0  1,1  2,2] */
                         Div(layer2);
                         if(p=="SKELETON"){
                             element.addClass("adv_enemy");
@@ -1410,8 +1446,8 @@
                         o.points=[x,y,  x+1,y,  x,y];
                         o.currentPoint=0;
                         o.delayStart=0;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 if(p=="SKELETON")element.addClass("adv_walkingSlower");
                                 else if(p=="YETI")element.addClass("adv_walking");
@@ -1422,11 +1458,11 @@
                                     let py=o.points[o.currentPoint*2+1]*cellSize;
                                     let dist=GetDistance(o.x,o.y,px,py);
                                     let power=o.moveSpeed;
-                                    if(dist <= o.moveSpeed){
+                                    if(dist &lt;= o.moveSpeed){
                                         o.x=px;
                                         o.y=py;
                                         o.currentPoint++;
-                                        if(o.currentPoint >= o.points.length/2)o.currentPoint=0;
+                                        if(o.currentPoint &gt;= o.points.length/2)o.currentPoint=0;
                                         px=o.points[o.currentPoint*2];
                                         py=o.points[o.currentPoint*2+1];
                                         power-=dist;
@@ -1446,13 +1482,13 @@
                         }else if(p=="YETI"){
                             o.onPlayerTouch=function(){
                                 if(playerObj.SWORD){
-                                    if(o.health<=0){
+                                    if(o.health&lt;=0){
                                         TryHurtEnemy(1);
                                         Build("BONES8",o.x/cellSize,o.y/cellSize);
                                         return;
                                     }
                                     TryHurtEnemy(1);
-                                    if(o.health<=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
+                                    if(o.health&lt;=0)Build("BONES8",o.x/cellSize,o.y/cellSize);
                                 }
                                 KnockbackPlayer();
                                 StunPlayer(200);
@@ -1463,7 +1499,7 @@
                         }
                         o.onGoodBulletTouch=GetStandardGoodBulletTouch();
                         break;
-                    case "SNAKE"://shootSpeed, projectileSpeed, shootAngle
+                    case "SNAKE":/*shootSpeed, projectileSpeed, shootAngle */
                         Div(layer2);
                         element.addClass("adv_enemy");
                         SetHitCircle(element,54/2,54/2,14);
@@ -1473,9 +1509,9 @@
                         o.health=0;
                         o.attack=1;
                         o.delayStart=0;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            if(o.shootAngle>=0)o.img.addClass("flipx");
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            if(o.shootAngle&gt;=0)o.img.addClass("flipx");
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 let func=function(){
                                     let pro=FireProjectile(o.shootAngle);
@@ -1491,13 +1527,13 @@
                                     }
                                 };
                                 o.onFrame=setInterval(func,o.shootSpeed);
-                                func();// fire once immediately
+                                func();/* fire once immediately */
                             },o.delayStart);
                         },1);
                         o.onPlayerTouch=GetStandardPlayerTouch();
                         o.onGoodBulletTouch=GetStandardGoodBulletTouch();
                         break;
-                    case "ARCHERSKELETON"://shootSpeed, projectileSpeed
+                    case "ARCHERSKELETON":/*shootSpeed, projectileSpeed */
                         Div(layer2);
                         element.addClass("adv_enemy");
                         SetHitCircle(element,54/2,54/2,14);
@@ -1506,8 +1542,8 @@
                         o.health=0;
                         o.attack=1;
                         o.delayStart=1500;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 let func=function(){
                                     let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
@@ -1526,14 +1562,14 @@
                                     pro.css("transform","rotate("+deg+"deg)");
                                 };
                                 o.onFrame=setInterval(func,o.shootSpeed);
-                                func();// fire once immediately
+                                func();/* fire once immediately */
 
                             },o.delayStart);
                         },1);
                         o.onPlayerTouch=GetStandardPlayerTouch();
                         o.onGoodBulletTouch=GetStandardGoodBulletTouch();
                         break;
-                    case "DRAGONSTATUE"://shootSpeed, projectileSpeed, shootAngle
+                    case "DRAGONSTATUE":/*shootSpeed, projectileSpeed, shootAngle */
                         Div(layer2);
                         element.addClass("adv_wall");
                         SetHitCircle(element,54/2,54/2,17);
@@ -1542,9 +1578,9 @@
                         o.projectileSpeed=7;
                         o.attack=2;
                         o.delayStart=0;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            if(o.shootAngle>=0)o.img.addClass("flipx");
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            if(o.shootAngle&gt;=0)o.img.addClass("flipx");
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 let func=function(){
                                     let pro=FireProjectile(o.shootAngle);
@@ -1560,23 +1596,23 @@
                                     }
                                 };
                                 o.onFrame=setInterval(func,o.shootSpeed);
-                                func();// fire once immediately
+                                func();/* fire once immediately */
                             },o.delayStart);
                         },1);
                         break;
-                    case "DINOSAUR"://moveSpeed, startAngle
+                    case "DINOSAUR":/*moveSpeed, startAngle */
                         Div(layer2);
                         element.addClass("adv_enemy");
                         SetHitCircle(element,54/2,54/2,14);
-                        //o.img.css("transform","scale(125%,125%)");
+                        /*o.img.css("transform","scale(125%,125%)"); */
                         o.moveSpeed=5;
                         o.startAngle=GetRangle(0,0,1,-1);
                         o.bounceThresh=0.5;
                         o.health=1;
                         o.attack=2;
                         o.delayStart=0;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 o.moveX=AlongRangleX(o.startAngle);
                                 o.moveY=AlongRangleY(o.startAngle);
@@ -1592,23 +1628,23 @@
                                             o.y+=touch.y*touch.dist;
 
                                             let ob=GetObj($(this));
-                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);// if circle, reverse???
+                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);/* if circle, reverse??? */
                                             else ReflectBox(touch.x,touch.y);
                                         }
                                     });
-                                    if(o.x<mapLeft){o.x=mapLeft;Reflect(1,0);}
-                                    else if(o.x>mapRight){o.x=mapRight;Reflect(-1,0);}
-                                    if(o.y<mapTop){o.y=mapTop;Reflect(0,1);}
-                                    else if(o.y>mapBottom){o.y=mapBottom;Reflect(0,-1);}
+                                    if(o.x&lt;mapLeft){o.x=mapLeft;Reflect(1,0);}
+                                    else if(o.x&gt;mapRight){o.x=mapRight;Reflect(-1,0);}
+                                    if(o.y&lt;mapTop){o.y=mapTop;Reflect(0,1);}
+                                    else if(o.y&gt;mapBottom){o.y=mapBottom;Reflect(0,-1);}
 
                                     SetPosition(element,o.x,o.y);
 
                                     function Reflect(xxx,yyy){
-                                        if(o.moveX<0){if(xxx>o.bounceThresh)o.moveX=-o.moveX;}
-                                        else if(o.moveX>0){if(xxx<-o.bounceThresh)o.moveX=-o.moveX;}
-                                        if(o.moveY<0){if(yyy>o.bounceThresh)o.moveY=-o.moveY;}
-                                        else if(o.moveY>0){if(yyy<-o.bounceThresh)o.moveY=-o.moveY;}
-                                        if(o.moveX<0)o.img.addClass("flipx");
+                                        if(o.moveX&lt;0){if(xxx&gt;o.bounceThresh)o.moveX=-o.moveX;}
+                                        else if(o.moveX&gt;0){if(xxx&lt;-o.bounceThresh)o.moveX=-o.moveX;}
+                                        if(o.moveY&lt;0){if(yyy&gt;o.bounceThresh)o.moveY=-o.moveY;}
+                                        else if(o.moveY&gt;0){if(yyy&lt;-o.bounceThresh)o.moveY=-o.moveY;}
+                                        if(o.moveX&lt;0)o.img.addClass("flipx");
                                         else o.img.removeClass("flipx");
                                     }
                                     function ReflectBox(xxx,yyy){
@@ -1624,15 +1660,15 @@
                         o.onPlayerTouch=GetStandardPlayerTouch();
                         o.onGoodBulletTouch=GetStandardGoodBulletTouch();
                         break;
-                    case "REDGHOST"://moveSpeed
+                    case "REDGHOST":/*moveSpeed */
                         Div(layer2);
                         element.addClass("adv_enemy2");
                         SetHitCircle(element,54/2,54/2,14);
                         o.moveSpeed=2.5;
                         o.attack=1;
                         o.delayStart=1000;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 o.onFrame=setInterval(function(){
                                     let rangle=GetRangle(o.x,o.y,playerObj.x,playerObj.y);
@@ -1647,7 +1683,7 @@
                             TryHurtPlayer(o.attack);
                         };
                         break;
-                    case "BOSSGLOW"://moveSpeed, shootSpeed
+                    case "BOSSGLOW":/*moveSpeed, shootSpeed */
                         if(mapData[id]["STAR"])return;
                         Div(layer2);
                         element.addClass("adv_enemy");
@@ -1659,8 +1695,8 @@
                         o.health=15;
                         o.attack=2;
                         o.delayStart=2000;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
                                 
                                 element.addClass("adv_walking");
                                 o.movingHorizontal=!o.movingHorizontal;
@@ -1669,24 +1705,24 @@
                                     let axisDiff=0.0;
                                     if(o.movingHorizontal){
                                         axisDiff=playerObj.x-o.x;
-                                        if(o.switchAxisDiff<0){
+                                        if(o.switchAxisDiff&lt;0){
                                             o.x-=o.moveSpeed;
-                                            if(axisDiff>=0)SwitchDirection();
+                                            if(axisDiff&gt;=0)SwitchDirection();
                                         }else{
                                             o.x+=o.moveSpeed;
-                                            if(axisDiff<0)SwitchDirection();
+                                            if(axisDiff&lt;0)SwitchDirection();
                                         }
                                     }else{
                                         axisDiff=playerObj.y-o.y;
-                                        if(o.switchAxisDiff<0){
+                                        if(o.switchAxisDiff&lt;0){
                                             o.y-=o.moveSpeed;
-                                            if(axisDiff>=0)SwitchDirection();
+                                            if(axisDiff&gt;=0)SwitchDirection();
                                         }else{
                                             o.y+=o.moveSpeed;
-                                            if(axisDiff<0)SwitchDirection();
+                                            if(axisDiff&lt;0)SwitchDirection();
                                         }
                                     }
-                                    //if(Math.random()>0.999)SwitchDirection();
+                                    /*if(Math.random()&gt;0.999)SwitchDirection(); */
                                     SetPosition(element,o.x,o.y);
                                 },1000/30);
 
@@ -1700,7 +1736,7 @@
                                 FirePuddle();
 
                                 function FirePuddle(){
-                                    let pro=FireProjectile(0,true);// true means "isPuddle"
+                                    let pro=FireProjectile(0,true);/* true means "isPuddle" */
                                     let proObj=GetObj(pro);
                                     if(pro.children().length==0){
                                         NewDiv(pro).addClass("adv_glowPuddle");
@@ -1719,7 +1755,7 @@
                         o.onPlayerTouch=function(){
                             if(playerObj.SWORD){
                                 TryHurtEnemy(1);
-                                if(o.health<=0){
+                                if(o.health&lt;=0){
                                     Build("BONES8",o.x/cellSize,o.y/cellSize);
                                     Build("STAR",o.x/cellSize,o.y/cellSize);
                                     return;
@@ -1730,15 +1766,15 @@
                         };
                         o.onGoodBulletTouch=function(){
                             TryHurtEnemy(0.5);
-                            if(o.health<=-1){
+                            if(o.health&lt;=-1){
                                 Build("BONES8",o.x/cellSize,o.y/cellSize);
                                 Build("STAR",o.x/cellSize,o.y/cellSize);
-                            }else if(o.health<7){
+                            }else if(o.health&lt;7){
                                 o.moveSpeed=8;
                             }
                         };
                         break;
-                    case "BOSSTUSK"://moveSpeed
+                    case "BOSSTUSK":/*moveSpeed */
                         if(mapData[id]["STAR"])return;
                         Div(layer2);
                         element.addClass("adv_enemy");
@@ -1748,8 +1784,8 @@
                         o.health=15;
                         o.attack=3;
                         o.delayStart=2000;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
                                 
                                 Charge();
 
@@ -1766,8 +1802,8 @@
                                         element.removeClass("adv_walking");
                                         o.onFrame2=setTimeout(function(){
                                             Charge();
-                                        },1500);// wait time
-                                    },1000);// charge time
+                                        },1500);/* wait time */
+                                    },1000);/* charge time */
                                 }
 
                             },o.delayStart);
@@ -1775,7 +1811,7 @@
                         o.onPlayerTouch=function(){
                             if(playerObj.SWORD){
                                 TryHurtEnemy(1);
-                                if(o.health<=0){
+                                if(o.health&lt;=0){
                                     Build("BONES8",o.x/cellSize,o.y/cellSize);
                                     Build("STAR",o.x/cellSize,o.y/cellSize);
                                     return;
@@ -1786,13 +1822,13 @@
                         };
                         o.onGoodBulletTouch=function(){
                             TryHurtEnemy(0.5);
-                            if(o.health<=-1){
+                            if(o.health&lt;=-1){
                                 Build("BONES8",o.x/cellSize,o.y/cellSize);
                                 Build("STAR",o.x/cellSize,o.y/cellSize);
                             }
                         };
                         break;
-                    case "BOSSDRAGON"://moveSpeed, startAngle
+                    case "BOSSDRAGON":/*moveSpeed, startAngle */
                         if(mapData[id]["STAR"])return;
                         Div(layer2);
                         element.addClass("adv_enemy");
@@ -1809,8 +1845,8 @@
                         o.health=15;
                         o.attack=2;
                         o.delayStart=2000;
-                        o.onFrame=setTimeout(function(){// skip one frame
-                            o.onFrame=setTimeout(function(){// delayStart
+                        o.onFrame=setTimeout(function(){/* skip one frame */
+                            o.onFrame=setTimeout(function(){/* delayStart */
 
                                 o.moveX=AlongRangleX(o.startAngle);
                                 o.moveY=AlongRangleY(o.startAngle);
@@ -1826,24 +1862,24 @@
                                             o.y+=touch.y*touch.dist;
 
                                             let ob=GetObj($(this));
-                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);// if circle, reverse???
+                                            if(ob.hitCircle)Reflect(-touch.x,-touch.y);/* if circle, reverse??? */
                                             else ReflectBox(touch.x,touch.y);
                                         }
                                     });
-                                    if(o.x<mapLeft){o.x=mapLeft;Reflect(1,0);}
-                                    else if(o.x>mapRight){o.x=mapRight;Reflect(-1,0);}
-                                    if(o.y<mapTop){o.y=mapTop;Reflect(0,1);}
-                                    else if(o.y>mapBottom){o.y=mapBottom;Reflect(0,-1);}
+                                    if(o.x&lt;mapLeft){o.x=mapLeft;Reflect(1,0);}
+                                    else if(o.x&gt;mapRight){o.x=mapRight;Reflect(-1,0);}
+                                    if(o.y&lt;mapTop){o.y=mapTop;Reflect(0,1);}
+                                    else if(o.y&gt;mapBottom){o.y=mapBottom;Reflect(0,-1);}
 
                                     SetPosition(element,o.x,o.y);
 
                                     function Reflect(xxx,yyy){
-                                        if(o.moveX<0){if(xxx>o.bounceThresh)o.moveX=-o.moveX;}
-                                        else if(o.moveX>0){if(xxx<-o.bounceThresh)o.moveX=-o.moveX;}
-                                        if(o.moveY<0){if(yyy>o.bounceThresh)o.moveY=-o.moveY;}
-                                        else if(o.moveY>0){if(yyy<-o.bounceThresh)o.moveY=-o.moveY;}
-                                        //if(o.moveX<0)o.img.addClass("flipx");
-                                        //else o.img.removeClass("flipx");
+                                        if(o.moveX&lt;0){if(xxx&gt;o.bounceThresh)o.moveX=-o.moveX;}
+                                        else if(o.moveX&gt;0){if(xxx&lt;-o.bounceThresh)o.moveX=-o.moveX;}
+                                        if(o.moveY&lt;0){if(yyy&gt;o.bounceThresh)o.moveY=-o.moveY;}
+                                        else if(o.moveY&gt;0){if(yyy&lt;-o.bounceThresh)o.moveY=-o.moveY;}
+                                        /*if(o.moveX&lt;0)o.img.addClass("flipx"); */
+                                        /*else o.img.removeClass("flipx"); */
                                     }
                                     function ReflectBox(xxx,yyy){
                                         if(xxx==-1 || xxx==0 || xxx==1){
@@ -1856,7 +1892,7 @@
 
                                 o.onFrame2=setInterval(function(){
                                     let pro,proObj,deg;
-                                    for(let i=0;i<3;i++){
+                                    for(let i=0;i&lt;3;i++){
                                         deg=o.shootAngleDeg+(i*(360/3));
 
                                         pro=FireProjectile(DegreesToRangle(deg));
@@ -1869,7 +1905,7 @@
                                             };
                                         }
                                     }
-                                    if(Math.random()>0.96)o.shootAngleSpinRight=!o.shootAngleSpinRight;
+                                    if(Math.random()&gt;0.96)o.shootAngleSpinRight=!o.shootAngleSpinRight;
                                     o.shootAngleDeg+= (o.shootAngleSpinRight) ? o.shootAngleSpin : -o.shootAngleSpin;
 
                                 },o.shootSpeed);
@@ -1879,7 +1915,7 @@
                         o.onPlayerTouch=function(){
                             if(playerObj.SWORD){
                                 TryHurtEnemy(1);
-                                if(o.health<=0){
+                                if(o.health&lt;=0){
                                     Build("BONES8",o.x/cellSize,o.y/cellSize);
                                     Build("STAR",o.x/cellSize,o.y/cellSize);
                                     return;
@@ -1890,45 +1926,45 @@
                         };
                         o.onGoodBulletTouch=function(){
                             TryHurtEnemy(0.5);
-                            if(o.health<=-1){
+                            if(o.health&lt;=-1){
                                 Build("BONES8",o.x/cellSize,o.y/cellSize);
                                 Build("STAR",o.x/cellSize,o.y/cellSize);
                             }
                         };
                         break;
                         /*
-                    SKELETON        walker   atk 1, hp 0
-                    SNAKE           shooter  atk 1, hp 0
-                        (sword)
-                    GHOST           walker   atk 1*, invincible
-                    ARCHERSKELETON  shooter  atk 1, hp 0
-                    
-                    DINOSAUR        bouncer  atk 2, hp 1 (costs 2:1)
-                    REDGHOST        chaser   atk 1*, invincible slow through walls
-                        (armor) (very early)
-                    YETI            walker   atk 2, hp 2 (costs 4:2) (choose which ones to kill)
-                    DRAGONSTATUE    shooter  atk 2, invincible
-                        (xbow)
-                    BOSSDRAGON      slow bouncer.
-                                    3 bullet streams that rotate.
-                                    rotate direction changes when he's hurt.
-                    BOSSTUSK        repeatedly pauses and chases very fast.
-                                    kills you in one hit.
-                    BOSSGLOW        chases in cardinal directions.
-                                    leaves danger-patches behind him.
-                    //*/
+                        SKELETON        walker   atk 1, hp 0
+                        SNAKE           shooter  atk 1, hp 0
+                            (sword)
+                        GHOST           walker   atk 1*, invincible
+                        ARCHERSKELETON  shooter  atk 1, hp 0
+                        
+                        DINOSAUR        bouncer  atk 2, hp 1 (costs 2:1)
+                        REDGHOST        chaser   atk 1*, invincible slow through walls
+                            (armor) (very early)
+                        YETI            walker   atk 2, hp 2 (costs 4:2) (choose which ones to kill)
+                        DRAGONSTATUE    shooter  atk 2, invincible
+                            (xbow)
+                        BOSSDRAGON      slow bouncer.
+                                        3 bullet streams that rotate.
+                                        rotate direction changes when he's hurt.
+                        BOSSTUSK        repeatedly pauses and chases very fast.
+                                        kills you in one hit.
+                        BOSSGLOW        chases in cardinal directions.
+                                        leaves danger-patches behind him.
+                        */
 
                     default: console.log("unhandled unit "+p);break;
-                }//end build switch
+                }/*end build switch */
                 return element;
-            }//end build
+            }/*end build */
             
             function Load(){
                 let o;
                 switch(id){
-                    case 1:// outside, town         JESTER       CHECKPOINT
+                    case 1:/* outside, town         JESTER       CHECKPOINT */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:"TREE2",blue:"WELL",purple:"GREYROCK3",
                             black:null,white:"HOUSE",brown:"TREE1",circle:null,map:""+
                             "🟢🟤🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢"+
@@ -1948,12 +1984,12 @@
                         if(playerObj.visitedCastle){
                             ;
                         }else{
-                            GetObj(Build("JESTER",9,1)).message="The villagers were captured! I plan to rescue them. Any ideas?";
+                            GetObj(Build("JESTER",9,1)).message= "The villagers were captured! I plan to rescue them. Any ideas?";
                         }
                         SetPortals(null,2,null,null);break;
-                    case 2:// outside, woods bottom
+                    case 2:/* outside, woods bottom */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:"TREE2",blue:null,purple:"GREYROCK3",
                             black:null,white:null,brown:"TREE1",circle:null,map:""+
                             "🟤🟢⚫⚫⚫🟢🟢⚫🟢🟤⚫⚫"+
@@ -1965,9 +2001,9 @@
                             "🟢🟢🟢🟢⚫⚫⚫⚫⚫🟢🟤⚫"+
                             "🟤🟢🟤🟤🟢🟢🟢🟢🟢🟤⚫🟢"});
                         SetPortals(3,null,null,1);break;
-                    case 3:// outside, woods top
+                    case 3:/* outside, woods top */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:"TREE2",blue:null,purple:"GREYROCK3",
                             black:null,white:null,brown:"TREE1",circle:null,map:""+
                             "🟤🟢🟤🟢🟢⚫🟢🟢🟢🟢🟢🟤"+
@@ -1979,9 +2015,9 @@
                             "🟢🟢⚫⚫⚫🟢🟢⚫⚫⚫🟢🟤"+
                             "🟤🟢🟢🟢🟢🟤🟢⚫🟢🟢🟤🟢"});
                         SetPortals(4,null,2,null);break;
-                    case 4:// outside, castle entrance         JESTER
+                    case 4:/* outside, castle entrance         JESTER */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:"TORCH",green:"TREE2",blue:null,purple:"GREYROCK3",
                             black:null,white:"GREYBRICKWALL",brown:"TREE1",circle:null,map:""+
                             "⚫⚪⚪⚪⚪⭕⚪⚪⚪⚪⚪⚪"+
@@ -1998,16 +2034,16 @@
                         Build("GREYBRICKDOOR",5,2);
 
                         playerObj.visitedCastle=true;
-                        // if the door has been opened, or if you have the key, dont show the jester
-                        if(mapData[id]["GREYBRICKDOOR"]==true || playerObj.KEY){//$(".adv_slot").eq(4-1).html().length>0){
+                        /* if the door has been opened, or if you have the key, dont show the jester */
+                        if(mapData[id]["GREYBRICKDOOR"]==true || playerObj.KEY){/*$(".adv_slot").eq(4-1).html().length&gt;0){ */
                             ;
                         }else{
-                            GetObj(Build("JESTER",7,3)).message="The castle seems to be locked... I think the grave-digger has a key.";
+                            GetObj(Build("JESTER",7,3)).message= "The castle seems to be locked... I think the grave-digger has a key.";
                         }
                         SetPortals(21,null,3,5);break;
-                    case 5:// outside, graveyard right
+                    case 5:/* outside, graveyard right */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:"TREE2",blue:"TOMBSTONE",purple:"GREYROCK3",
                             black:null,white:null,brown:"TREE1",circle:null,map:""+
                             "🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟤"+
@@ -2022,9 +2058,9 @@
                             o=GetObj(Build("GHOST",5,2));o.points=[5,2,  4,3,  5,4,  6,3];
                         }
                         SetPortals(null,4,null,6);break;
-                    case 6:// outside, graveyard left
+                    case 6:/* outside, graveyard left */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:"TORCH",green:"TREE2",blue:"TOMBSTONE",purple:"GREYROCK3",
                             black:null,white:"GREYBRICKWALL",brown:"TREE1",circle:null,map:""+
                             "🟢🟢⚪⭕⚪🟢🟢🟢🟢🟢🟢🟢"+
@@ -2037,11 +2073,11 @@
                             "🟢🟢🟣🟢🟢🟢🟢🟢🟢🟢🟢🟢"});
                         Build("GREYBRICKFLOOR",3,0);
                         Build("GREYBRICKFLOOR",3,1);
-                        //Build("KEY",3,0);
+                        /*Build("KEY",3,0); */
                         SetPortals(7,5,null,null);break;
-                    case 7:// crypt, stairs right
+                    case 7:/* crypt, stairs right */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2053,9 +2089,9 @@
                             "⚪⚪⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤"+
                             "🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(null,null,6,8);break;
-                    case 8:// crypt, stairs left
+                    case 8:/* crypt, stairs left */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2067,9 +2103,9 @@
                             "🟤🟤🟤🟤🟤⚪⚫⚪⚪⚪⚪⚪"+
                             "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
                         SetPortals(null,7,9,null);break;
-                    case 9:// crypt lobby                   CHECKPOINT
+                    case 9:/* crypt lobby                   CHECKPOINT */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"+
@@ -2087,9 +2123,9 @@
                             Build("XBOW",7,5);
                         }
                         SetPortals(8,16,null,10);break;
-                    case 10:// crypt left
+                    case 10:/* crypt left */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚫⚪🟤🟤⚪⚫⚪🟤"+
@@ -2103,9 +2139,9 @@
                         o=GetObj(Build("SNAKE",1,4));o.shootAngle=GetRangle(0,0,1,0);o.delayStart=0;
                         o=GetObj(Build("SNAKE",4,5));o.shootAngle=GetRangle(0,0,0,-1);o.delayStart=750;
                         SetPortals(11,9,null,13);break;
-                    case 11:// crypt left, coffin trap
+                    case 11:/* crypt left, coffin trap */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2119,9 +2155,9 @@
                         GetObj(Build("SNAKE",10,1)).shootAngle=GetRangle(0,0,-1,0);
                         GetObj(Build("SKELETON",3,3)).points=[3,3,  6,3,  6,5,  9,5,  9,1,  3,1];
                         SetPortals(null,null,10,12);break;
-                    case 12:// crypt left, skel roundabout
+                    case 12:/* crypt left, skel roundabout */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2135,9 +2171,9 @@
                         o=GetObj(Build("SKELETON",2,2));o.points=[2,2,  2,5,  9,5,  9,2];o.currentPoint=0;
                         o=GetObj(Build("SKELETON",9,5));o.points=[2,2,  2,5,  9,5,  9,2];o.currentPoint=2;
                         SetPortals(null,11,13,14);break;
-                    case 13:// crypt left, snake room
+                    case 13:/* crypt left, snake room */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤"+
@@ -2153,9 +2189,9 @@
                         o=GetObj(Build("SNAKE",9,2));o.shootAngle=GetRangle(9,2,2,5);o.delayStart=600;
                         o=GetObj(Build("SNAKE",9,5));o.shootAngle=GetRangle(9,5,2,3);o.delayStart=1200;
                         SetPortals(12,10,null,15);break;
-                    case 14:// crypt left, skel party
+                    case 14:/* crypt left, skel party */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"CANDLESW",green:"CANDLESE",blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2175,9 +2211,9 @@
                         o=GetObj(Build("SKELETON",7,4));o.points=[3,3,  4,2,  7,2,  8,3,  7,4,  4,4];o.currentPoint=4;
                         Build("SKELETON",5,3);
                         SetPortals(null,12,15,null);break;
-                    case 15:// crypt left, sword room
+                    case 15:/* crypt left, sword room */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2194,9 +2230,9 @@
                         o=GetObj(Build("SKELETON",3,3));o.points=[3,3,  3,1,  10,1,  10,3,  7,3,  7,6,  1,6,  1,3];
                         Build("SWORD",5,3);
                         SetPortals(14,13,null,null);break;
-                    case 16:// crypt right, serpentine one
+                    case 16:/* crypt right, serpentine one */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2212,9 +2248,9 @@
                         o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=6000;
                         o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  4,2,  4,4,  10,4,  10,6,  2,6,  10,6,  10,4,  4,4,  4,2];o.delayStart=9000;
                         SetPortals(null,17,null,9);break;
-                    case 17:// crypt right, serpentine two
+                    case 17:/* crypt right, serpentine two */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2228,9 +2264,9 @@
                         GetObj(Build("SKELETON",3,1)).points=[3,1,  7,1];
                         o=GetObj(Build("SNAKE",9,5));o.shootAngle=GetRangle(0,0,-1,0);o.shootSpeed+=500;
                         SetPortals(null,null,18,16);break;
-                    case 18:// crypt right, square with snakes
+                    case 18:/* crypt right, square with snakes */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪"+
@@ -2247,9 +2283,9 @@
                         GetObj(Build("SNAKE",1,6)).shootAngle=GetRangle(0,0,1,0);
                         GetObj(Build("SNAKE",10,6)).shootAngle=GetRangle(0,0,-1,0);
                         SetPortals(17,null,19,null);break;
-                    case 19:// crypt right, snake firing squad
+                    case 19:/* crypt right, snake firing squad */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪⚪"+
@@ -2265,9 +2301,9 @@
                         o=GetObj(Build("SNAKE",1,4));o.shootAngle=GetRangle(0,0,1,0);o.shootSpeed+=1000;o.projectileSpeed-=2;o.delayStart=o.shootSpeed/2;
                         o=GetObj(Build("SNAKE",1,5));o.shootAngle=GetRangle(0,0,1,0);o.shootSpeed+=1000;o.projectileSpeed-=2;
                         SetPortals(18,null,null,20);break;
-                    case 20:// crypt right, key room
+                    case 20:/* crypt right, key room */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2285,9 +2321,9 @@
                         Build("KEY",2,4);
                         Build("BONES1",2,4);
                         SetPortals(null,19,null,null);break;
-                    case 21:// castle, church                 CHECKPOINT
+                    case 21:/* castle, church                 CHECKPOINT */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"CANDLESW",yellow:"CANDLESE",green:null,blue:"BENCHNE",purple:"BENCHNW",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚫⚪🟤"+
@@ -2305,9 +2341,9 @@
                             Build("XBOW",1,5);
                         }
                         SetPortals(22,23,4,null);break;
-                    case 22:// castle, church stockroom
+                    case 22:/* castle, church stockroom */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕ (1 barrel, 2 crates, 3 sack)
+                        QuickBuild({/* to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕ (1 barrel, 2 crates, 3 sack) */
                             red:null,orange:"TORCH",yellow:"COINS",green:"JUNK1",blue:"JUNK2",purple:"JUNK3",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚪⚪⚪⚪🟤🟤🟤🟤"+
@@ -2320,9 +2356,9 @@
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚫⚪🟤"});
                         o=GetObj(Build("GHOST",6,-1));o.points=[6,1,  5,1];o.delayStart=11000;
                         SetPortals(null,null,21,null);break;
-                    case 23:// castle, cafeteria bottom
+                    case 23:/* castle, cafeteria bottom */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:"TABLE2",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤⚪⚫⚫⚫⚫⚫⚫⚫⚫⚫⚪"+
@@ -2339,9 +2375,9 @@
                         o=GetObj(Build("SKELETON",8,6));o.points=[8,6,  8,0,  10,0,  10,6];o.delayStart=1000;
                         o=GetObj(Build("SKELETON",10,2));o.points=[10,2,  2,2,  2,4,  10,4];
                         SetPortals(24,null,null,21);break;
-                    case 24:// castle, cafeteria top
+                    case 24:/* castle, cafeteria top */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:"TABLE2",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"+
@@ -2360,9 +2396,9 @@
                         o=GetObj(Build("SKELETON",10,1));o.points=[10,1,  10,5,  6,5,  6,1];o.delayStart=1000;
                         o=GetObj(Build("SKELETON",10,1));o.points=[10,1,  10,7,  4,7,  4,1];o.delayStart=2000;
                         SetPortals(25,null,23,null);break;
-                    case 25:// castle, barracks archer
+                    case 25:/* castle, barracks archer */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHSW",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🔴🔴⚪⚫⚫⚫⚫⚫⚫⚪🟤🟤"+
@@ -2375,9 +2411,9 @@
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"});
                         Build("ARCHERSKELETON",1,5);
                         SetPortals(32,null,24,26);break;
-                    case 26:// castle, barracks treasure below
+                    case 26:/* castle, barracks treasure below */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHNE",purple:"BENCHNW",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
@@ -2392,9 +2428,9 @@
                         o=GetObj(Build("ARCHERSKELETON",8,1));o.delayStart+=o.shootSpeed/2;
                         o=GetObj(Build("SKELETON",5,2));o.points=[5,2,  7,2];
                         SetPortals(31,25,null,27);break;
-                    case 27:// castle, courtyard bottom
+                    case 27:/* castle, courtyard bottom */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHNE",blue:"WELL",purple:"GREYROCK2",
                             black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
                             "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"+
@@ -2408,9 +2444,9 @@
                         o=GetObj(Build("ARCHERSKELETON",2,4));o.delayStart+=0;
                         o=GetObj(Build("ARCHERSKELETON",3,5));o.delayStart+=o.shootSpeed/2;
                         SetPortals(28,26,null,null);break;
-                    case 28:// castle, courtyard middle
+                    case 28:/* castle, courtyard middle */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHSW",blue:"BENCHNE",purple:"GREYROCK2",
                             black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
                             "⚪⚫🟤⚫⚫⚫⚫⚫🟤⚫⚪⚪"+
@@ -2425,9 +2461,9 @@
                         o=GetObj(Build("ARCHERSKELETON",9,1));o.delayStart+=o.shootSpeed/2;
                         o=GetObj(Build("SKELETON",2,1));o.points=[2,7,  8,7,  8,0,  2,0];
                         SetPortals(29,null,27,null);break;
-                    case 29:// castle, courtyard top
+                    case 29:/* castle, courtyard top */
                         QuickBuildFull("GRASS");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"TREE2",orange:"TORCH",yellow:null,green:"BENCHNW",blue:"WELL",purple:"GREYROCK2",
                             black:null,white:"GREYBRICKWALL",brown:"GREYBRICKFLOOR",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2441,9 +2477,9 @@
                         o=GetObj(Build("ARCHERSKELETON",8,2));o.delayStart+=0;
                         o=GetObj(Build("ARCHERSKELETON",6,6));o.delayStart+=o.shootSpeed/2;
                         SetPortals(null,30,28,null);break;
-                    case 30:// castle, barracks treasure above
+                    case 30:/* castle, barracks treasure above */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"BENCHNE",purple:"BENCHNW",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2458,9 +2494,9 @@
                         o=GetObj(Build("ARCHERSKELETON",8,5));o.delayStart+=o.shootSpeed/2;
                         o=GetObj(Build("SKELETON",5,4));o.points=[5,4,  7,4];
                         SetPortals(null,null,31,29);break;
-                    case 31:// castle, barracks treasure
+                    case 31:/* castle, barracks treasure */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:"COINS",green:null,blue:null,purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"+
@@ -2473,9 +2509,9 @@
                             "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🔴🔴"});
                         Build("POTION",6,2);
                         SetPortals(30,null,26,null);break;
-                    case 32:// castle, pit
+                    case 32:/* castle, pit */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:"COINS",green:null,blue:"PIT",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🔴🔴⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"+
@@ -2487,9 +2523,9 @@
                             "🔴🔴⚪⚫🟠⚫⚫🟠⚫⚪🟤🟤"+
                             "🔴🔴⚪⚫⚫⚫⚫⚫⚫⚪🟤🟤"});
                         SetPortals(33,null,25,null);break;
-                    case 33:// castle, thrones
+                    case 33:/* castle, thrones */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:"CANDLESE",green:"CANDLESW",blue:"BENCHSE",purple:"BENCHSW",
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2502,9 +2538,9 @@
                             "🔴🔴⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"});
                         Build("GREYROCK6",2,3);
                         SetPortals(null,34,32,null);break;
-                    case 34:// castle, prison
+                    case 34:/* castle, prison */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2536,9 +2572,9 @@
                             o=GetObj(Build("GHOST",9,4));o.points=[9+1,4+1,  9-1,4+1,  9-1,4-1,  9+1,4-1];o.delayStart+=1000;
 
                         SetPortals(null,35,null,33);break;
-                    case 35:// castle, stairs top
+                    case 35:/* castle, stairs top */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2550,9 +2586,9 @@
                             "⚪⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
                             "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(null,null,36,34);break;
-                    case 36:// castle, stairs bottom
+                    case 36:/* castle, stairs bottom */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:null,yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤⚪⚫⚪🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2564,9 +2600,9 @@
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(35,null,null,37);break;
-                    case 37:// castle/cave
+                    case 37:/* castle/cave */
                         QuickBuildFull("GREYCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"REDCAVEFLOOR",orange:"BROWNCAVEWALL",yellow:null,green:null,blue:"COFFIN",purple:null,
                             black:null,white:"GREYBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2581,9 +2617,9 @@
                         Build("BROWNROCK5",2,3);
                         Build("BROWNROCK5",1,5);
                         SetPortals(null,36,null,38);break;
-                    case 38:// cave lobby                   CHECKPOINT
+                    case 38:/* cave lobby                   CHECKPOINT */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"PIT",yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2609,9 +2645,9 @@
                         Build("BROWNROCK6",4,1);
                         Build("CAMPFIRE",3,4);
                         SetPortals(null,37,39,null);break;
-                    case 39:// cave, S with arrows
+                    case 39:/* cave, S with arrows */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:null,purple:null,
                             black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:"ARCHERSKELETON",map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪"+
@@ -2624,9 +2660,9 @@
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
                         o=GetObj(Build("SKELETON",4,2));o.points=[4,2,  4,5];
                         SetPortals(38,null,null,40);break;
-                    case 40:// cave, prison
+                    case 40:/* cave, prison */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"JUNK2",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪⚪"+
@@ -2639,7 +2675,7 @@
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
                         FindImages(SPRITES.BROWNROCK2).each(function(){
                             let obj=GetObj($(this));
-                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                            Build( (Math.random()&gt;0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
                         });
                         o=GetObj(Build("GHOST",2,1));o.points=[10,1,  10,6,  1,6,  1,1];
                         o=GetObj(Build("GHOST",5,1));o.points=[10,1,  10,6,  1,6,  1,1];
@@ -2651,9 +2687,9 @@
 
                         o=GetObj(Build("GHOST",6,6));o.points=[10,6,  10,1,  1,1,  1,6];o.moveSpeed+=1.5;
                         SetPortals(41,39,null,null);break;
-                    case 41:// cave, one archer
+                    case 41:/* cave, one archer */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"ARCHERSKELETON",map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚪⚫⚪"+
@@ -2665,9 +2701,9 @@
                             "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫🔵⚪"+
                             "🟤🟤🟤🟤🟤🟤🟤🟤⚪⚫⚪⚪"});
                         SetPortals(47,null,40,42);break;
-                    case 42:// cave, archer squad left
+                    case 42:/* cave, archer squad left */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK1",purple:"BROWNROCK5",
                             black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2683,9 +2719,9 @@
                         o=GetObj(Build("ARCHERSKELETON",9,4));o.delayStart=o.shootSpeed/4*2;
                         o=GetObj(Build("ARCHERSKELETON",9,5));o.delayStart=o.shootSpeed/4*3;
                         SetPortals(null,41,null,43);break;
-                    case 43:// cave, dino room 1
+                    case 43:/* cave, dino room 1 */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2698,9 +2734,9 @@
                             "⚪⚫⚪⚪⚪⚪⚪🟤🟤🟤🟤🟤"});
                         o=GetObj(Build("DINOSAUR",4,6));o.delayStart+=1000;
                         SetPortals(null,42,44,null);break;
-                    case 44:// cave, dino room 2
+                    case 44:/* cave, dino room 2 */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2712,9 +2748,9 @@
                             "⚪🔵⚫⚫⚫⚫🟣⭕⚫⚫🔵⚫"+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"});
                         SetPortals(43,46,null,45);break;
-                    case 45:// cave, dino room gold
+                    case 45:/* cave, dino room gold */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2728,9 +2764,9 @@
                         Build("BONES1",2,3);
                         Build("COINS",2,3);
                         SetPortals(null,44,null,null);break;
-                    case 46:// cave, dino room armor
+                    case 46:/* cave, dino room armor */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:null,green:null,blue:"BROWNROCK5",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -2744,9 +2780,9 @@
                         Build("BONES1",9,4);
                         Build("ARMOR",9,4);
                         SetPortals(null,null,null,44);break;
-                    case 47:// cave, archer squad top
+                    case 47:/* cave, archer squad top */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:"BLACKBRICKWALL",blue:"GREYCAVEFLOOR",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
                             "🟢🟢🔵🟢🟢🟤🟤🟤🟤🟤🟤⚫"+
@@ -2759,16 +2795,16 @@
                             "⚫🟤🟤🟤🟤🟤🟤🟤🟤🟤⚫🟤"});
                         o=GetObj(Build("ARCHERSKELETON",0,3));o.delayStart=1500+o.shootSpeed/6*0;
                         o=GetObj(Build("ARCHERSKELETON",0,5));o.delayStart=1500+o.shootSpeed/6*2;
-                        //o=GetObj(Build("ARCHERSKELETON",0,7));o.delayStart=1500+o.shootSpeed/6*4;
-                        //o=GetObj(Build("ARCHERSKELETON",11,0));o.delayStart=1500+o.shootSpeed/6*5;
+                        /*o=GetObj(Build("ARCHERSKELETON",0,7));o.delayStart=1500+o.shootSpeed/6*4; */
+                        /*o=GetObj(Build("ARCHERSKELETON",11,0));o.delayStart=1500+o.shootSpeed/6*5; */
                         o=GetObj(Build("ARCHERSKELETON",11,2));o.delayStart=1500+o.shootSpeed/6*3;
                         o=GetObj(Build("ARCHERSKELETON",11,4));o.delayStart=1500+o.shootSpeed/6*1;
                         o=GetObj(Build("SKELETON",8,1));o.points=[8,1,  8,4,  3,4,  3,6,  10,6,  3,6,  3,4,  8,4];
                         o=GetObj(Build("SKELETON",8,1));o.points=[8,1,  8,4,  3,4,  3,6,  10,6,  3,6,  3,4,  8,4];o.delayStart=2000;
                         SetPortals(49,null,41,48);break;
-                    case 48:// cave, secret
+                    case 48:/* cave, secret */
                         QuickBuildFull("REDCAVEFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"BROWNROCK5",yellow:"COINS",green:"BLACKBRICKWALL",blue:"JUNK1",purple:"BROWNROCK2",
                             black:null,white:"BROWNCAVEWALL",brown:"PIT",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪🟢🟢🟢🟢🟢🟢"+
@@ -2781,12 +2817,12 @@
                             "⚪⚪🟠🟤🟤🟤🟤🟤🟤🟠⚪⚪"});
                         FindImages(SPRITES.BROWNROCK2).each(function(){
                             let obj=GetObj($(this));
-                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                            Build( (Math.random()&gt;0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
                         });
                         SetPortals(null,47,null,null);break;
-                    case 49:// dark, lobby                  CHECKPOINT
+                    case 49:/* dark, lobby                  CHECKPOINT */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤🟤"+
@@ -2808,9 +2844,9 @@
                         o=GetObj(Build("DRAGONSTATUE",4,2));o.shootAngle=GetRangle(0,0,1,0);o.delayStart=1000*99999;
                         o=GetObj(Build("DRAGONSTATUE",6,2));o.shootAngle=GetRangle(0,0,-1,0);o.delayStart=1000*99999;
                         SetPortals(54,null,47,null);break;
-                    case 50:// dark, maze a1
+                    case 50:/* dark, maze a1 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"WELL",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪🟤🟤⚪⚪⚪⚪⚪⚪⚪"+
@@ -2830,9 +2866,9 @@
                         Build("BONES1",3,2);
                         Build("BONES1",4,3);
                         SetPortals(null,53,51,56);break;
-                    case 51:// dark, maze a2
+                    case 51:/* dark, maze a2 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"DINOSAUR",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
@@ -2856,7 +2892,7 @@
                             let element=Build("BLACKBRICKWALL",7,3);
                             o=GetObj(element);
                             o.onFrame=setInterval(function(){
-                                if(FindImages(SPRITES.DINOSAUR).length>0){
+                                if(FindImages(SPRITES.DINOSAUR).length&gt;0){
                                     return;
                                 }
                                 clearInterval(o.onFrame);
@@ -2870,9 +2906,9 @@
                             },2000);
                         }
                         SetPortals(50,54,52,null);break;
-                    case 52:// dark, maze a3
+                    case 52:/* dark, maze a3 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESE",purple:"CANDLESW",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪⚪"+
@@ -2893,9 +2929,9 @@
                         o=GetObj(Build("YETI",1,1));o.points=[1,1,  6,1,  6,6,  3,6,  3,3,  1,3,  1,6,    1,3,  3,3,  3,6,  6,6,  6,1];o.moveSpeed+=1;
                         o=GetObj(Build("YETI",1,6));o.points=[1,1,  6,1,  6,6,  3,6,  3,3,  1,3,  1,6,    1,3,  3,3,  3,6,  6,6,  6,1];o.moveSpeed+=1;o.currentPoint=6;
                         SetPortals(51,55,null,58);break;
-                    case 53:// dark, maze b1
+                    case 53:/* dark, maze b1 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2910,9 +2946,9 @@
                         Build("DINOSAUR",5,6);
                         o=GetObj(Build("YETI",7,1));o.points=[7,1,  7,6,  9,6,  9,1,  9,6,  7,6];o.moveSpeed+=1;
                         SetPortals(null,56,null,50);break;
-                    case 54:// dark, maze b2          JESTER
+                    case 54:/* dark, maze b2          JESTER */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:"WELL",blue:"CANDLESE",purple:"CANDLESW",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤⚪⚪⚪⚪⚪⚪⚪🟤🟤🟤"+
@@ -2926,12 +2962,12 @@
                             if(playerObj.visitedRitual){
                                 ;
                             }else{
-                                GetObj(Build("JESTER",7,2)).message="Do you hear the dreadful roaring of the yeti beasts? My sword is mightier, so I fear not.";
+                                GetObj(Build("JESTER",7,2)).message= "Do you hear the dreadful roaring of the yeti beasts? My sword is mightier, so I fear not.";
                             }
                         SetPortals(null,57,55,51);break;
-                    case 55:// dark, maze b3
+                    case 55:/* dark, maze b3 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESE",purple:"CANDLESW",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤🟤"+
@@ -2944,9 +2980,9 @@
                             "⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪⚪"});
                         o=GetObj(Build("REDGHOST",5,5));o.delayStart=0;
                         SetPortals(54,58,49,52);break;
-                    case 56:// dark, maze c1
+                    case 56:/* dark, maze c1 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"CANDLESW",purple:"CANDLESE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -2959,9 +2995,9 @@
                             "🟤⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪🟤"});
                         o=GetObj(Build("REDGHOST",5.5,3.5));o.delayStart=0;
                         SetPortals(null,50,57,53);break;
-                    case 57:// dark, maze c2
+                    case 57:/* dark, maze c2 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:"PIT",blue:"WELL",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚫⚪⚪⚪⚪⚪⚫⚪⚪🟤"+
@@ -2975,9 +3011,9 @@
                         o=GetObj(Build("ARCHERSKELETON",7,1));o.delayStart=o.shootSpeed/2*0;
                         o=GetObj(Build("ARCHERSKELETON",7,5));o.delayStart=o.shootSpeed/2*1;
                         SetPortals(56,59,58,54);break;
-                    case 58:// dark, maze c3
+                    case 58:/* dark, maze c3 */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"WELL",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪🟤"+
@@ -2995,9 +3031,9 @@
                         o=GetObj(Build("DRAGONSTATUE",8,4));o.shootAngle=rangle;
                         o=GetObj(Build("DRAGONSTATUE",7,5));o.shootAngle=rangle;
                         SetPortals(57,52,null,55);break;
-                    case 59:// dark, puzzle
+                    case 59:/* dark, puzzle */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:null,blue:"TABLE1",purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤🟤"+
@@ -3025,9 +3061,9 @@
                             };
                         }
                         SetPortals(60,null,49,57);break;
-                    case 60:// dark, 3yeti gold
+                    case 60:/* dark, 3yeti gold */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"COINS",green:null,blue:"JUNK2",purple:"JUNK1",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -3047,9 +3083,9 @@
                         Build("BONES1",10,2);
                         Build("BONES2",10,3);
                         SetPortals(61,null,59,null);break;
-                    case 61:// dark, ritual                        CHECKPOINT
+                    case 61:/* dark, ritual                        CHECKPOINT */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚫⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -3068,9 +3104,9 @@
                             Build("XBOW",10,2);
                         }
                         SetPortals(64,62,60,null);break;
-                    case 62:// dark, ritual hall top
+                    case 62:/* dark, ritual hall top */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3082,9 +3118,9 @@
                             "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
                             "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"});
                         SetPortals(null,null,63,61);break;
-                    case 63:// dark, ritual hall bottom
+                    case 63:/* dark, ritual hall bottom */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"+
@@ -3096,9 +3132,9 @@
                             "🟤🟤🟤🟤⚪🟠🟠⚪🟤🟤🟤🟤"+
                             "🟤🟤🟤🟤⚪⚫⚫⚪🟤🟤🟤🟤"});
                         SetPortals(62,null,68,null);break;
-                    case 64:// dark top, yetis
+                    case 64:/* dark top, yetis */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:null,orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"+
@@ -3112,16 +3148,16 @@
                         o=GetObj(Build("YETI",1,1));o.points=[1,1,  1,4];
                         o=GetObj(Build("YETI",1,4));o.points=[1,4,  3,4];
                         o=GetObj(Build("YETI",9,1));o.points=[10,1,  1,1];o.currentPoint=1;
-                        //o=GetObj(Build("YETI",6,4));o.points=[6,4,  8,4];
+                        /*o=GetObj(Build("YETI",6,4));o.points=[6,4,  8,4]; */
                         o=GetObj(Build("YETI",6,6));o.points=[6,6,  10,6];
                         Build("BONES1",8,1);
                         Build("BONES2",3,1);
                         Build("BONES1",1,3);
                         Build("BONES2",7,6);
                         SetPortals(65,66,61,null);break;
-                    case 65:// dark top, potion
+                    case 65:/* dark top, potion */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪"+
@@ -3133,9 +3169,9 @@
                             "🟤⚪⚫⚫⚫⚫⚫⚫⭕⚫⚫⚪"+
                             "🟤⚪⚪⚪⚪⚪⚪⚪⚪⚪⚫⚪"});
                         SetPortals(null,null,64,null);break;
-                    case 66:// dark top, puzzle
+                    case 66:/* dark top, puzzle */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:null,yellow:"BENCHNW",green:"BENCHNE",blue:"BENCHSW",purple:"BENCHSE",
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:"DINOSAUR",map:""+
                             "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"+
@@ -3167,9 +3203,9 @@
                             };
                         }
                         SetPortals(67,null,null,64);break;
-                    case 67:// dark top, xbow
+                    case 67:/* dark top, xbow */
                         QuickBuildFull("GREYBRICKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:null,green:"XBOW",blue:null,purple:null,
                             black:null,white:"BLACKBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3181,9 +3217,9 @@
                             "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"+
                             "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
                         SetPortals(null,null,66,null);break;
-                    case 68:// heck entrance           JESTER
+                    case 68:/* heck entrance           JESTER */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"TORCH",yellow:"BONES3",green:"REDROCK2",blue:null,purple:"BONES5",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
                             "🟤🟤⚪⚪⚪⚫⚫⚪⚪⚪🟤🟤"+
@@ -3196,17 +3232,17 @@
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
                         FindImages(SPRITES.REDROCK2).each(function(){
                             let obj=GetObj($(this));
-                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                            Build( (Math.random()&gt;0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
                         });
                         if(playerObj.XBOW){
                             ;
                         }else{
-                            GetObj(Build("JESTER",7,2)).message="My gear cannot face the perils here. Yours neither, I suspect.";
+                            GetObj(Build("JESTER",7,2)).message= "My gear cannot face the perils here. Yours neither, I suspect.";
                         }
                         SetPortals(63,69,null,null);break;
-                    case 69:// heck nw
+                    case 69:/* heck nw */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK5",blue:null,purple:"REDROCK7",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3218,9 +3254,9 @@
                             "🟤🟤🟤🟤🟢⚫⚫⚫⚫🟤🟤🟤"+
                             "🟤🟤🟤🟤⚫⚫⚫⚫🟤🟤🟤🟤"});
                         SetPortals(null,72,70,68);break;
-                    case 70:// heck sw
+                    case 70:/* heck sw */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK5",blue:"BONES4",purple:"REDROCK7",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
                             "🟤🟤🟤🟤⚫⚫⚫⚫🟤🟤🟤🟤"+
@@ -3232,9 +3268,9 @@
                             "🟤🔵⚫🔵🟤🟤🟤🟢⚫⚫🟡🟤"+
                             "🟤🟤⚫⚫🟤🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(69,71,73,null);break;
-                    case 71:// heck se
+                    case 71:/* heck se */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK2",blue:"REDROCK5",purple:"REDROCK7",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
                             "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤"+
@@ -3247,12 +3283,12 @@
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
                         FindImages(SPRITES.REDROCK2).each(function(){
                             let obj=GetObj($(this));
-                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                            Build( (Math.random()&gt;0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
                         });
                         SetPortals(72,74,null,70);break;
-                    case 72:// heck ne
+                    case 72:/* heck ne */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK2",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:null,map:""+
                             "🟤🟤🟤🟤⚪⚪⚫⚪⚪🟤🟤🟤"+
@@ -3265,12 +3301,12 @@
                             "🟤🟤🟤🟤🟤⚫⚫⚫🟤🟤🟤🟤"});
                         FindImages(SPRITES.REDROCK2).each(function(){
                             let obj=GetObj($(this));
-                            Build( (Math.random()>0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
+                            Build( (Math.random()&gt;0.5) ? "BONES6" : "BONES7",obj.x/cellSize,obj.y/cellSize);
                         });
                         SetPortals(75,null,71,69);break;
-                    case 73:// heck BOSSTUSK
+                    case 73:/* heck BOSSTUSK */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"REDROCK6",blue:"BONES4",purple:"REDROCK7",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:"BOSSTUSK",map:""+
                             "🟤🟤⚫⚫🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3282,9 +3318,9 @@
                             "🟤🟤⚫⚫⚫⚫⚫🟣🟤🟤🟤🟤"+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(70,null,null,null);break;
-                    case 74:// heck BOSSDRAGON
+                    case 74:/* heck BOSSDRAGON */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK2",
                             black:null,white:"REDBRICKWALL",brown:"LAVA",circle:"BOSSDRAGON",map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3296,9 +3332,9 @@
                             "⚫🔵🟤🟤⚫⚫⚫⚫⚫🟤🟤🟤"+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"});
                         SetPortals(null,null,null,71);break;
-                    case 75:// heck BOSSGLOW
+                    case 75:/* heck BOSSGLOW */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"BONES3",green:"BONES5",blue:"REDROCK5",purple:"REDROCK6",
                             black:null,white:"REDBRICKWALL",brown:"BLACK",circle:"BOSSGLOW",map:""+
                             "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"+
@@ -3311,9 +3347,9 @@
                             "🟤⚪⚪⚪⚪⚪⚫⚪⚪⚪⚪⚪"});
                         Build("REDBRICKDOOR",6,0);
                         SetPortals(76,null,72,null);break;
-                    case 76:// heck end
+                    case 76:/* heck end */
                         QuickBuildFull("HECKFLOOR");
-                        QuickBuild({// to 11 and 7 🔴🟠🟡🟢🔵🟣⚫⚪🟤⭕
+                        QuickBuild({
                             red:"POTION",orange:"DINOSAUR",yellow:"COINS",green:"BONES5",blue:"REDROCK5",purple:"REDROCK6",
                             black:null,white:"REDBRICKWALL",brown:"BLACK",circle:null,map:""+
                             "🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤🟤"+
@@ -3324,37 +3360,43 @@
                             "🟤🟤🟤⚪⚫⚫⚫⚫⚫⚪🟤🟤"+
                             "🟤🟤🟤⚪⚪⚪⚫⚪⚪⚪🟤🟤"+
                             "🟤🟤🟤🟤🟤⚪⚫⚪🟤🟤🟤🟤"});
-                        GetObj(Build("PERSONRANGERMAN",6+0.3,2)).message="Thank you for rescuing my family. I'm in your debt.";
-                        GetObj(Build("PERSONRANGERWOMAN",7,2)).message="Now we can return home!";
-                        GetObj(Build("PERSONCHILD",8-0.6,2)).message="It's scary here!";
-                        GetObj(Build("PERSONLUMBERJACK",4,4)).message="It's been like a sauna in here. I can't wait to return to the forest.";
-                        GetObj(Build("PERSONFARMER",5,4)).message="The skeletons captured us. I wonder where they came from?";
-                        GetObj(Build("JESTER",8,4)).message="We've rescued the villagers! Wonderful!<br>Do you happen to have 120 gold coins?";
+                        GetObj(Build("PERSONRANGERMAN",6+0.3,2)).message= "Thank you for rescuing my family. I'm in your debt.";
+                        GetObj(Build("PERSONRANGERWOMAN",7,2)).message= "Now we can return home!";
+                        GetObj(Build("PERSONCHILD",8-0.6,2)).message= "It's scary here!";
+                        GetObj(Build("PERSONLUMBERJACK",4,4)).message= "It's been like a sauna in here. I can't wait to return to the forest.";
+                        GetObj(Build("PERSONFARMER",5,4)).message= "The skeletons captured us. I wonder where they came from?";
+                        GetObj(Build("JESTER",8,4)).message= "We've rescued the villagers! Wonderful!&lt;br&gt;Do you happen to have 120 gold coins?";
 
                         SetPortals(null,null,75,null);break;
                     default: console.log("unhandled map "+id);break;
-                }//end load switch
-            }//end load
-        }//end loadmap
+                }/*end load switch */
+            }/*end load */
+        }/*end loadmap */
 
         const showHits=false;
-        const STARTMAP=1;//  town:1, crypt:9, castle:21, cave:38, dark:49, heck:61
+        const STARTMAP=1;/*  town:1, crypt:9, castle:21, cave:38, dark:49, heck:61 */
         const CHEATWALLS=false;
         const CHEATITEMS=false;
 
-    </script>
+        </div><div class="w3-code htmlHigh">
+    &lt;/script&gt;
 
-    <style>
+    &lt;style&gt;</div><div class="w3-code cssHigh">
         body{background-color:darkslategrey;}
-    </style>
-</head>
-<body>
-    <div id="adventure"></div>
+        </div><div class="w3-code htmlHigh">
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="adventure"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 
-    <center>
-        <a href="adventure_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:skyblue;text-shadow:0 0 2px black;">
-            🧾 Click here to see source-code.
-        </a>
-    </center>
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
 </body>
 </html>

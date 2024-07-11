@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Kevin's Ferris Wheel</title>
+<head>
+    <!-- (1) replace all "<" with "&lt;" -->
+    <!-- (2) replace all ">" with "&gt;" -->
+    <!-- (3) paste into below, inside div-htmlHigh. -->
+    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
+    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
 
-        <style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- W3Schools JavaScript stuff is at the bottom. -->
+    <style>
+        body{
+            background-color:gainsboro;
+        }
+        .w3-code{
+            white-space: pre;
+            line-height:1em;
+            font-size:14px;
+            margin:0 !important;
+            padding:0;
+            border:0;
+            background-color:rgba(0,0,0,0);
+        }
+    </style>
+</head>
+<body style="padding-left:10px;">
+<div class="w3-code htmlHigh">
+
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Kevin's Ferris Wheel&lt;/title&gt;
+
+        &lt;style&gt;</div><div class="w3-code cssHigh">
             body{
                 background-color:grey;
             }
@@ -20,7 +51,7 @@
                 --ccc1:black;
                 --ccc2:hsl(30,100%,10%);
             }
-            div.ferris>div.wheel{
+            div.ferris&gt;div.wheel{
                 position:absolute;
                 width:80%;
                 height:80%;
@@ -37,7 +68,7 @@
                 75%{transform:rotate(270deg);}
                 100%{transform:rotate(360deg);}
             }
-            div.ferris>div.wheel>div.beam{
+            div.ferris&gt;div.wheel&gt;div.beam{
                 position:absolute;
                 width:100%;
                 height:2%;
@@ -45,11 +76,11 @@
                 top:49%;
                 transform-origin: 50% 50%;
             }
-            div.ferris>div.wheel>div.beam:nth-child(10){transform:rotate(45deg);}
-            div.ferris>div.wheel>div.beam:nth-child(11){transform:rotate(90deg);}
-            div.ferris>div.wheel>div.beam:nth-child(12){transform:rotate(-45deg);}
+            div.ferris&gt;div.wheel&gt;div.beam:nth-child(10){transform:rotate(45deg);}
+            div.ferris&gt;div.wheel&gt;div.beam:nth-child(11){transform:rotate(90deg);}
+            div.ferris&gt;div.wheel&gt;div.beam:nth-child(12){transform:rotate(-45deg);}
 
-            div.ferris>div.wheel>div.beam>div.lights{
+            div.ferris&gt;div.wheel&gt;div.beam&gt;div.lights{
                 position:absolute;
                 width:100%;
                 height:100%;
@@ -57,29 +88,29 @@
                 animation: lights 12s linear 0s infinite normal;
             }
 
-            div.ferris>div.wheel>div.ring{
+            div.ferris&gt;div.wheel&gt;div.ring{
                 position:absolute;
                 box-sizing:border-box;
                 border:5px solid var(--ccc1);
                 border-radius: 50%;
             }
-            div.ferris>div.wheel>div.ring:nth-child(13){
+            div.ferris&gt;div.wheel&gt;div.ring:nth-child(13){
                 width:100%;
                 height:100%;
             }
-            div.ferris>div.wheel>div.ring:nth-child(14){
+            div.ferris&gt;div.wheel&gt;div.ring:nth-child(14){
                 width:80%;
                 height:80%;
                 top:10%;
                 left:10%;
             }
-            div.ferris>div.wheel>div.ring:nth-child(15){
+            div.ferris&gt;div.wheel&gt;div.ring:nth-child(15){
                 width:60%;
                 height:60%;
                 top:20%;
                 left:20%;
             }
-            div.ferris>div.wheel>div.ring>div.lights{
+            div.ferris&gt;div.wheel&gt;div.ring&gt;div.lights{
                 position:absolute;
                 width:104%;
                 height:104%;
@@ -90,10 +121,10 @@
                 box-sizing:border-box;
                 animation: lights 10s linear -5s infinite normal;
             }
-            div.ferris>div.wheel>div.ring:nth-child(14)>div.lights{
+            div.ferris&gt;div.wheel&gt;div.ring:nth-child(14)&gt;div.lights{
                 animation-delay:-6s;
             }
-            div.ferris>div.wheel>div.ring:nth-child(15)>div.lights{
+            div.ferris&gt;div.wheel&gt;div.ring:nth-child(15)&gt;div.lights{
                 animation-delay:-7s;
             }
             @keyframes lights{
@@ -111,7 +142,7 @@
                 91.6%{border-color:deeppink;}
                 100%{border-color:red;}
             }
-            div.ferris>div.support{
+            div.ferris&gt;div.support{
                 position:absolute;
                 width:5%;
                 height:60%;
@@ -119,17 +150,17 @@
                 border-left:3px dotted goldenrod;
                 border-right:3px dotted goldenrod;
             }
-            div.ferris>div.support:nth-child(2){
+            div.ferris&gt;div.support:nth-child(2){
                 transform:skewX(-30deg);
                 left:30%;
                 bottom:0;
             }
-            div.ferris>div.support:nth-child(3){
+            div.ferris&gt;div.support:nth-child(3){
                 transform:skewX(30deg);
                 right:30%;
                 bottom:0;
             }
-            div.ferris>div.button{
+            div.ferris&gt;div.button{
                 position:absolute;
                 width:15%;
                 height:15%;
@@ -140,7 +171,7 @@
                 
                 animation: turn 30s linear 0s infinite normal;
             }
-            div.ferris>div.button>div.lights:nth-child(1){
+            div.ferris&gt;div.button&gt;div.lights:nth-child(1){
                 position:absolute;
                 width:100%;
                 height:100%;
@@ -150,7 +181,7 @@
                 
                 animation: lights 10s linear -8s infinite normal;
             }
-            div.ferris>div.button>div.lights:nth-child(2){
+            div.ferris&gt;div.button&gt;div.lights:nth-child(2){
                 position:absolute;
                 width:60%;
                 height:60%;
@@ -163,7 +194,7 @@
                 
                 animation: lights 10s linear -9s infinite normal;
             }
-            div.ferris>div.wheel>div.seat{
+            div.ferris&gt;div.wheel&gt;div.seat{
                 position:absolute;
                 width:15%;
                 height:20%;
@@ -172,14 +203,14 @@
                 animation: turn 30s linear 0s infinite reverse;
                 --seat:magenta;
             }
-            div.ferris>div.wheel>div.seat>div.top{
+            div.ferris&gt;div.wheel&gt;div.seat&gt;div.top{
                 position:absolute;
                 width:100%;
                 height:30%;
                 background-color:var(--seat);
                 border-radius: 50% 50% 0% 0%;
             }
-            div.ferris>div.wheel>div.seat>div.bottom{
+            div.ferris&gt;div.wheel&gt;div.seat&gt;div.bottom{
                 position:absolute;
                 width:100%;
                 height:40%;
@@ -187,7 +218,7 @@
                 border-radius: 0% 0% 50% 50%;
                 bottom:0;
             }
-            div.ferris>div.wheel>div.seat>div.bars{
+            div.ferris&gt;div.wheel&gt;div.seat&gt;div.bars{
                 position:absolute;
                 width:80%;
                 height:60%;
@@ -196,78 +227,84 @@
                 left:10%;
                 top:20%;
             }
-            div.ferris>div.wheel>div.seat:nth-child(1){
+            div.ferris&gt;div.wheel&gt;div.seat:nth-child(1){
                 --seat:hsl(0,80%,50%);/* N */
                 left:43%;
                 top:0;
-            }div.ferris>div.wheel>div.seat:nth-child(2){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(2){
                 --seat:hsl(170,80%,50%);/* S */
                 left:43%;
                 top:97%;
-            }div.ferris>div.wheel>div.seat:nth-child(3){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(3){
                 --seat:hsl(290,80%,50%);/* W */
                 left:-7%;
                 top:48%;
-            }div.ferris>div.wheel>div.seat:nth-child(4){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(4){
                 --seat:hsl(50,80%,50%);/* E */
                 right:-7%;
                 top:48%;
-            }div.ferris>div.wheel>div.seat:nth-child(5){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(5){
                 --seat:hsl(330,80%,60%);/* NW */
                 left:8%;
                 top:14%;
-            }div.ferris>div.wheel>div.seat:nth-child(6){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(6){
                 --seat:hsl(20,80%,50%);/* NE */
                 right:8%;
                 top:14%;
-            }div.ferris>div.wheel>div.seat:nth-child(7){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(7){
                 --seat:hsl(210,80%,50%);/* SW */
                 left:8%;
                 bottom:-3%;
-            }div.ferris>div.wheel>div.seat:nth-child(8){
+            }div.ferris&gt;div.wheel&gt;div.seat:nth-child(8){
                 --seat:hsl(110,80%,40%);/* SE */
                 right:8%;
                 bottom:-3%;
-            }
-        </style>
-    </head>
-    <body>
+            }</div><div class="w3-code htmlHigh">
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
         
-        <center>
-            <h2>Ferris Wheel</h2>
-            <div class="ferris">
-                <div class="wheel">
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
-                    <div class="seat"><div class="bars"></div><div class="bottom"></div><div class="top"></div></div>
+        &lt;center&gt;
+            &lt;h2&gt;Ferris Wheel&lt;/h2&gt;
+            &lt;div class="ferris"&gt;
+                &lt;div class="wheel"&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="seat"&gt;&lt;div class="bars"&gt;&lt;/div&gt;&lt;div class="bottom"&gt;&lt;/div&gt;&lt;div class="top"&gt;&lt;/div&gt;&lt;/div&gt;
 
-                    <div class="beam"><div class="lights"></div></div>
-                    <div class="beam"><div class="lights"></div></div>
-                    <div class="beam"><div class="lights"></div></div>
-                    <div class="beam"><div class="lights"></div></div>
+                    &lt;div class="beam"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="beam"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="beam"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="beam"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
 
-                    <div class="ring"><div class="lights"></div></div>
-                    <div class="ring"><div class="lights"></div></div>
-                    <div class="ring"><div class="lights"></div></div>
-                </div>
-                <div class="support"></div>
-                <div class="support"></div>
-                <div class="button">
-                    <div class="lights"></div>
-                    <div class="lights"></div>
-                </div>
-            </div>
-            
-            <a href="css_art_FerrisWheel_code.html" targe="_blank" style="display:block;margin:1em 0;font-size:1.5em;color:darkblue;">
-                🧾 Click here to see source-code.
-            </a>
+                    &lt;div class="ring"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="ring"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                    &lt;div class="ring"&gt;&lt;div class="lights"&gt;&lt;/div&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="support"&gt;&lt;/div&gt;
+                &lt;div class="support"&gt;&lt;/div&gt;
+                &lt;div class="button"&gt;
+                    &lt;div class="lights"&gt;&lt;/div&gt;
+                    &lt;div class="lights"&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
 
-        </center>
+        &lt;/center&gt;
         
-    </body>
+    &lt;/body&gt;
+&lt;/html&gt;
+
+
+
+</div>
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+<script>
+    w3CodeColor();
+</script>
+</body>
 </html>
