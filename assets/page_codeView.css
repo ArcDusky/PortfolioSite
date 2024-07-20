@@ -1,0 +1,78 @@
+html{
+    overflow:scroll;
+}
+body{
+    width:fit-content;
+    height:fit-content;
+    background-color: rgb(42,42,42);
+}
+#codeTable{
+    position:relative;
+    overflow-y:hidden;
+}
+#codeLeftColumn{
+    position:absolute;
+    left:0;
+    top:0;
+
+    width:50px;
+    background-color:rgba(255,255,255,0.1);
+    user-select: none;
+    font-family:Consolas,"courier new";
+    font-size:14px;
+    font-weight:bold;
+    line-height:1em;
+    color:rgba(255,255,255,0.4);
+    vertical-align: top;
+    text-align:right;
+}
+.w3-code{
+    margin: -15px /* top cut one line (14pt text and 1px dashed-border = 15) */
+        0 0 55px !important;/* left offset for line numbers */
+    padding: 0 60px 0 0;
+    white-space: pre;
+    font-size:14px;
+    font-weight:bold;
+    line-height:1em;
+    border:0;
+    background-color:unset;
+
+    min-width:fit-content;
+    width:unset;
+    
+    border-bottom:1px dashed rgba(255,255,255,0.3);
+}
+#codeLoadingBox{
+    position:fixed;
+    left:25%;
+    top:25%;
+    text-align: center;
+    vertical-align:middle;
+    font-size:10vw;
+    background-color:dimgrey;
+    border-radius:9999px;
+}
+
+/* html colors */
+.w3-code{color:darkgrey;}
+.tagcolor{color:palevioletred;} /* brackets */
+.tagnamecolor{color:palevioletred;}
+.attributecolor{color:mistyrose;}
+.attributevaluecolor{color:rgb(255, 160, 175);} /* value, including = and "double-quotes" */
+.commentcolor{color:mediumaquamarine !important;background-color:rgb(0, 75, 0);}
+
+/* css colors */
+.cssselectorcolor{color:deepskyblue;}
+.cssdelimitercolor{color:deepskyblue;} /* brackets and semicolons */
+.csspropertycolor{color:lavender;}
+.csspropertyvaluecolor{color:darkgrey;}
+.cssimportantcolor{color:magenta;}
+
+/* js colors */
+.jscolor{color:darkgrey;}
+.jskeywordcolor{color:gold;}
+.jsstringcolor{color:peru;padding:0 5px;}
+.jsstringtempcolor{color:#f50;} /* ??? */
+.jsregexpcolor{color:mediumaquamarine;background-color:rgb(0,75,0);} /* comments */
+.jsnumbercolor{color:white;}
+.jspropertycolor{color:tan;}

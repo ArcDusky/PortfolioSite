@@ -3,33 +3,20 @@
 <head>
     <!-- (1) replace all "<" with "&lt;" -->
     <!-- (2) replace all ">" with "&gt;" -->
-    <!-- (3) paste into below, inside div-htmlHigh. -->
-    <!-- (4a) if css exists, surround it with a div-cssHigh. -->
-    <!-- (4b) if js exists, surround it with a div-jsHigh. -->
+    <!-- (3) paste into below, in htmlHigh. -->
+    <!-- (4a1) to start CSS, end HTML & start CSS -- </div><div class="w3-code cssHigh"> -->
+    <!-- (4a2) to end CSS, end CSS & return to HTML -- </div><div class="w3-code htmlHigh"> -->
+    <!-- (4b1) to start JS, end HTML & start JS -- </div><div class="w3-code jsHigh"> -->
+    <!-- (4b2) to end JS, end JS & return to HTML -- </div><div class="w3-code htmlHigh"> -->
     <!-- (5) for js, replace //InlineComments with /*MultilineComments*/ -->
-    <!-- (6) for js, if any =" creates a coloring problem, add a space between them. -->
+    <!-- (6) for js, if any =" causes coloring problem, add a space between them. -->
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- W3Schools JavaScript stuff is at the bottom. -->
-    <style>
-        body{
-            background-color:gainsboro;
-        }
-        .w3-code{
-            white-space: pre;
-            line-height:1em;
-            font-size:14px;
-            margin:0 !important;
-            padding:0;
-            border:0;
-            background-color:rgba(0,0,0,0);
-        }
-        .jsregexpcolor{
-            color:green !important;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../assets/page_codeView.css"/>
 </head>
-<body style="padding-left:10px;">
+<body>
+<div id="codeTable"><div id="codeRightColumn">
 <div class="w3-code htmlHigh">
 
 
@@ -39,11 +26,10 @@
 &lt;head&gt;
     &lt;meta charset="utf-8"&gt;
     &lt;title&gt;Kevin's Pig Dice&lt;/title&gt;
-
     &lt;style&gt;</div><div class="w3-code cssHigh">
         body{background-color:darkslategrey;}
         #pig{
-            position:relative;
+            position:relative !important;
             width:400px;
             height:400px;
             background-color:ForestGreen;
@@ -463,9 +449,8 @@
 
 
 </div>
-<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
-<script>
-    w3CodeColor();
-</script>
+</div><div id="codeLeftColumn">0000</div></div><!-- end codeTable-->
+<!-- <script src="https://www.w3schools.com/lib/w3codecolor.js"></script> -->
+<script src="../assets/page_codeView.js"></script>
 </body>
 </html>
